@@ -1,0 +1,84 @@
+.chapter-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  background-color: var(--base03);
+  border: 1px solid var(--base02);
+  width: 100%;
+  box-sizing: border-box;
+  transition: var(--transition);
+}
+
+.chapter-item--selected {
+  background-color: var(--blue);
+  border-color: var(--cyan);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.chapter-item__main {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chapter-item__info {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+
+.chapter-item__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--base1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chapter-item--selected .chapter-item__title {
+  color: var(--base3);
+}
+
+.chapter-item__edited-marker {
+  color: var(--orange);
+  font-style: normal;
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-left: 0.5rem;
+}
+
+.chapter-item input[type="checkbox"] {
+  accent-color: var(--cyan);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+
+.chapter-item__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.chapter-item__translation-marker {
+  font-size: 1.1rem;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+}
+
+.chapter-item__error-marker {
+  font-size: 1.1rem;
+  color: var(--red);
+  display: flex;
+  align-items: center;
+}

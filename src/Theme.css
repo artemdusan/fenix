@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Theme Configuration
+   ========================================================================== */
+
+:root {
+  /* Solarized Base Colors */
+  --base03: #002b36; /* Darkest background */
+  --base02: #073642; /* Dark highlight */
+  --base01: #586e75; /* Dark comments */
+  --base00: #657b83; /* Dark content */
+  --base0: #839496; /* Light content */
+  --base1: #93a1a1; /* Light comments */
+  --base2: #eee8d5; /* Light highlight */
+  --base3: #fdf6e3; /* Lightest background */
+
+  /* Solarized Accent Colors */
+  --yellow: #b58900;
+  --orange: #cb4b16;
+  --red: #dc322f;
+  --magenta: #d33682;
+  --violet: #6c71c4;
+  --blue: #268bd2;
+  --cyan: #2aa198;
+  --green: #859900;
+
+  /* Additional Variables */
+  --transition: all 0.3s ease;
+  --max-width: 1440px;
+}
+
+/* ==========================================================================
+   Global Styles
+   ========================================================================== */
+
+/* Scrollbar Hiding */
+html,
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Reset and Box Sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base Styles */
+body {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--base03);
+  color: var(--base1);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}

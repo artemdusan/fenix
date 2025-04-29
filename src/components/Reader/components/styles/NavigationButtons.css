@@ -1,0 +1,38 @@
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem; /* Reduced from 100px for smaller screens */
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.navigation-buttons__sentence-nav {
+  background-color: #586e75;
+  color: white;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+  border-radius: 3px;
+  margin: 0 0.5rem;
+  font-size: clamp(12px, 2vw, 16px);
+}
+
+.navigation-buttons__sentence-nav--hover:hover {
+  background-color: #657b83;
+}
+
+.navigation-buttons__play {
+  background-color: #586e75;
+  color: white;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+  border-radius: 3px;
+  margin: 0 0.5rem;
+  font-size: clamp(12px, 2vw, 16px);
+}
+
+.navigation-buttons__play--hover:hover {
+  background-color: #657b83;
+}

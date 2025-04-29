@@ -1,0 +1,140 @@
+.chapter-content__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  background-color: var(--base03);
+  padding: 0 0 0.5rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--base01);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chapter-content__title-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: nowrap;
+}
+
+.chapter-content__filename {
+  font-size: 1rem;
+  color: var(--base1);
+  font-weight: normal;
+}
+
+.chapter-content__title-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.chapter-content__icon-button {
+  background: none;
+  border: none;
+  color: var(--base1);
+  cursor: pointer;
+  padding: 0.1rem 0.2rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.chapter-content__icon-button:hover {
+  background-color: var(--base02);
+  color: var(--cyan);
+}
+
+.chapter-content__rename-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chapter-content__rename-input {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.85rem;
+  background-color: var(--base02);
+  border: 1px solid var(--base01);
+  border-radius: 4px;
+  color: var(--base1);
+  outline: none;
+}
+
+.chapter-content__icon-button--accept {
+  background: var(--green);
+  color: var(--base3);
+}
+
+.chapter-content__icon-button--accept:hover {
+  background: var(--yellow);
+  color: var(--base03);
+}
+
+.chapter-content__button {
+  background-color: var(--base01);
+  color: var(--base3);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chapter-content__button:hover {
+  background-color: var(--base00);
+}
+
+.chapter-content__button--toggle {
+  background-color: var(--violet);
+  color: var(--base3);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.chapter-content__button--toggle:hover {
+  background-color: var(--cyan);
+}
+
+.chapter-content__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chapter-content__button--revert {
+  background-color: var(--violet);
+}
+
+.chapter-content__button--revert:hover {
+  background-color: var(--magenta);
+}
+
+.chapter-content__button--edit {
+  background-color: var(--blue);
+}
+
+.chapter-content__button--edit:hover {
+  background-color: var(--cyan);
+}
+
+.chapter-content__button--save {
+  background-color: var(--green);
+}
+
+.chapter-content__button--save:hover {
+  background-color: var(--yellow);
+  color: var(--base03);
+}
+
+.chapter-content__button--cancel {
+  background-color: var(--red);
+}
+
+.chapter-content__button--cancel:hover {
+  background-color: var(--orange);
+}

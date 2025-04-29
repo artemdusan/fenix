@@ -1,0 +1,23 @@
+.console-log {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 1rem;
+  max-height: 200px; /* Set a fixed maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  font-family: monospace;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+  color: #ddd;
+  display: flex; /* Use flexbox for better control */
+  flex-direction: column; /* Stack entries vertically */
+}
+
+.console-log__entry {
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.console-log__entry:last-child {
+  margin-bottom: 0;
+}

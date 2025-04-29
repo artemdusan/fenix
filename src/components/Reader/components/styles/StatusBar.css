@@ -1,0 +1,92 @@
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #073642;
+  color: #93a1a1;
+  padding: 0.625rem; /* ~10px, original height */
+  font-family: "Courier New", Courier, monospace;
+  width: 100%;
+  gap: 0.5rem; /* Spacing between items */
+  flex-wrap: nowrap; /* Keep single row, no wrapping */
+  overflow: hidden; /* Hide overflow if needed */
+  top: 0; /* Position at top of viewport */
+  left: 0; /* Align to left edge */
+  z-index: 200; /* Increase z-index to ensure it's above other elements */
+}
+
+.status-bar__button {
+  background-color: #586e75;
+  color: #93a1a1;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 3px;
+  margin: 0 0.3rem;
+  font-size: clamp(12px, 2vw, 16px);
+}
+
+.status-bar__button--hover:hover {
+  background-color: #657b83;
+}
+
+.status-bar__info {
+  flex-grow: 1; /* Takes available space */
+  flex-shrink: 1; /* Shrinks if needed */
+  text-align: center;
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis if truncated */
+}
+
+.status-bar__info-label {
+  display: inline; /* Visible by default */
+}
+
+.status-bar__font-size-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-shrink: 0; /* Prevent shrinking */
+  gap: 0.3rem; /* Space between buttons */
+}
+
+.status-bar__chapter-toggle,
+.status-bar__sentence-toggle {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: clamp(12px, 2vw, 16px);
+}
+
+.status-bar__icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #93a1a1;
+}
+
+.status-bar__icon-button svg {
+  width: clamp(16px, 3vw, 20px);
+  height: clamp(16px, 3vw, 20px);
+  fill: currentColor;
+}
+
+.status-bar__icon-button--hover:hover {
+  color: #fdf6e3;
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 600px) {
+  .status-bar__info-label {
+    display: none; /* Hide labels when space is tight */
+  }
+  .status-bar__info {
+    flex-shrink: 1; /* Allow shrinking */
+  }
+  .status-bar__font-size-controls {
+    gap: 0.2rem; /* Reduce spacing */
+  }
+}

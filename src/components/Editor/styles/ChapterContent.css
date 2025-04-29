@@ -1,0 +1,143 @@
+.chapter-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  overflow: hidden;
+  padding: 1.5rem 2rem;
+  background-color: var(--base03);
+}
+
+.chapter-content__scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.chapter-content__editor {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  background-color: var(--base02);
+  color: var(--base1);
+  border: 1px solid var(--base01);
+  border-radius: 4px;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  resize: none;
+  white-space: pre-wrap;
+  flex: 1;
+}
+
+.chapter-content__text {
+  color: var(--base1);
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.chapter-content__empty-state {
+  display: flex;
+  flex-direction: column; /* Ensure vertical stacking */
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: var(--base01);
+  font-size: 1.2rem;
+  flex: 1;
+  text-align: center; /* Center text within the container */
+}
+
+.chapter-content__error-container {
+  width: 100%;
+  max-width: 600px; /* Limit width for readability */
+  text-align: left; /* Align text to the left for error messages */
+}
+
+.chapter-content__error {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--base02);
+  border-radius: 4px;
+  color: var(--red);
+  line-height: 1.6;
+  font-size: 1rem;
+  word-break: break-word; /* Ensure long content wraps */
+}
+
+.chapter-content__error-header {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: var(--base1);
+}
+
+.chapter-content__scroll-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.chapter-content__scroll-container::-webkit-scrollbar-track {
+  background: var(--base02);
+}
+
+.chapter-content__scroll-container::-webkit-scrollbar-thumb {
+  background-color: var(--base01);
+  border-radius: 6px;
+  border: 3px solid var(--base02);
+}
+
+.chapter-content__scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--base00);
+}
+
+.chapter-content__editor::-webkit-scrollbar {
+  width: 12px;
+}
+
+.chapter-content__editor::-webkit-scrollbar-track {
+  background: var(--base02);
+}
+
+.chapter-content__editor::-webkit-scrollbar-thumb {
+  background-color: var(--base01);
+  border-radius: 6px;
+  border: 3px solid var(--base02);
+}
+
+.chapter-content__editor::-webkit-scrollbar-thumb:hover {
+  background-color: var(--base00);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--base1);
+}
+
+th,
+td {
+  border: 1px solid var(--base01);
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: var(--base02);
+}
+
+.chapter-content__scroll-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.chapter-content__scroll-container th,
+.chapter-content__scroll-container td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.chapter-content__scroll-container th {
+  background-color: #f2f2f2;
+}

@@ -1,0 +1,245 @@
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem; /* Reduced from 1.5rem */
+}
+
+.login-form__title {
+  color: var(--base1);
+  font-size: 1rem;
+  margin-bottom: 1.25rem; /* Slightly reduced for compactness */
+  text-align: center;
+  font-weight: 600;
+}
+
+.login-form__group {
+  margin-bottom: 1rem; /* Reduced from 1.25rem */
+}
+
+.login-form__label {
+  display: block;
+  color: var(--base1);
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem; /* Reduced from 0.5rem */
+  font-weight: 500;
+}
+
+.login-form__input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--base01);
+  border-radius: 6px;
+  background-color: var(--base03);
+  color: var(--base1);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.login-form__input:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(42, 161, 152, 0.2);
+}
+
+.login-form__error {
+  color: var(--red);
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0.75rem;
+  text-align: center;
+}
+
+.login-form__button {
+  width: 100%;
+  background-color: var(--blue);
+  color: var(--base3);
+  padding: 0.85rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  touch-action: manipulation;
+}
+
+.login-form__button:hover {
+  background-color: var(--cyan);
+  transform: translateY(-1px);
+}
+
+.login-form__button:active {
+  transform: translateY(0);
+}
+
+.login-form__button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.login-form__button--secondary {
+  background-color: var(--base01);
+  color: var(--base1);
+}
+
+.login-form__button--secondary:hover {
+  background-color: var(--base00);
+  transform: translateY(-1px);
+}
+
+.login-form__button--secondary:active {
+  transform: translateY(0);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.3
+  ); /* Fallback for browsers without backdrop-filter */
+  backdrop-filter: blur(8px); /* Blur effect */
+  -webkit-backdrop-filter: blur(8px); /* Safari support */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  overflow-y: auto;
+}
+
+.modal-content {
+  position: relative;
+  background-color: var(--base03);
+  border-radius: 12px;
+  max-width: 500px;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  animation: slideIn 0.3s ease-out;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--base1);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 0.5rem;
+}
+
+.modal-close-button:hover {
+  color: var(--cyan);
+  transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .login-form {
+    padding: 0.75rem; /* Reduced from 1rem */
+  }
+
+  .login-form__title {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .login-form__group {
+    margin-bottom: 0.75rem;
+  }
+
+  .login-form__label {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .login-form__input {
+    padding: 0.8rem;
+    font-size: 0.95rem;
+    border-radius: 8px;
+  }
+
+  .login-form__error {
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0.75rem;
+  }
+
+  .login-form__button {
+    padding: 1rem;
+    font-size: 0.95rem;
+    border-radius: 8px;
+  }
+
+  .login-form__button-group {
+    gap: 0.5rem;
+  }
+
+  .modal-content {
+    width: 90%;
+    max-height: 85vh;
+    border-radius: 10px;
+  }
+
+  .modal-close-button {
+    font-size: 1.25rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .login-form {
+    padding: 0.5rem; /* Further reduced */
+  }
+
+  .login-form__title {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .login-form__group {
+    margin-bottom: 0.6rem;
+  }
+
+  .login-form__input {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .login-form__button {
+    padding: 0.9rem;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,71 @@
+/* Remove default link styling */
+.library-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Ensure the card remains styled correctly */
+.library-card {
+  position: relative;
+  width: 200px; /* Adjust as needed */
+  height: 300px; /* Adjust as needed */
+  background-color: var(--base02); /* Solarized Dark highlight */
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform var(--transition);
+}
+
+.library-card:hover {
+  transform: scale(1.05); /* Optional hover effect */
+}
+
+.library-cover {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.book-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.library-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 43, 54, 0.8); /* Semi-transparent Solarized base03 */
+  color: var(--base1); /* Solarized light comments */
+  padding: 10px;
+  text-align: center;
+  transition: opacity var(--transition);
+}
+
+.library-overlay h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--base3); /* Lightest background for contrast */
+}
+
+.author {
+  margin: 5px 0 0;
+  font-size: 14px;
+}
+
+.delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--red); /* Solarized red for delete */
+  color: var(--base3);
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: var(--orange); /* Solarized orange on hover */
+}

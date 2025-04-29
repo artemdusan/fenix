@@ -1,0 +1,223 @@
+.book-metadata-modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 43, 54, 0.85);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+}
+
+.book-metadata-modal__container {
+  background-color: var(--base02);
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  animation: book-metadata-modal-appear 0.2s ease-out;
+}
+
+.book-metadata-modal__container--large {
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes book-metadata-modal-appear {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.book-metadata-modal__title {
+  color: var(--base2);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--base01);
+}
+
+.book-metadata-modal__content {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.book-metadata-modal__cover-section {
+  flex: 0 0 200px;
+  height: 280px; /* Full height available for the image */
+  position: relative; /* Make this a positioning context for the button */
+  background-color: var(--base03);
+  border-radius: 5px;
+  display: flex; /* Still use flex for placeholder centering */
+  align-items: center;
+  justify-content: center;
+}
+
+.book-metadata-modal__cover-preview {
+  width: 100%; /* Fill the full width */
+  height: 100%; /* Fill the full height */
+  object-fit: contain; /* Maintain aspect ratio */
+}
+
+.book-metadata-modal__cover-placeholder {
+  color: var(--base0);
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-metadata-modal__details-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.book-metadata-modal__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.book-metadata-modal__field-label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: var(--base1);
+}
+
+.book-metadata-modal__input {
+  padding: 8px 12px;
+  border: 1px solid var(--base01);
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: var(--base03);
+  color: var(--base1);
+}
+
+.book-metadata-modal__static-value {
+  padding: 8px 0;
+  font-size: 16px;
+  color: var(--base1);
+}
+
+.book-metadata-modal__language-section {
+  border-top: 1px solid var(--base01);
+  padding-top: 20px;
+  margin-bottom: 20px;
+}
+
+.book-metadata-modal__language-heading {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--base2);
+}
+
+.book-metadata-modal__language-row {
+  display: flex;
+  gap: 20px;
+}
+
+.book-metadata-modal__language-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.book-metadata-modal__language-select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--base01);
+  border-radius: 4px;
+  background-color: var(--base03);
+  color: var(--base1);
+  font-size: 1rem;
+  appearance: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.book-metadata-modal__language-note {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--base0);
+  font-style: italic;
+}
+
+.book-metadata-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+.book-metadata-modal__button {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.book-metadata-modal__button--cancel {
+  background-color: var(--base01);
+  color: var(--base3);
+}
+
+.book-metadata-modal__button--cancel:hover {
+  background-color: var(--base00);
+}
+
+.book-metadata-modal__button--confirm {
+  background-color: var(--red);
+  color: var(--base3);
+}
+
+.book-metadata-modal__button--confirm:hover {
+  background-color: var(--orange);
+}
+
+.book-metadata-modal__button--edit {
+  background-color: var(--blue);
+  color: var(--base3);
+}
+
+.book-metadata-modal__button--edit:hover {
+  background-color: var(--cyan);
+}
+
+.book-metadata-modal__cover-upload {
+  position: absolute; /* Float on top of the image */
+  bottom: 10px; /* Position near the bottom */
+  right: 10px; /* Position near the right */
+  z-index: 1; /* Ensure it’s above the image */
+}
+
+.book-metadata-modal__button--upload {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.book-metadata-modal__button--upload:hover {
+  background-color: #45a049;
+}

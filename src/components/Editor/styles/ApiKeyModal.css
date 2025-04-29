@@ -1,0 +1,116 @@
+.api-key-modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 43, 54, 0.85);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+}
+
+.api-key-modal__container {
+  background-color: var(--base02);
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  animation: api-key-modal-appear 0.2s ease-out;
+}
+
+@keyframes api-key-modal-appear {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.api-key-modal__title {
+  color: var(--base2);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--base01);
+}
+
+.api-key-modal__content {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  color: var(--base1);
+}
+
+.api-key-modal__input {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--base03);
+  border: 1px solid var(--base01);
+  border-radius: 4px;
+  color: var(--base1);
+  font-size: 1rem;
+  font-family: monospace;
+}
+
+.api-key-modal__input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(38, 139, 210, 0.2);
+}
+
+.api-key-modal__note {
+  font-size: 12px;
+  color: #666;
+  margin-top: 10px;
+}
+
+.api-key-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+.api-key-modal__button {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.api-key-modal__button--cancel {
+  background-color: var(--base01);
+  color: var(--base3);
+}
+
+.api-key-modal__button--cancel:hover {
+  background-color: var(--base00);
+}
+
+.api-key-modal__button--confirm {
+  background-color: var(--red);
+  color: var(--base3);
+}
+
+.api-key-modal__button--confirm:hover {
+  background-color: var(--orange);
+}
+
+.api-key-modal__link {
+  color: var(--cyan);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.api-key-modal__link:hover {
+  color: var(--blue);
+  text-decoration: underline;
+}

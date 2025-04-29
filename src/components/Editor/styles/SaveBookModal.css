@@ -1,0 +1,78 @@
+/* SaveBookModal.css */
+.save-book-modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 43, 54, 0.85);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+}
+
+.save-book-modal__container {
+  background: var(--base02);
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.save-book-modal__title {
+  color: var(--base1);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.save-book-modal__content {
+  margin-bottom: 20px;
+}
+
+.save-book-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.save-book-modal__button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.save-book-modal__button--cancel {
+  background: var(--red);
+  color: var(--base3);
+}
+
+.save-book-modal__button--cancel:hover {
+  background: var(--orange);
+}
+
+.save-book-modal__button--download {
+  background: var(--green);
+  color: var(--base3);
+}
+
+.save-book-modal__button--download:hover {
+  background: var(--cyan);
+}
+
+.save-book-modal__button--library {
+  background: var(--blue);
+  color: var(--base3);
+}
+
+.save-book-modal__button--library:hover {
+  background: var(--violet);
+}

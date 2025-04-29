@@ -1,0 +1,48 @@
+.translation-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--base03);
+}
+
+.translation-screen__main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.translation-screen__container {
+  max-width: var(--max-width);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* TranslationSetup integration without animations */
+.translation-screen .translation-setup {
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-height: 600px) {
+  .translation-screen__main {
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .translation-screen__main {
+    padding: 1rem;
+  }
+
+  .translation-screen .translation-setup {
+    width: 100%;
+    max-width: 360px;
+  }
+}

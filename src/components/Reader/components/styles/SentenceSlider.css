@@ -1,0 +1,48 @@
+.sentence-slider__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #073642;
+  border: 1px solid #586e75;
+  padding: 1rem;
+  width: 90%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  position: fixed; /* Make it fixed to stay on screen */
+  top: 3.5rem; /* Position below ChapterSlider (adjust as needed) */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Offset by half width to center */
+  z-index: 140; /* Above most content but below ChapterSlider and StatusBar */
+}
+
+.sentence-slider__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sentence-slider__button {
+  background-color: #586e75;
+  color: #93a1a1;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 3px;
+  margin: 0 0.3rem;
+  font-size: clamp(12px, 2vw, 16px);
+}
+
+.sentence-slider__button--hover:hover {
+  background-color: #657b83;
+}
+
+.sentence-slider__input {
+  width: 100%;
+  max-width: 400px;
+  cursor: pointer;
+}
