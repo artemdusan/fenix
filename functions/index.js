@@ -27,8 +27,8 @@ const app = express();
 const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
-      "http://localhost:5173",
-      "https://user-dashboard-5ee1f.web.app",
+      //"http://localhost:5173",
+      "https://artemdusan.github.io",
     ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
