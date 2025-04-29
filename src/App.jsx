@@ -31,7 +31,7 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/fenix-dual-book-reader">
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         <Route path="/" element={<Library />} />
