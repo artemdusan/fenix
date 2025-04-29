@@ -1,3 +1,15 @@
+# Fenix Dual Book Reader
+
+`Fenix Dual Book Reader` is an app that lets you read books in two languages, sentence by sentence. It’s perfect for language learners and bilingual readers.
+
+The app consists of three components:
+
+- **Reader** – Read dual-language books with synchronized sentence-by-sentence display and built-in text-to-speech (TTS) support.
+- **Editor** – Convert any `.epub` book into a dual-language format using OpenAI for sentence alignment and translation.
+- **Server (optional)** – Sync your books and reading progress across multiple devices.
+
+---
+
 # Firebase Functions Server for Book Sync
 
 ## Setup and Deployment Tutorial
@@ -19,42 +31,51 @@
 
 2. **Configure Firebase Project**
 
-   Edit `.firebaserc` in your project root:
+   Create a new project using the Firebase Console.  
+   Then edit the `.firebaserc` file in your project root:
 
-```json
-{
-  "projects": {
-    "default": "my-firebase-project"
-  },
-  "targets": {},
-  "etags": {}
-}
-```
+   ```json
+   {
+     "projects": {
+       "default": "my-firebase-project"
+     },
+     "targets": {},
+     "etags": {}
+   }
+   ```
 
-Replace `my-firebase-project` with your Firebase project ID.
+   Replace `"my-firebase-project"` with your actual Firebase project ID.
 
 3. **Set Firebase Secrets**
 
-```bash
-firebase functions:secrets:set MY_FIREBASE_API_KEY
-```
+   Set your Firebase Web API key:
 
-Enter your Firebase API key when prompted (find it in Firebase Console > Project Settings > General > Web API Key).
+   ```bash
+   firebase functions:secrets:set MY_FIREBASE_API_KEY
+   ```
 
-```bash
-firebase functions:secrets:set JWT_SECRET
-```
+   Enter the key found in **Firebase Console > Project Settings > General > Web API Key**.
 
-Enter a random, secure string (e.g., generate using openssl rand -base64 32).
+   Set a secure JWT secret:
+
+   ```bash
+   firebase functions:secrets:set JWT_SECRET
+   ```
+
+   You can generate a secure secret using:
+
+   ```bash
+   openssl rand -base64 32
+   ```
 
 4. **Deploy to Firebase**
 
-```bash
-firebase deploy --only functions
-```
+   ```bash
+   firebase deploy --only functions
+   ```
 
 5. **User Management and Login**
 
-- **Add Users**: Use the Firebase Authentication panel in the Firebase Console to add users with email and password credentials.
-- **Find Server Address**: After deployment, locate the server address in the Firebase Console under the Functions section
-- **Login and Sync**: In the client application, enter the server address, email, and password to log in to the server and sync book data and reading progress across devices.
+   - **Add Users**: Use the Firebase Authentication panel in the Firebase Console to add users with email and password credentials.
+   - **Find Server Address**: After deployment, find the server address in the Firebase Console under the **Functions** section.
+   - **Login and Sync**: In the client application, enter the server address, email, and password to log in and sync book data and reading progress across devices.
