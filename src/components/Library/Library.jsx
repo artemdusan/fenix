@@ -13,13 +13,21 @@ import {
 } from "../../services/Library/databaseService";
 import { syncBooks } from "../../services/Library/syncBooksService";
 import "./styles/Library.css";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // Import navigation icons
 
 function Library() {
   const [books, setBooks] = useState([]);
+  const [currentBookIndex, setCurrentBookIndex] = useState(0);
+  const [filterText, setFilterText] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [bookToDelete, setBookToDelete] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [hasValidToken, setHasValidToken] = useState(false);
+  const [animationState, setAnimationState] = useState({
+    direction: "",
+    isAnimating: false,
+    prevBookIndex: null,
+  });
 
   const checkTokenValidity = async () => {
     try {
@@ -48,6 +56,10 @@ function Library() {
       );
       setBooks(validBooks);
       console.log("Fetched books:", validBooks.length);
+      // Reset index if it's out of bounds
+      if (currentBookIndex >= validBooks.length) {
+        setCurrentBookIndex(validBooks.length > 0 ? 0 : -1);
+      }
     } catch (error) {
       console.error("Error loading books from IndexedDB:", error);
       window.showToast("Failed to load books", "error");
@@ -143,6 +155,14 @@ function Library() {
         setBookToDelete(null);
         window.showToast("Book deleted successfully", "success");
 
+        // Adjust current index after deletion
+        const filteredBooks = filteredBooksList();
+        if (filteredBooks.length === 0) {
+          setCurrentBookIndex(-1);
+        } else if (currentBookIndex >= filteredBooks.length) {
+          setCurrentBookIndex(filteredBooks.length - 1);
+        }
+
         // Sync deleted book ID to server if authenticated
         const sessionInfo = await getSessionInfo();
         if (sessionInfo?.token && navigator.onLine) {
@@ -183,30 +203,139 @@ function Library() {
     checkTokenValidity();
   };
 
+  const filteredBooksList = () => {
+    if (!filterText.trim()) return books;
+    return books.filter(
+      (book) =>
+        book.title.toLowerCase().includes(filterText.toLowerCase()) ||
+        book.author.toLowerCase().includes(filterText.toLowerCase())
+    );
+  };
+
+  const handlePrevBook = () => {
+    if (animationState.isAnimating) return; // Prevent multiple clicks during animation
+    const filteredBooks = filteredBooksList();
+    const prevIndex =
+      currentBookIndex <= 0 ? filteredBooks.length - 1 : currentBookIndex - 1;
+    setAnimationState({
+      direction: "to-right", // Current book slides out to right, new book slides in from left
+      isAnimating: true,
+      prevBookIndex: currentBookIndex,
+    });
+    setCurrentBookIndex(prevIndex);
+    setTimeout(() => {
+      setAnimationState({
+        direction: "",
+        isAnimating: false,
+        prevBookIndex: null,
+      });
+    }, 300); // Match animation duration
+  };
+
+  const handleNextBook = () => {
+    if (animationState.isAnimating) return; // Prevent multiple clicks during animation
+    const filteredBooks = filteredBooksList();
+    const nextIndex =
+      currentBookIndex >= filteredBooks.length - 1 ? 0 : currentBookIndex + 1;
+    setAnimationState({
+      direction: "to-left", // Current book slides out to left, new book slides in from right
+      isAnimating: true,
+      prevBookIndex: currentBookIndex,
+    });
+    setCurrentBookIndex(nextIndex);
+    setTimeout(() => {
+      setAnimationState({
+        direction: "",
+        isAnimating: false,
+        prevBookIndex: null,
+      });
+    }, 300); // Match animation duration
+  };
+
+  const filteredBooks = filteredBooksList();
+  const currentBook = filteredBooks[currentBookIndex];
+  const prevBook =
+    animationState.prevBookIndex !== null
+      ? filteredBooks[animationState.prevBookIndex]
+      : null;
+
   return (
     <div className="library-container">
-      <main className="library-grid">
-        {books.map((book) => (
-          <div className="book-wrapper" key={book.id}>
-            <BookCard book={book} onDelete={handleDeleteRequest} />
-          </div>
-        ))}
-      </main>
+      <div className="filter-container">
+        <input
+          type="text"
+          className="filter-input"
+          placeholder="Filter by title or author..."
+          value={filterText}
+          onChange={(e) => {
+            setFilterText(e.target.value);
+            setCurrentBookIndex(filteredBooksList().length > 0 ? 0 : -1);
+          }}
+        />
+      </div>
+      <div className="library-grid">
+        {filteredBooks.length === 0 ? (
+          <p className="no-books">No books found</p>
+        ) : (
+          <>
+            <button
+              className="nav-button nav-button-left"
+              onClick={handlePrevBook}
+              disabled={filteredBooks.length <= 1 || animationState.isAnimating}
+              aria-label="Previous book"
+            >
+              <FaArrowLeft />
+            </button>
+            <div className="book-container">
+              {animationState.isAnimating && prevBook && (
+                <div
+                  className={`book-wrapper book-wrapper-prev ${animationState.direction}`}
+                >
+                  <BookCard book={prevBook} onDelete={handleDeleteRequest} />
+                </div>
+              )}
+              {currentBook && (
+                <div
+                  className={`book-wrapper book-wrapper-current ${animationState.direction}`}
+                >
+                  <BookCard book={currentBook} onDelete={handleDeleteRequest} />
+                </div>
+              )}
+            </div>
+            <button
+              className="nav-button nav-button-right"
+              onClick={handleNextBook}
+              disabled={filteredBooks.length <= 1 || animationState.isAnimating}
+              aria-label="Next book"
+            >
+              <FaArrowRight />
+            </button>
+          </>
+        )}
+      </div>
       <div className="button-container">
-        <Link to="/editor" className="library-button">
+        <Link to="/editor" className="library-button" aria-label="Open editor">
           Editor
         </Link>
-        <button className="library-button" onClick={handleUpload}>
+        <button
+          className="library-button"
+          onClick={handleUpload}
+          aria-label="Upload book"
+        >
           Upload
         </button>
-        <button className="library-button" onClick={handleSyncClick}>
+        <button
+          className="library-button"
+          onClick={handleSyncClick}
+          aria-label={hasValidToken ? "Sync books" : "Login to sync"}
+        >
           {hasValidToken ? "Sync" : "Login"}
         </button>
       </div>
       <ConfirmationDialogModal
         showDialog={showDeleteDialog}
         dialogTitle="Delete Book"
-        dialogText="Are you sure you want to delete this book? This action cannot be undone."
+        dialogText="Are you sure you want to delete this book? Hawkins cannot be undone."
         onCancel={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
       />

@@ -8,7 +8,8 @@ function BookCard({ book, onDelete }) {
   const menuRef = useRef(null);
 
   const handleImageError = (e) => {
-    e.target.src = "https://placehold.co/200x300?text=Image+Not+Found";
+    // Use a responsive placeholder size to match container
+    e.target.src = "https://placehold.co/100x150?text=Image+Not+Found";
   };
 
   const toggleMenu = (e) => {
@@ -49,7 +50,7 @@ function BookCard({ book, onDelete }) {
     };
   }, [isMenuOpen]);
 
-  // Dummy chapter data (replace with actual book data)
+  // Use actual book data if available, fallback to dummy values
   const currentChapter = book.currentChapter || 2;
   const totalChapters = book.totalChapters || 23;
 
@@ -63,13 +64,13 @@ function BookCard({ book, onDelete }) {
           {isMenuOpen && (
             <div className="menu" ref={menuRef}>
               <button className="menu-item" onClick={handleDownload}>
-                <FaDownload style={{ marginRight: "8px" }} /> Download
+                <FaDownload style={{ marginRight: "0.5rem" }} /> Download
               </button>
               <button
                 className="menu-item delete-menu-item"
                 onClick={handleDelete}
               >
-                <FaTrash style={{ marginRight: "8px" }} /> Delete
+                <FaTrash style={{ marginRight: "0.5rem" }} /> Delete
               </button>
             </div>
           )}
