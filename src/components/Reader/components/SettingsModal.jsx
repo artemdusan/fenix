@@ -138,15 +138,6 @@ const SettingsModal = ({
           </select>
         </div>
       </div>
-      <div className="settings-modal__actions">
-        <button
-          className="settings-modal__button settings-modal__button--close"
-          onClick={onClose}
-          aria-label="Close settings"
-        >
-          Close
-        </button>
-      </div>
     </div>
   </div>
 );
