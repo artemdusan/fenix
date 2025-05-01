@@ -14,12 +14,10 @@
   background-color: var(--base02); /* Solarized Dark highlight */
   border-radius: 0.5rem;
   overflow: hidden;
-  transition: transform var(--transition);
 }
 
-.library-card:hover {
-  transform: scale(1.05); /* Optional hover effect */
-}
+/* Removed .library-card:hover to eliminate zoom effect */
+/* No transition needed since no hover transform */
 
 .library-cover {
   width: 100%;

@@ -284,7 +284,7 @@ function Library() {
               disabled={filteredBooks.length <= 1 || animationState.isAnimating}
               aria-label="Previous book"
             >
-              <FaArrowLeft />
+              <FaArrowLeft className="nav-icon" />
             </button>
             <div className="book-container">
               {animationState.isAnimating && prevBook && (
@@ -308,7 +308,7 @@ function Library() {
               disabled={filteredBooks.length <= 1 || animationState.isAnimating}
               aria-label="Next book"
             >
-              <FaArrowRight />
+              <FaArrowRight className="nav-icon" />
             </button>
           </>
         )}
@@ -335,7 +335,7 @@ function Library() {
       <ConfirmationDialogModal
         showDialog={showDeleteDialog}
         dialogTitle="Delete Book"
-        dialogText="Are you sure you want to delete this book? Hawkins cannot be undone."
+        dialogText="Are you sure you want to delete this book? This action cannot be undone."
         onCancel={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
       />
