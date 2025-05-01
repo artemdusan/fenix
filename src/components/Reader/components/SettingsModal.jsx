@@ -1,4 +1,5 @@
 import React from "react";
+import { FaTimes } from "react-icons/fa";
 import "./styles/SettingsModal.css";
 
 const SettingsModal = ({
@@ -22,6 +23,13 @@ const SettingsModal = ({
     }`}
   >
     <div className="settings-modal__container">
+      <button
+        className="settings-modal__close-icon"
+        onClick={onClose}
+        aria-label="Close settings"
+      >
+        <FaTimes />
+      </button>
       <h3 className="settings-modal__title">Settings</h3>
       <div className="settings-modal__content">
         <div className="settings__option">
@@ -31,6 +39,7 @@ const SettingsModal = ({
               name="sourceEnabled"
               checked={sourceEnabled}
               onChange={onChange}
+              aria-label="Enable source language"
             />
             Source:
           </label>
@@ -39,6 +48,7 @@ const SettingsModal = ({
             className="settings__select"
             value={sourceVoice}
             onChange={onChange}
+            aria-label="Select source voice"
           >
             <option value="" disabled>
               Select voice
@@ -56,6 +66,7 @@ const SettingsModal = ({
             className="settings__select settings__select--speed"
             value={sourceSpeed}
             onChange={onChange}
+            aria-label="Select source speed"
           >
             <option value="0.25">0.25x</option>
             <option value="0.5">0.5x</option>
@@ -74,6 +85,7 @@ const SettingsModal = ({
               name="targetEnabled"
               checked={targetEnabled}
               onChange={onChange}
+              aria-label="Enable target language"
             />
             Target:
           </label>
@@ -82,6 +94,7 @@ const SettingsModal = ({
             className="settings__select"
             value={targetVoice}
             onChange={onChange}
+            aria-label="Select target voice"
           >
             <option value="" disabled>
               Select voice
@@ -99,6 +112,7 @@ const SettingsModal = ({
             className="settings__select settings__select--speed"
             value={targetSpeed}
             onChange={onChange}
+            aria-label="Select target speed"
           >
             <option value="0.25">0.25x</option>
             <option value="0.5">0.5x</option>
@@ -110,13 +124,14 @@ const SettingsModal = ({
           </select>
         </div>
 
-        <div className="settings__option settings__option--reading-order">
+        <div className="settings__option">
           <label className="settings__label">Order:</label>
           <select
             name="readingOrder"
             className="settings__select"
             value={readingOrder}
             onChange={onChange}
+            aria-label="Select reading order"
           >
             <option value="source-target">Source → Target</option>
             <option value="target-source">Target → Source</option>
@@ -127,6 +142,7 @@ const SettingsModal = ({
         <button
           className="settings-modal__button settings-modal__button--close"
           onClick={onClose}
+          aria-label="Close settings"
         >
           Close
         </button>

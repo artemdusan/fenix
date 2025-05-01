@@ -13,12 +13,12 @@ const BookContent = ({
 }) => (
   <div className="book-content">
     {loading ? (
-      <p>Loading book...</p>
+      <div className="book-content__loader">Loading...</div>
     ) : !book || !chapter ? (
       <p>Book or chapter not found</p>
     ) : (
       <div className="book-content__container">
-        {chapter && currentSentenceIndex == 0 && (
+        {chapter && currentSentenceIndex === 0 && (
           <h1>{chapter.title || "Untitled Chapter"}</h1>
         )}
         <div

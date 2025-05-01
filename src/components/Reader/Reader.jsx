@@ -28,7 +28,7 @@ const Reader = () => {
     sentenceId: 0,
   });
   const [loading, setLoading] = useState(true);
-  const [fontSize, setFontSize] = useState(30);
+  const [fontSize, setFontSize] = useState(16);
   const [showChapterSlider, setShowChapterSlider] = useState(false);
   const [showSentenceSlider, setShowSentenceSlider] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -176,7 +176,11 @@ const Reader = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
   }, []);
 
   // Load saved settings
@@ -214,7 +218,6 @@ const Reader = () => {
         sentenceId
       );
 
-      // Sync with server
       const loginInfo = await getLoginInfo();
       if (!loginInfo?.serverAddress) {
         console.warn("No server address found, skipping server sync");
@@ -401,7 +404,7 @@ const Reader = () => {
 
   const increaseFontSize = () => {
     setFontSize((prev) => {
-      const newSize = prev + 2;
+      const newSize = Math.min(prev + 2, 48);
       localStorage.setItem("fontSize", newSize);
       return newSize;
     });
@@ -409,7 +412,7 @@ const Reader = () => {
 
   const decreaseFontSize = () => {
     setFontSize((prev) => {
-      const newSize = prev - 2;
+      const newSize = Math.max(prev - 2, 12);
       localStorage.setItem("fontSize", newSize);
       return newSize;
     });
@@ -448,7 +451,7 @@ const Reader = () => {
       localStorage.setItem("ttsSourceVoice", value);
     } else if (name === "ttsTargetVoice") {
       setTargetVoice(value);
-      localStorage.setItem("ttsTargetVoice", value);
+      localStorage.setItem("ttsSourceVoice", value);
     } else if (name === "readingOrder") {
       setReadingOrder(value);
       localStorage.setItem("readingOrder", value);
@@ -490,6 +493,7 @@ const Reader = () => {
             chapterCount={book.chapters.length}
             onChapterChange={handleChapterChange}
             isPlaying={isPlaying}
+            onClose={toggleChapterSlider}
           />
         )}
         {showSentenceSlider && chapter?.content?.length > 0 && (
@@ -499,6 +503,7 @@ const Reader = () => {
             sentenceCount={chapter.content.length}
             onSentenceChange={handleSentenceChange}
             isPlaying={isPlaying}
+            onClose={toggleSentenceSlider}
           />
         )}
         <BookContent

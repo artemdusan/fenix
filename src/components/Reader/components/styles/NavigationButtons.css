@@ -1,38 +1,98 @@
+/* Mobile-first base styles */
 .navigation-buttons {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
-  margin-bottom: 2rem; /* Reduced from 100px for smaller screens */
-  flex-wrap: wrap;
-  gap: 1rem;
+  align-items: center;
+  margin: 0.5rem 0;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background-color: var(--base02, #073642);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.navigation-buttons__sentence-nav {
-  background-color: #586e75;
-  color: white;
-  border: none;
-  padding: 1rem;
-  cursor: pointer;
-  border-radius: 3px;
-  margin: 0 0.5rem;
-  font-size: clamp(12px, 2vw, 16px);
-}
-
-.navigation-buttons__sentence-nav--hover:hover {
-  background-color: #657b83;
-}
-
+.navigation-buttons__sentence-nav,
 .navigation-buttons__play {
-  background-color: #586e75;
-  color: white;
+  background-color: var(--base01, #586e75);
+  color: var(--base3, #fdf6e3);
   border: none;
-  padding: 1rem;
+  padding: 0.75rem;
   cursor: pointer;
-  border-radius: 3px;
-  margin: 0 0.5rem;
-  font-size: clamp(12px, 2vw, 16px);
+  border-radius: 4px;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  min-width: 3rem;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
-.navigation-buttons__play--hover:hover {
-  background-color: #657b83;
+.navigation-buttons__sentence-nav:hover,
+.navigation-buttons__play:hover {
+  background-color: var(--base00, #657b83);
+  transform: scale(1.05);
+}
+
+.navigation-buttons__sentence-nav:disabled,
+.navigation-buttons__play:disabled {
+  background-color: var(--base0, #839496);
+  color: var(--base01, #586e75);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.navigation-buttons__play svg {
+  width: clamp(1.25rem, 3vw, 1.5rem);
+  height: clamp(1.25rem, 3vw, 1.5rem);
+  transition: transform 0.2s;
+}
+
+.navigation-buttons__sentence-nav svg {
+  width: clamp(1rem, 3vw, 1.25rem);
+  height: clamp(1rem, 3vw, 1.25rem);
+}
+
+/* Tablet */
+@media (min-width: 769px) {
+  .navigation-buttons {
+    margin: 1rem 0;
+    gap: 1rem;
+    padding: 0.75rem;
+  }
+
+  .navigation-buttons__sentence-nav,
+  .navigation-buttons__play {
+    padding: 1rem;
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    min-width: 3.5rem;
+    min-height: 3.5rem;
+  }
+
+  .navigation-buttons__play svg {
+    width: clamp(1.5rem, 3vw, 1.75rem);
+    height: clamp(1.5rem, 3vw, 1.75rem);
+  }
+
+  .navigation-buttons__sentence-nav svg {
+    width: clamp(1.25rem, 3vw, 1.5rem);
+    height: clamp(1.25rem, 3vw, 1.5rem);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .navigation-buttons {
+    margin: 1.5rem 0;
+    gap: 1.25rem;
+    padding: 1rem;
+  }
+
+  .navigation-buttons__sentence-nav,
+  .navigation-buttons__play {
+    padding: 1.25rem;
+    font-size: clamp(1.125rem, 2vw, 1.25rem);
+    min-width: 4rem;
+    min-height: 4rem;
+  }
 }

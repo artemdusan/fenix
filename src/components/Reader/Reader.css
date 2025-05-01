@@ -1,15 +1,60 @@
-/* Reader Container */
+/* Mobile-first base styles */
 .reader__container {
   display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 100%;
-  background-color: #002b36; /* Solarized Dark background */
+  height: 100vh;
+  background-color: var(--base03, #002b36);
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
 }
 
 .reader__main {
   flex: 1;
   display: flex;
   flex-direction: column;
-  transition: flex-basis 0.3s ease;
+  width: 100%;
+  overflow: hidden;
+  position: relative; /* Ensure sliders position correctly */
+}
+
+/* StatusBar at the top */
+.status-bar {
+  flex-shrink: 0;
+  width: 100%;
+  z-index: 200;
+}
+
+/* BookContent fills remaining space */
+.book-content {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+/* NavigationButtons at the bottom */
+.navigation-buttons {
+  flex-shrink: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+/* Tablet */
+@media (min-width: 769px) {
+  .book-content {
+    padding: 1rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .book-content {
+    padding: 1.5rem;
+  }
 }
