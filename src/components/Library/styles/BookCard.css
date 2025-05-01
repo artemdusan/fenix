@@ -54,18 +54,53 @@
   font-size: 14px;
 }
 
-.delete-button {
+.chapter-info {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: var(--base2); /* Slightly lighter for visibility */
+}
+
+.menu-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: var(--red); /* Solarized red for delete */
+  background-color: transparent; /* Changed to transparent */
   color: var(--base3);
-  border: none;
+  border: 1px solid var(--base3); /* Added border */
   border-radius: 3px;
   padding: 5px;
   cursor: pointer;
 }
 
-.delete-button:hover {
-  background-color: var(--orange); /* Solarized orange on hover */
+.menu-button:hover {
+  background-color: var(--base02); /* Slightly lighter on hover */
+}
+
+.menu {
+  position: absolute;
+  top: 35px;
+  right: 10px; /* Align with menu button */
+  background-color: var(--base03);
+  border-radius: 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.menu-item {
+  display: block;
+  padding: 8px 12px;
+  color: var(--base3);
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: var(--base02);
+}
+
+.delete-menu-item:hover {
+  background-color: var(--red); /* Solarized red for delete */
 }
