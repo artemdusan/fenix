@@ -10,6 +10,7 @@ import {
   deleteBookFromDB,
   getSessionInfo,
   getDeletedBookIds,
+  getAllReadingLocations,
 } from "../../services/Library/databaseService";
 import { syncBooks } from "../../services/Library/syncBooksService";
 import "./styles/Library.css";
@@ -49,18 +50,39 @@ function Library() {
 
   const fetchBooks = async () => {
     try {
-      const storedBooks = await getAllBooks();
-      const deletedBookIds = await getDeletedBookIds();
-      const validBooks = storedBooks.filter(
-        (book) => !deletedBookIds.includes(book.id)
+      const [storedBooks, deletedBookIds, readingLocations] = await Promise.all(
+        [getAllBooks(), getDeletedBookIds(), getAllReadingLocations()]
       );
+
+      // Create a map of reading locations by bookId for efficient lookup
+      const readingLocationMap = new Map(
+        readingLocations.map((loc) => [loc.bookId, loc])
+      );
+
+      // Filter out deleted books and attach lastModified from readingLocations
+      const validBooks = storedBooks
+        .filter((book) => !deletedBookIds.includes(book.id))
+        .map((book) => {
+          const readingLocation = readingLocationMap.get(book.id);
+          return {
+            ...book,
+            readingLastModified: readingLocation
+              ? readingLocation.lastModified
+              : 0, // Use 0 if no reading location exists
+          };
+        })
+        .sort((a, b) => b.readingLastModified - a.readingLastModified); // Sort by readingLastModified, newest first
+
       setBooks(validBooks);
       console.log("Fetched books:", validBooks.length);
       if (currentBookIndex >= validBooks.length) {
         setCurrentBookIndex(validBooks.length > 0 ? 0 : -1);
       }
     } catch (error) {
-      console.error("Error loading books from IndexedDB:", error);
+      console.error(
+        "Error loading books or reading locations from IndexedDB:",
+        error
+      );
       window.showToast("Failed to load books", "error");
     }
   };
