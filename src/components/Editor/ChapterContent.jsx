@@ -245,57 +245,69 @@ function ChapterContent() {
 
   if (!chapter) {
     return (
-      <div className="chapter-content__empty-state">
-        Select a chapter to read
-      </div>
+      <>
+        <div className="chapter-content">
+          <div className="chapter-content__empty-state">
+            Select a chapter to read
+          </div>
+        </div>
+        <div className="chapter-content__info-message">
+          Chapter content is not visible. Please rotate your device.
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="chapter-content">
-      <HeaderChapter
-        chapter={chapter}
-        isRenaming={isRenaming}
-        setIsRenaming={setIsRenaming}
-        newTitle={newTitle}
-        setNewTitle={setNewTitle}
-        viewTranslation={viewTranslation}
-        setViewTranslation={setViewTranslation}
-        editMode={editMode}
-        setEditMode={setEditMode}
-        handleRenameSubmit={handleRenameSubmit}
-        handleMoveUp={handleMoveUp}
-        handleMoveDown={handleMoveDown}
-        handleDelete={handleDelete}
-        handleRevert={handleRevert}
-        handleSave={handleSave}
-        handleCancel={handleCancel}
-      />
-      <div
-        className="chapter-content__scroll-container"
-        ref={chapterContentRef}
-      >
-        {editMode ? (
-          <textarea
-            ref={editorRef}
-            className="chapter-content__editor"
-            value={editContent}
-            onChange={(e) => setEditContent(e.target.value)}
-          />
-        ) : viewTranslation ? (
-          renderTranslationTable()
-        ) : (
-          <div className="chapter-content__text">{chapter.content}</div>
-        )}
+    <>
+      <div className="chapter-content">
+        <HeaderChapter
+          chapter={chapter}
+          isRenaming={isRenaming}
+          setIsRenaming={setIsRenaming}
+          newTitle={newTitle}
+          setNewTitle={setNewTitle}
+          viewTranslation={viewTranslation}
+          setViewTranslation={setViewTranslation}
+          editMode={editMode}
+          setEditMode={setEditMode}
+          handleRenameSubmit={handleRenameSubmit}
+          handleMoveUp={handleMoveUp}
+          handleMoveDown={handleMoveDown}
+          handleDelete={handleDelete}
+          handleRevert={handleRevert}
+          handleSave={handleSave}
+          handleCancel={handleCancel}
+        />
+        <div
+          className="chapter-content__scroll-container"
+          ref={chapterContentRef}
+        >
+          {editMode ? (
+            <textarea
+              ref={editorRef}
+              className="chapter-content__editor"
+              value={editContent}
+              onChange={(e) => setEditContent(e.target.value)}
+            />
+          ) : viewTranslation ? (
+            renderTranslationTable()
+          ) : (
+            <div className="chapter-content__text">{chapter.content}</div>
+          )}
+        </div>
+        <ConfirmationDialogModal
+          showDialog={showDeleteDialog}
+          dialogTitle="Delete Chapter"
+          dialogText={`Are you sure you want to delete "${chapter.title}"? This action cannot be undone.`}
+          onCancel={cancelDelete}
+          onConfirm={confirmDelete}
+        />
       </div>
-      <ConfirmationDialogModal
-        showDialog={showDeleteDialog}
-        dialogTitle="Delete Chapter"
-        dialogText={`Are you sure you want to delete "${chapter.title}"? This action cannot be undone.`}
-        onCancel={cancelDelete}
-        onConfirm={confirmDelete}
-      />
-    </div>
+      <div className="chapter-content__info-message">
+        Chapter content is not visible. Please rotate your device.
+      </div>
+    </>
   );
 }
 

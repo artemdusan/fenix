@@ -40,7 +40,7 @@
 
 .chapter-content__empty-state {
   display: flex;
-  flex-direction: column; /* Ensure vertical stacking */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -48,13 +48,13 @@
   color: var(--base01);
   font-size: 1.2rem;
   flex: 1;
-  text-align: center; /* Center text within the container */
+  text-align: center;
 }
 
 .chapter-content__error-container {
   width: 100%;
-  max-width: 600px; /* Limit width for readability */
-  text-align: left; /* Align text to the left for error messages */
+  max-width: 600px;
+  text-align: left;
 }
 
 .chapter-content__error {
@@ -65,7 +65,7 @@
   color: var(--red);
   line-height: 1.6;
   font-size: 1rem;
-  word-break: break-word; /* Ensure long content wraps */
+  word-break: break-word;
 }
 
 .chapter-content__error-header {
@@ -134,10 +134,37 @@ th {
 
 .chapter-content__scroll-container th,
 .chapter-content__scroll-container td {
-  border: 1px solid #ddd;
+  border: 1px solid var(--base01);
   padding: 8px;
 }
 
 .chapter-content__scroll-container th {
-  background-color: #f2f2f2;
+  background-color: var(--base02);
+}
+
+.chapter-content__info-message {
+  display: none;
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(var(--base02-rgb), 0.9);
+  color: var(--base1);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .chapter-content {
+    display: none;
+  }
+
+  .chapter-content__info-message {
+    display: block;
+  }
 }

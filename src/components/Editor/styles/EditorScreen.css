@@ -11,3 +11,9 @@
   flex: 1;
   overflow: hidden;
 }
+
+@media (max-width: 768px) {
+  .editor-screen__content {
+    flex-direction: column;
+  }
+}

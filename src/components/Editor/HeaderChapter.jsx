@@ -127,7 +127,7 @@ function HeaderChapter({
             className="chapter-content__button chapter-content__button--toggle"
             onClick={() => setViewTranslation(!viewTranslation)}
           >
-            {viewTranslation ? "Translation" : "Source"}
+            {viewTranslation ? "Show CSV" : "Show text"}
           </button>
         )}
       </div>
@@ -149,7 +149,7 @@ function HeaderChapter({
             className="chapter-content__button chapter-content__button--edit"
             onClick={() => setEditMode(true)}
           >
-            Edit
+            {viewTranslation ? "Edit text" : "Edit CSV"}
           </button>
         ) : (
           <>
