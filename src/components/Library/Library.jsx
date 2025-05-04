@@ -11,6 +11,7 @@ import {
   getSessionInfo,
   getDeletedBookIds,
   getAllReadingLocations,
+  saveReadingLocation,
 } from "../../services/Library/databaseService";
 import { syncBooks } from "../../services/Library/syncBooksService";
 import "./styles/Library.css";
@@ -124,6 +125,16 @@ function Library() {
             const bookData = JSON.parse(e.target.result);
             const db = await openDB();
             const id = await saveBookToDB(db, bookData);
+
+            // Create reading location for the first chapter, first page
+            const readingLocation = {
+              bookId: id,
+              chapterId: bookData.chapters?.[0]?.id || 0, // Use first chapter ID or 0
+              sentenceId: 0, // First page/sentence
+              lastModified: Date.now(),
+            };
+            await saveReadingLocation(db, readingLocation);
+
             await fetchBooks();
             window.showToast("Book uploaded successfully", "success");
 
