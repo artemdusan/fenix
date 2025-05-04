@@ -418,7 +418,7 @@ function Login({ onClose }) {
                   id="serverAddress"
                   value={serverAddress}
                   onChange={(e) => setServerAddress(e.target.value)}
-                  placeholder="http://localhost:5001/user-dashboard-5ee1f/us-central1/api"
+                  placeholder="Paste your server's address"
                   className="login-form__input"
                   required
                   aria-required="true"

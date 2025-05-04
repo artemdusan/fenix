@@ -122,9 +122,12 @@ function Library() {
                 "warning"
               );
             }
+            const timer = setTimeout(() => {
+              window.location.reload();
+            }, 1000);
           } catch (error) {
             console.error("Error processing uploaded book:", error);
-            window.showToast("Invalid book file or upload failed", "error");
+            window.showToast("Invalid json file or upload failed", "error");
           }
         };
         reader.readAsText(file);
