@@ -8,6 +8,8 @@ The app consists of three components:
 - **Editor** – Convert any `.epub` book into a dual-language format using OpenAI for sentence alignment and translation.
 - **Server (optional)** – Sync your books and reading progress across multiple devices.
 
+[Download Sample book]( https://github.com/artemdusan/fenix/blob/07baabba6582c09b36695fbeae50992eef605bab/books/Sample%20Book_en_es.json)
+
 ---
 
 # Firebase Functions Server for Book Sync
@@ -31,7 +33,7 @@ The app consists of three components:
 
 2. **Configure Firebase Project**
 
-   Create a new project using the Firebase Console.  
+   Create a new project using the Firebase Console (enable functions, firestore and authentication).  
    Then edit the `.firebaserc` file in your project root:
 
    ```json
