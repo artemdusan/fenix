@@ -3,12 +3,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.5rem 0;
+  margin: 0; /* Margin handled by Reader.css */
   gap: 0.75rem;
   padding: 0.5rem;
-  background-color: var(--base02, #073642);
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navigation-buttons__sentence-nav,
@@ -56,7 +53,6 @@
 /* Tablet */
 @media (min-width: 769px) {
   .navigation-buttons {
-    margin: 1rem 0;
     gap: 1rem;
     padding: 0.75rem;
   }
@@ -83,7 +79,6 @@
 /* Desktop */
 @media (min-width: 1025px) {
   .navigation-buttons {
-    margin: 1.5rem 0;
     gap: 1.25rem;
     padding: 1rem;
   }
@@ -94,5 +89,15 @@
     font-size: clamp(1.125rem, 2vw, 1.25rem);
     min-width: 4rem;
     min-height: 4rem;
+  }
+
+  .navigation-buttons__play svg {
+    width: clamp(1.75rem, 3vw, 2rem);
+    height: clamp(1.75rem, 3vw, 2rem);
+  }
+
+  .navigation-buttons__sentence-nav svg {
+    width: clamp(1.5rem, 3vw, 1.75rem);
+    height: clamp(1.5rem, 3vw, 1.75rem);
   }
 }

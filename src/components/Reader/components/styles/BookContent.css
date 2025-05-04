@@ -48,6 +48,15 @@
   animation: highlight 0.3s ease-in;
 }
 
+.navigation-buttons {
+  width: 100%;
+  max-width: 100%; /* Match book-content__text width */
+  margin: 0.5rem 0; /* Consistent spacing */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @keyframes highlight {
   from {
     opacity: 0.7;
@@ -106,6 +115,10 @@
     font-size: clamp(1rem, 3vw, 1.125rem);
   }
 
+  .navigation-buttons {
+    margin: 1rem 0;
+  }
+
   .book-content__loader {
     font-size: clamp(1rem, 3vw, 1.125rem);
   }
@@ -130,5 +143,9 @@
     padding: 2rem;
     margin: 1.5rem 0;
     font-size: clamp(1.125rem, 3vw, 1.25rem);
+  }
+
+  .navigation-buttons {
+    margin: 1.5rem 0;
   }
 }

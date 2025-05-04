@@ -1,4 +1,5 @@
 import React from "react";
+import NavigationButtons from "./NavigationButtons";
 import "./styles/BookContent.css";
 
 const BookContent = ({
@@ -10,6 +11,11 @@ const BookContent = ({
   isReadingSource,
   textVide,
   readingOrder,
+  onPrevious,
+  onNext,
+  onPlay,
+  isPlaying,
+  disabled,
 }) => (
   <div className="book-content">
     {loading ? (
@@ -65,6 +71,13 @@ const BookContent = ({
             <p>No sentences available</p>
           )}
         </div>
+        <NavigationButtons
+          onPrevious={onPrevious}
+          onNext={onNext}
+          onPlay={onPlay}
+          isPlaying={isPlaying}
+          disabled={disabled}
+        />
       </div>
     )}
   </div>

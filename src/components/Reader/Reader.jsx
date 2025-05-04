@@ -13,7 +13,6 @@ import {
 import StatusBar from "./components/StatusBar";
 import ChapterSlider from "./components/ChapterSlider";
 import SentenceSlider from "./components/SentenceSlider";
-import NavigationButtons from "./components/NavigationButtons";
 import SettingsModal from "./components/SettingsModal";
 import BookContent from "./components/BookContent";
 import "./Reader.css";
@@ -451,7 +450,7 @@ const Reader = () => {
       localStorage.setItem("ttsSourceVoice", value);
     } else if (name === "ttsTargetVoice") {
       setTargetVoice(value);
-      localStorage.setItem("ttsSourceVoice", value);
+      localStorage.setItem("ttsTargetVoice", value);
     } else if (name === "readingOrder") {
       setReadingOrder(value);
       localStorage.setItem("readingOrder", value);
@@ -506,23 +505,23 @@ const Reader = () => {
             onClose={toggleSentenceSlider}
           />
         )}
-        <BookContent
-          loading={loading}
-          book={book}
-          chapter={chapter}
-          fontSize={fontSize}
-          currentSentenceIndex={currentSentenceIndex}
-          isReadingSource={isReadingSource}
-          textVide={textVide}
-          readingOrder={readingOrder}
-        />
-        <NavigationButtons
-          onPrevious={onPreviousSentence}
-          onNext={onNextSentence}
-          onPlay={handlePlay}
-          isPlaying={isPlaying}
-          disabled={isPlaying}
-        />
+        <div className="book-content-wrapper">
+          <BookContent
+            loading={loading}
+            book={book}
+            chapter={chapter}
+            fontSize={fontSize}
+            currentSentenceIndex={currentSentenceIndex}
+            isReadingSource={isReadingSource}
+            textVide={textVide}
+            readingOrder={readingOrder}
+            onPrevious={onPreviousSentence}
+            onNext={onNextSentence}
+            onPlay={handlePlay}
+            isPlaying={isPlaying}
+            disabled={isPlaying}
+          />
+        </div>
       </div>
       <SettingsModal
         show={showTtsSettings}
