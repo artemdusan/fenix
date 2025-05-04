@@ -1,20 +1,47 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
-import { FaEllipsisV, FaTrash, FaDownload } from "react-icons/fa"; // Import icons
+import { Link } from "react-router-dom";
+import { FaEllipsisV, FaTrash, FaDownload } from "react-icons/fa";
+import { getReadingLocation } from "../../services/Library/databaseService";
 import "./styles/BookCard.css";
 
 function BookCard({ book, onDelete }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentChapter, setCurrentChapter] = useState(1); // Default to Chapter 1
+  const [totalChapters, setTotalChapters] = useState(0); // Default to 0
   const menuRef = useRef(null);
 
+  // Fetch reading location and set chapter information
+  useEffect(() => {
+    // Calculate total chapters from book.chapters
+    const chaptersCount = book.chapters?.length || 0;
+    setTotalChapters(chaptersCount);
+
+    // Fetch reading location for current chapter
+    getReadingLocation(book.id)
+      .then((readingLocation) => {
+        // Use chapterId from reading location, default to 1 if not found
+        const chapterId =
+          readingLocation?.chapterId !== undefined
+            ? readingLocation.chapterId + 1
+            : 1;
+        setCurrentChapter(chapterId);
+      })
+      .catch((error) => {
+        console.error(
+          `Error fetching reading location for book ${book.id}:`,
+          error
+        );
+        setCurrentChapter(1); // Fallback to Chapter 1 on error
+      });
+  }, [book.id, book.chapters]);
+
   const handleImageError = (e) => {
-    // Use a responsive placeholder size to match container
     e.target.src = "https://placehold.co/100x150?text=Image+Not+Found";
   };
 
   const toggleMenu = (e) => {
-    e.preventDefault(); // Prevent Link navigation
-    e.stopPropagation(); // Stop event bubbling
+    e.preventDefault();
+    e.stopPropagation();
     setIsMenuOpen(!isMenuOpen);
   };
 
@@ -28,8 +55,43 @@ function BookCard({ book, onDelete }) {
   const handleDownload = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // Dummy download action
-    console.log(`Download book: ${book.title}`);
+
+    // Create book object excluding id and lastModified
+    const bookData = {
+      title: book.title,
+      author: book.author,
+      cover: book.cover,
+      notes: book.notes,
+      sourceLanguage: book.sourceLanguage,
+      targetLanguage: book.targetLanguage,
+      chapters: book.chapters,
+    };
+
+    // Convert to JSON string with indentation for readability
+    const jsonString = JSON.stringify(bookData, null, 2);
+
+    // Create a Blob with the JSON data
+    const blob = new Blob([jsonString], { type: "application/json" });
+
+    // Create a temporary URL for the Blob
+    const url = URL.createObjectURL(blob);
+
+    // Create a temporary <a> element to trigger the download
+    const link = document.createElement("a");
+    link.href = url;
+    // Use book title for filename, replacing invalid characters and adding .json extension
+    const safeFileName =
+      (book.title || "book").replace(/[^a-zA-Z0-9-_]/g, "_").substring(0, 50) +
+      ".json";
+    link.download = safeFileName;
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    console.log(`Downloaded book: ${book.title}`);
     setIsMenuOpen(false);
   };
 
@@ -49,10 +111,6 @@ function BookCard({ book, onDelete }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMenuOpen]);
-
-  // Use actual book data if available, fallback to dummy values
-  const currentChapter = book.currentChapter || 2;
-  const totalChapters = book.totalChapters || 23;
 
   return (
     <Link to={`/reader/${book.id}`} className="library-card-link">
@@ -84,7 +142,9 @@ function BookCard({ book, onDelete }) {
             <h3>{book.title}</h3>
             <p className="author">{book.author}</p>
             <p className="chapter-info">
-              Chapter {currentChapter}/{totalChapters}
+              {totalChapters === 0
+                ? "No chapters"
+                : `Chapter ${currentChapter}/${totalChapters}`}
             </p>
           </div>
         </div>
