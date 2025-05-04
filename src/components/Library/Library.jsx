@@ -268,8 +268,20 @@ function Library() {
           placeholder="Filter by title or author..."
           value={filterText}
           onChange={(e) => {
-            setFilterText(e.target.value);
-            setCurrentBookIndex(filteredBooksList().length > 0 ? 0 : -1);
+            const newFilterText = e.target.value;
+            setFilterText(newFilterText);
+            const filteredBooks = newFilterText.trim()
+              ? books.filter(
+                  (book) =>
+                    book.title
+                      .toLowerCase()
+                      .includes(newFilterText.toLowerCase()) ||
+                    book.author
+                      .toLowerCase()
+                      .includes(newFilterText.toLowerCase())
+                )
+              : books;
+            setCurrentBookIndex(filteredBooks.length > 0 ? 0 : -1);
           }}
         />
       </div>

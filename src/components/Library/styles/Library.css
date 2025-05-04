@@ -6,13 +6,24 @@
   background-color: var(--base03);
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center children horizontally */
+  justify-content: center;
   gap: 1rem;
   box-sizing: border-box;
 }
 
 .filter-container {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(
+    --base03
+  ); /* Match background to avoid overlap issues */
+  padding: 1rem 0;
   display: flex;
   justify-content: center;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: subtle separation */
 }
 
 .filter-input {
@@ -31,15 +42,14 @@
 }
 
 .library-grid {
+  flex: 1;
+  overflow-y: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  overflow-y: auto; /* Allow scrolling if content overflows */
-  max-height: calc(
-    100vh - 4rem - 2rem - 2rem
-  ); /* Viewport height minus filter, buttons, padding, and gaps */
+  width: 100%;
 }
 
 .no-books {
@@ -163,12 +173,12 @@
 }
 
 .button-container {
+  padding: 0.5rem 0;
+  width: 100%;
   display: flex;
   justify-content: center;
   gap: 0.75rem;
-  padding: 0.5rem 0;
 }
-
 .library-button {
   padding: 0.75rem 1.5rem;
   background-color: var(--base02);
@@ -191,6 +201,7 @@
 @media (min-width: 769px) {
   .library-container {
     padding: 2rem;
+    align-items: center; /* Maintain centering */
   }
 
   .book-container {
@@ -200,8 +211,20 @@
     max-height: 330px;
   }
 
+  .filter-container {
+    width: 100%; /* Ensure full width */
+  }
+
   .filter-input {
     max-width: 400px;
+  }
+
+  .library-grid {
+    width: 100%; /* Ensure full width */
+  }
+
+  .button-container {
+    width: 100%; /* Ensure full width */
   }
 
   .nav-button {
@@ -224,10 +247,12 @@
   .library-container {
     padding: 0.25rem; /* Reduced padding to save space */
     gap: 0.25rem; /* Reduced gap */
+    align-items: center; /* Maintain centering */
   }
 
   .filter-container {
     padding: 0 0.5rem;
+    width: 100%; /* Ensure full width */
   }
 
   .filter-input {
@@ -240,6 +265,7 @@
     max-height: calc(
       100vh - 3rem - 1.5rem - 1rem
     ); /* Adjusted for smaller filter and buttons */
+    width: 100%; /* Ensure full width */
   }
 
   .book-container {
@@ -271,6 +297,7 @@
   .button-container {
     gap: 0.5rem;
     padding: 0.25rem 0;
+    width: 100%; /* Ensure full width */
   }
 
   .library-button {
@@ -284,6 +311,7 @@
 @media (max-width: 480px) {
   .library-container {
     padding: 0.25rem;
+    align-items: center; /* Maintain centering */
   }
 
   .book-container {
@@ -293,12 +321,21 @@
     max-height: 240px;
   }
 
+  .filter-container {
+    width: 100%; /* Ensure full width */
+  }
+
   .filter-input {
     font-size: 0.85rem;
   }
 
   .library-grid {
     max-height: calc(100vh - 2.5rem - 1.5rem - 1rem); /* Further adjusted */
+    width: 100%; /* Ensure full width */
+  }
+
+  .button-container {
+    width: 100%; /* Ensure full width */
   }
 
   .nav-button {
