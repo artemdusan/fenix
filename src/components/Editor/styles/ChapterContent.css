@@ -156,10 +156,11 @@ th {
   text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 1000;
+  pointer-events: none;
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .chapter-content {
     display: none;
   }

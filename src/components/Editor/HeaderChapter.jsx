@@ -68,105 +68,111 @@ function HeaderChapter({
 
   return (
     <div className="chapter-content__header">
-      <div className="chapter-content__title-section">
-        {isRenaming ? (
-          <div ref={renameFormRef} className="chapter-content__rename-form">
-            <input
-              ref={inputRef}
-              type="text"
-              value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="chapter-content__rename-input"
-            />
-            <button
-              className="chapter-content__icon-button chapter-content__icon-button--accept"
-              onClick={handleRenameSubmit}
-              title="Accept"
-            >
-              <FaCheck />
-            </button>
-          </div>
-        ) : (
-          <>
-            <span className="chapter-content__filename">{chapter.title}</span>
-            <div className="chapter-content__title-actions">
+      <div className="chapter-content__top-row">
+        <div className="chapter-content__title-section">
+          {isRenaming ? (
+            <div ref={renameFormRef} className="chapter-content__rename-form">
+              <input
+                ref={inputRef}
+                type="text"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="chapter-content__rename-input"
+              />
               <button
-                className="chapter-content__icon-button"
-                onClick={startRenaming}
-                title="Rename"
+                className="chapter-content__icon-button chapter-content__icon-button--accept"
+                onClick={handleRenameSubmit}
+                title="Accept"
               >
-                <FaEdit />
-              </button>
-              <button
-                className="chapter-content__icon-button"
-                onClick={handleMoveUp}
-                title="Move Up"
-              >
-                <FaArrowUp />
-              </button>
-              <button
-                className="chapter-content__icon-button"
-                onClick={handleMoveDown}
-                title="Move Down"
-              >
-                <FaArrowDown />
-              </button>
-              <button
-                className="chapter-content__icon-button"
-                onClick={handleDelete}
-                title="Delete"
-              >
-                <FaTrash />
+                <FaCheck />
               </button>
             </div>
-          </>
-        )}
-        {!editMode && (
-          <button
-            className="chapter-content__button chapter-content__button--toggle"
-            onClick={() => setViewTranslation(!viewTranslation)}
-          >
-            {viewTranslation ? "Show CSV" : "Show text"}
-          </button>
-        )}
+          ) : (
+            <>
+              <span className="chapter-content__filename">{chapter.title}</span>
+              <div className="chapter-content__title-actions">
+                <button
+                  className="chapter-content__icon-button"
+                  onClick={startRenaming}
+                  title="Rename"
+                >
+                  <FaEdit />
+                </button>
+                <button
+                  className="chapter-content__icon-button"
+                  onClick={handleMoveUp}
+                  title="Move Up"
+                >
+                  <FaArrowUp />
+                </button>
+                <button
+                  className="chapter-content__icon-button"
+                  onClick={handleMoveDown}
+                  title="Move Down"
+                >
+                  <FaArrowDown />
+                </button>
+                <button
+                  className="chapter-content__icon-button"
+                  onClick={handleDelete}
+                  title="Delete"
+                >
+                  <FaTrash />
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
-      <div className="chapter-content__actions">
-        {((viewTranslation &&
-          chapter.isTranslationEdited &&
-          chapter.originalTranslation) ||
-          (!viewTranslation && chapter.isEdited && chapter.originalContent)) &&
-          !editMode && (
+      <div className="chapter-content__bottom-row">
+        <div className="chapter-content__actions">
+          {((viewTranslation &&
+            chapter.isTranslationEdited &&
+            chapter.originalTranslation) ||
+            (!viewTranslation &&
+              chapter.isEdited &&
+              chapter.originalContent)) &&
+            !editMode && (
+              <button
+                className="chapter-content__button chapter-content__button--revert"
+                onClick={handleRevert}
+              >
+                Revert Changes
+              </button>
+            )}
+          {!editMode && (
             <button
-              className="chapter-content__button chapter-content__button--revert"
-              onClick={handleRevert}
+              className="chapter-content__button chapter-content__button--toggle"
+              onClick={() => setViewTranslation(!viewTranslation)}
             >
-              Revert Changes
+              {viewTranslation ? "Go to Source" : "Go to CSV"}
             </button>
           )}
-        {!editMode ? (
-          <button
-            className="chapter-content__button chapter-content__button--edit"
-            onClick={() => setEditMode(true)}
-          >
-            {viewTranslation ? "Edit text" : "Edit CSV"}
-          </button>
-        ) : (
-          <>
+          {!editMode ? (
             <button
-              className="chapter-content__button chapter-content__button--save"
-              onClick={handleSave}
+              className="chapter-content__button chapter-content__button--edit"
+              onClick={() => setEditMode(true)}
             >
-              Save
+              {viewTranslation ? "Edit CSV" : "Edit Source"}
             </button>
-            <button
-              className="chapter-content__button chapter-content__button--cancel"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-          </>
-        )}
+          ) : (
+            <>
+              <button
+                className="chapter-content__button chapter-content__button--save"
+                onClick={handleSave}
+              >
+                Save
+              </button>
+              <button
+                className="chapter-content__button chapter-content__button--cancel"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

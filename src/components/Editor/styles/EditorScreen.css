@@ -12,7 +12,7 @@
   overflow: hidden;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .editor-screen__content {
     flex-direction: column;
   }
