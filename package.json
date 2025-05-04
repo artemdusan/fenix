@@ -32,6 +32,7 @@
     "globals": "^15.15.0",
     "typescript": "^5.8.2",
     "vite": "^6.2.0",
+    "vite-plugin-pwa": "^1.0.0",
     "vite-plugin-static-copy": "^2.3.1"
   }
 }
