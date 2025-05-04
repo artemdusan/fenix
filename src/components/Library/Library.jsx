@@ -13,7 +13,7 @@ import {
 } from "../../services/Library/databaseService";
 import { syncBooks } from "../../services/Library/syncBooksService";
 import "./styles/Library.css";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // Import navigation icons
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 function Library() {
   const [books, setBooks] = useState([]);
@@ -50,13 +50,11 @@ function Library() {
     try {
       const storedBooks = await getAllBooks();
       const deletedBookIds = await getDeletedBookIds();
-      // Filter out deleted books
       const validBooks = storedBooks.filter(
         (book) => !deletedBookIds.includes(book.id)
       );
       setBooks(validBooks);
       console.log("Fetched books:", validBooks.length);
-      // Reset index if it's out of bounds
       if (currentBookIndex >= validBooks.length) {
         setCurrentBookIndex(validBooks.length > 0 ? 0 : -1);
       }
@@ -67,18 +65,15 @@ function Library() {
   };
 
   useEffect(() => {
-    // Initial book fetch
     fetchBooks();
-    // Initial token validity check
     checkTokenValidity();
 
-    // Listen for booksSynced event
     const handleBooksSynced = (event) => {
       console.log(
         "Received booksSynced event with newBookIds:",
         event.detail.newBookIds
       );
-      fetchBooks(); // Re-fetch all books to update UI
+      fetchBooks();
       if (event.detail.newBookIds.length > 0) {
         window.showToast(
           `${event.detail.newBookIds.length} new book(s) synced`,
@@ -106,10 +101,9 @@ function Library() {
             const bookData = JSON.parse(e.target.result);
             const db = await openDB();
             const id = await saveBookToDB(db, bookData);
-            await fetchBooks(); // Update UI with new book
+            await fetchBooks();
             window.showToast("Book uploaded successfully", "success");
 
-            // Sync new book to server if authenticated
             const sessionInfo = await getSessionInfo();
             if (sessionInfo?.token && navigator.onLine) {
               const syncResult = await syncBooks();
@@ -155,7 +149,6 @@ function Library() {
         setBookToDelete(null);
         window.showToast("Book deleted successfully", "success");
 
-        // Adjust current index after deletion
         const filteredBooks = filteredBooksList();
         if (filteredBooks.length === 0) {
           setCurrentBookIndex(-1);
@@ -163,7 +156,6 @@ function Library() {
           setCurrentBookIndex(filteredBooks.length - 1);
         }
 
-        // Sync deleted book ID to server if authenticated
         const sessionInfo = await getSessionInfo();
         if (sessionInfo?.token && navigator.onLine) {
           const syncResult = await syncBooks();
@@ -199,7 +191,6 @@ function Library() {
 
   const handleCloseModal = () => {
     setShowLoginModal(false);
-    // Re-check token validity after modal closes to update button label
     checkTokenValidity();
   };
 
@@ -213,12 +204,12 @@ function Library() {
   };
 
   const handlePrevBook = () => {
-    if (animationState.isAnimating) return; // Prevent multiple clicks during animation
+    if (animationState.isAnimating) return;
     const filteredBooks = filteredBooksList();
     const prevIndex =
       currentBookIndex <= 0 ? filteredBooks.length - 1 : currentBookIndex - 1;
     setAnimationState({
-      direction: "to-right", // Current book slides out to right, new book slides in from left
+      direction: "to-right",
       isAnimating: true,
       prevBookIndex: currentBookIndex,
     });
@@ -229,16 +220,16 @@ function Library() {
         isAnimating: false,
         prevBookIndex: null,
       });
-    }, 300); // Match animation duration
+    }, 300);
   };
 
   const handleNextBook = () => {
-    if (animationState.isAnimating) return; // Prevent multiple clicks during animation
+    if (animationState.isAnimating) return;
     const filteredBooks = filteredBooksList();
     const nextIndex =
       currentBookIndex >= filteredBooks.length - 1 ? 0 : currentBookIndex + 1;
     setAnimationState({
-      direction: "to-left", // Current book slides out to left, new book slides in from right
+      direction: "to-left",
       isAnimating: true,
       prevBookIndex: currentBookIndex,
     });
@@ -249,7 +240,7 @@ function Library() {
         isAnimating: false,
         prevBookIndex: null,
       });
-    }, 300); // Match animation duration
+    }, 300);
   };
 
   const filteredBooks = filteredBooksList();
@@ -261,70 +252,6 @@ function Library() {
 
   return (
     <div className="library-container">
-      <div className="filter-container">
-        <input
-          type="text"
-          className="filter-input"
-          placeholder="Filter by title or author..."
-          value={filterText}
-          onChange={(e) => {
-            const newFilterText = e.target.value;
-            setFilterText(newFilterText);
-            const filteredBooks = newFilterText.trim()
-              ? books.filter(
-                  (book) =>
-                    book.title
-                      .toLowerCase()
-                      .includes(newFilterText.toLowerCase()) ||
-                    book.author
-                      .toLowerCase()
-                      .includes(newFilterText.toLowerCase())
-                )
-              : books;
-            setCurrentBookIndex(filteredBooks.length > 0 ? 0 : -1);
-          }}
-        />
-      </div>
-      <div className="library-grid">
-        {filteredBooks.length === 0 ? (
-          <p className="no-books">No books found</p>
-        ) : (
-          <>
-            <button
-              className="nav-button nav-button-left"
-              onClick={handlePrevBook}
-              disabled={filteredBooks.length <= 1 || animationState.isAnimating}
-              aria-label="Previous book"
-            >
-              <FaArrowLeft className="nav-icon" />
-            </button>
-            <div className="book-container">
-              {animationState.isAnimating && prevBook && (
-                <div
-                  className={`book-wrapper book-wrapper-prev ${animationState.direction}`}
-                >
-                  <BookCard book={prevBook} onDelete={handleDeleteRequest} />
-                </div>
-              )}
-              {currentBook && (
-                <div
-                  className={`book-wrapper book-wrapper-current ${animationState.direction}`}
-                >
-                  <BookCard book={currentBook} onDelete={handleDeleteRequest} />
-                </div>
-              )}
-            </div>
-            <button
-              className="nav-button nav-button-right"
-              onClick={handleNextBook}
-              disabled={filteredBooks.length <= 1 || animationState.isAnimating}
-              aria-label="Next book"
-            >
-              <FaArrowRight className="nav-icon" />
-            </button>
-          </>
-        )}
-      </div>
       <div className="button-container">
         <Link to="/editor" className="library-button" aria-label="Open editor">
           Editor
@@ -343,6 +270,79 @@ function Library() {
         >
           {hasValidToken ? "Sync" : "Login"}
         </button>
+      </div>
+      <div className="library-grid">
+        <div className="book-display">
+          {filteredBooks.length === 0 ? (
+            <p className="no-books">No books found</p>
+          ) : (
+            <div className="book-navigation">
+              <button
+                className="nav-button nav-button-left"
+                onClick={handlePrevBook}
+                disabled={
+                  filteredBooks.length <= 1 || animationState.isAnimating
+                }
+                aria-label="Previous book"
+              >
+                <FaArrowLeft className="nav-icon" />
+              </button>
+              <div className="book-container">
+                {animationState.isAnimating && prevBook && (
+                  <div
+                    className={`book-wrapper book-wrapper-prev ${animationState.direction}`}
+                  >
+                    <BookCard book={prevBook} onDelete={handleDeleteRequest} />
+                  </div>
+                )}
+                {currentBook && (
+                  <div
+                    className={`book-wrapper book-wrapper-current ${animationState.direction}`}
+                  >
+                    <BookCard
+                      book={currentBook}
+                      onDelete={handleDeleteRequest}
+                    />
+                  </div>
+                )}
+              </div>
+              <button
+                className="nav-button nav-button-right"
+                onClick={handleNextBook}
+                disabled={
+                  filteredBooks.length <= 1 || animationState.isAnimating
+                }
+                aria-label="Next book"
+              >
+                <FaArrowRight className="nav-icon" />
+              </button>
+            </div>
+          )}
+        </div>
+        <div className="filter-container">
+          <input
+            type="text"
+            className="filter-input"
+            placeholder="Filter by title or author..."
+            value={filterText}
+            onChange={(e) => {
+              const newFilterText = e.target.value;
+              setFilterText(newFilterText);
+              const filteredBooks = newFilterText.trim()
+                ? books.filter(
+                    (book) =>
+                      book.title
+                        .toLowerCase()
+                        .includes(newFilterText.toLowerCase()) ||
+                      book.author
+                        .toLowerCase()
+                        .includes(newFilterText.toLowerCase())
+                  )
+                : books;
+              setCurrentBookIndex(filteredBooks.length > 0 ? 0 : -1);
+            }}
+          />
+        </div>
       </div>
       <ConfirmationDialogModal
         showDialog={showDeleteDialog}

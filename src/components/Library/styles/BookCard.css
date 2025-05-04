@@ -1,3 +1,4 @@
+/* BookCard.css */
 /* Remove default link styling */
 .library-card-link {
   text-decoration: none;
@@ -8,10 +9,10 @@
 .library-card {
   position: relative;
   width: 100%; /* Fill parent container */
-  height: 100%; /* Fill parent container */
-  max-width: 220px; /* Match Library.css max */
-  max-height: 330px; /* Match Library.css max */
-  background-color: var(--base02); /* Solarized Dark highlight */
+  height: auto; /* Adjust to aspect ratio */
+  aspect-ratio: 200 / 300; /* Match blobToBase64 max dimensions */
+  max-width: 200px; /* Match blobToBase64 maxWidth */
+  max-height: 300px; /* Match blobToBase64 maxHeight */
   border-radius: 0.5rem;
   overflow: hidden;
 }
@@ -28,7 +29,7 @@
 .book-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* Show full image without cropping */
   display: block;
 }
 
@@ -39,7 +40,7 @@
   right: 0;
   background: rgba(0, 43, 54, 0.8); /* Semi-transparent Solarized base03 */
   color: var(--base1); /* Solarized light comments */
-  padding: 0.5rem;
+  padding: 0.3rem; /* Reduced padding for less coverage */
   text-align: center;
   transition: opacity var(--transition);
 }
@@ -161,7 +162,7 @@
   }
 
   .library-overlay {
-    padding: 0.4rem;
+    padding: 0.2rem;
   }
 
   .library-overlay h3 {

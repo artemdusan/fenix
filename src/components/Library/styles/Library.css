@@ -2,46 +2,34 @@
 .library-container {
   width: 100%;
   min-height: 100vh;
-  padding: 1rem;
-  background-color: var(--base03);
+  padding: 1.5rem;
+  background: linear-gradient(180deg, var(--base03), var(--base02));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+.library-grid {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  box-sizing: border-box;
+  width: 100%;
 }
 
-.filter-container {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background-color: var(--base03);
-  padding: 1rem 0;
+.book-display {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.filter-input {
-  width: 100%;
-  max-width: 500px;
-  padding: 0.75rem;
-  border: 1px solid var(--base1);
-  border-radius: 4px;
-  background-color: var(--base02);
-  color: var(--base3);
-  font-size: 1rem;
-}
-
-.filter-input::placeholder {
-  color: var(--base1);
-}
-
-.library-grid {
-  flex: 1;
-  overflow-y: auto;
+.book-navigation {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -50,19 +38,53 @@
   width: 100%;
 }
 
+.filter-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--base1);
+  border-radius: 8px;
+  background-color: var(--base03);
+  color: var(--base3);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 8px rgba(42, 161, 152, 0.3);
+}
+
+.filter-input::placeholder {
+  color: var(--base1);
+  opacity: 0.7;
+}
+
 .no-books {
   color: var(--base1);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   text-align: center;
+  opacity: 0.8;
 }
 
 .book-container {
   position: relative;
-  width: 60vw;
-  max-width: 200px;
-  height: 30vh;
-  max-height: 300px;
+  width: 100%;
+  max-width: 200px; /* Match blobToBase64 maxWidth */
+  height: auto; /* Let height adjust to aspect ratio */
+  aspect-ratio: 200 / 300; /* Match blobToBase64 max dimensions */
+  max-height: 300px; /* Match blobToBase64 maxHeight */
   overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .book-wrapper {
@@ -134,9 +156,9 @@
 
 /* Navigation Button Styles */
 .nav-button {
-  background-color: var(--base01);
+  background: linear-gradient(45deg, var(--base01), var(--base00));
   color: var(--base3);
-  border: 2px solid var(--base3);
+  border: 2px solid var(--base2);
   border-radius: 50%;
   width: 3.5rem;
   height: 3.5rem;
@@ -144,18 +166,20 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: var(--transition);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .nav-button:hover {
-  background-color: var(--base00);
-  transform: scale(1.05);
+  background: linear-gradient(45deg, var(--cyan), var(--blue));
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .nav-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
 /* React Icons Specific Styling */
@@ -163,7 +187,7 @@
   font-size: 2rem;
   width: 2rem;
   height: 2rem;
-  display: block; /* Important for SVG icons */
+  display: block;
 }
 
 .nav-button-left {
@@ -175,46 +199,50 @@
 }
 
 .button-container {
-  padding: 0.5rem 0;
+  padding: 1rem 0;
   width: 100%;
+  max-width: 600px;
   display: flex;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .library-button {
   padding: 0.75rem 1.5rem;
-  background-color: var(--base02);
-  color: var(--base1);
+  background: linear-gradient(45deg, var(--base02), var(--base01));
+  color: var(--base3);
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
   transition: var(--transition);
   flex: 1;
-  max-width: 150px;
+  max-width: 160px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .library-button:hover {
-  background-color: var(--base01);
+  background: linear-gradient(45deg, var(--blue), var(--cyan));
   color: var(--base3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Tablet and larger screens */
 @media (min-width: 769px) {
   .library-container {
     padding: 2rem;
+    gap: 2rem;
   }
 
   .book-container {
-    width: 50vw;
-    max-width: 220px;
-    height: 35vh;
-    max-height: 330px;
+    max-width: 200px;
+    max-height: 300px;
   }
 
   .filter-input {
-    max-width: 400px;
+    max-width: 500px;
   }
 
   .nav-button {
@@ -237,31 +265,28 @@
 /* Mobile devices */
 @media (max-width: 768px) {
   .library-container {
-    padding: 0.5rem;
-    gap: 0.5rem;
+    padding: 1rem;
+    gap: 1rem;
   }
 
   .filter-container {
-    padding: 0.5rem;
+    padding: 0.5rem 0;
   }
 
   .book-container {
-    width: 70vw;
     max-width: 180px;
-    height: 35vh;
     max-height: 270px;
   }
 
   .nav-button {
-    width: 4rem;
-    height: 4rem;
-    background-color: var(--base00);
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
   .nav-icon {
-    font-size: 2.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
+    font-size: 2.2rem;
+    width: 2.2rem;
+    height: 2.2rem;
   }
 
   .library-button {
@@ -274,26 +299,24 @@
 /* Small mobile devices */
 @media (max-width: 480px) {
   .library-container {
-    padding: 0.25rem;
+    padding: 0.5rem;
+    gap: 0.75rem;
   }
 
   .book-container {
-    width: 80vw;
     max-width: 160px;
-    height: 38vh;
     max-height: 240px;
   }
 
   .nav-button {
-    width: 3.5rem;
-    height: 3.5rem;
-    background-color: var(--base00);
+    width: 3rem;
+    height: 3rem;
   }
 
   .nav-icon {
-    font-size: 2.2rem;
-    width: 2.2rem;
-    height: 2.2rem;
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
   }
 
   .library-button {
