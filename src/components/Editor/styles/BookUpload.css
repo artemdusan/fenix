@@ -1,12 +1,12 @@
+/* Mobile-first base styles */
 .book-upload {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1;
   background-color: var(--base03);
-  height: 100vh;
-  width: 100vw;
-  padding: 2rem;
+  min-height: 100vh;
+  width: 100%;
+  padding: 1rem;
   position: fixed;
   top: 0;
   left: 0;
@@ -14,107 +14,108 @@
 }
 
 .book-upload__content {
-  max-width: 650px;
   width: 100%;
+  max-width: 90vw; /* Prevent overflow on very small screens */
   text-align: center;
-  padding: 3.5rem;
+  padding: 1.5rem;
   background-color: var(--base02);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
   border: 1px solid var(--base01);
-  position: relative; /* Added this */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 
 .book-upload__title {
   color: var(--base2);
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
 }
 
 .book-upload__description {
   color: var(--base1);
-  font-size: 1.2rem;
-  margin-bottom: 2.5rem;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.book-upload__button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
 .book-upload__button {
-  background-color: var(--blue); /* Matches --cyan from other buttons */
+  background-color: var(--blue);
   color: var(--base03);
-  font-size: 1.1rem;
-  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  min-height: 44px; /* Touch-friendly */
+  transition: var(--transition);
 }
 
 .book-upload__button:hover {
-  background-color: var(--cyan); /* Matches hover from other buttons */
-}
-
-.book-upload__features {
-  text-align: left;
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--base01);
-}
-
-.book-upload__features-heading {
-  color: var(--cyan);
-  margin-bottom: 1.2rem;
-  font-size: 1.4rem;
-  text-align: center;
-}
-
-.book-upload__features-list {
-  list-style-type: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 0.8rem;
-}
-
-.book-upload__features-item {
-  color: var(--base1);
-  margin-bottom: 0.7rem;
-  padding: 0.5rem 0.5rem 0.5rem 1.8rem;
-  position: relative;
-}
-
-.book-upload__features-item:before {
-  content: "•";
-  position: absolute;
-  left: 0.5rem;
-  color: var(--yellow);
-  font-size: 1.2rem;
+  background-color: var(--cyan);
 }
 
 .book-upload__input {
   display: none;
 }
 
-/* Add to BookUpload.css */
+.book-upload__features {
+  text-align: left;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--base01);
+}
 
-.book-upload__button-group {
+.book-upload__features-heading {
+  color: var(--cyan);
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  text-align: center;
+}
+
+.book-upload__features-list {
+  list-style-type: none;
+  padding: 0;
   display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.book-upload__features-item {
+  color: var(--base1);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.4rem 0.4rem 1.6rem;
+  position: relative;
+}
+
+.book-upload__features-item:before {
+  content: "•";
+  position: absolute;
+  left: 0.4rem;
+  color: var(--yellow);
+  font-size: 1rem;
 }
 
 .book-upload__projects {
   text-align: left;
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--base01);
 }
 
 .book-upload__projects-heading {
   color: var(--cyan);
-  margin-bottom: 1.2rem;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
   text-align: center;
 }
 
@@ -125,47 +126,34 @@
 
 .book-upload__projects-item {
   color: var(--base1);
-  margin-bottom: 0.7rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
   padding: 0.5rem;
-  position: relative;
   background-color: var(--base03);
   border-radius: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer; /* Adds pointer cursor on hover */
+  gap: 0.75rem;
   transition: var(--transition);
 }
 
 .book-upload__projects-item:hover {
-  background-color: var(--base01); /* Slightly lighter background on hover */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+  background-color: var(--base01);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .book-upload__projects-date {
   color: var(--base0);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
 }
 
 .book-upload__projects-empty {
   color: var(--base1);
+  font-size: 0.9rem;
   text-align: center;
   font-style: italic;
-}
-
-/* Add to BookUpload.css */
-
-.book-upload__projects-item {
-  color: var(--base1);
-  margin-bottom: 0.7rem;
-  padding: 0.5rem;
-  position: relative;
-  background-color: var(--base03);
-  border-radius: 4px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem; /* Added gap between content and buttons/date */
 }
 
 .book-upload__delete-button {
@@ -175,6 +163,8 @@
   border-radius: 4px;
   padding: 0.3rem 0.6rem;
   cursor: pointer;
+  min-height: 32px;
+  min-width: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -193,14 +183,16 @@
 
 .book-upload__back-button {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.5rem;
+  right: 0.5rem;
   background-color: var(--blue);
   color: var(--base03);
   border: none;
   border-radius: 4px;
-  padding: 0.5rem 0.8rem;
+  padding: 0.4rem 0.6rem;
   cursor: pointer;
+  min-height: 32px;
+  min-width: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -209,4 +201,187 @@
 
 .book-upload__back-button:hover {
   background-color: var(--cyan);
+}
+
+/* Tablet and larger screens (≥768px) */
+@media (min-width: 768px) {
+  .book-upload {
+    padding: 1.5rem;
+  }
+
+  .book-upload__content {
+    max-width: 600px;
+    padding: 2rem;
+    border-radius: 10px;
+  }
+
+  .book-upload__title {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .book-upload__description {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .book-upload__button-group {
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .book-upload__button {
+    font-size: 1.1rem;
+    padding: 0.7rem 1.5rem;
+    min-height: 48px;
+  }
+
+  .book-upload__features-heading {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .book-upload__features-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .book-upload__features-item {
+    font-size: 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 1.8rem;
+  }
+
+  .book-upload__features-item:before {
+    font-size: 1.1rem;
+  }
+
+  .book-upload__projects-heading {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .book-upload__projects-item {
+    font-size: 1rem;
+    padding: 0.6rem;
+    gap: 1rem;
+  }
+
+  .book-upload__projects-date {
+    font-size: 0.9rem;
+  }
+
+  .book-upload__projects-empty {
+    font-size: 1rem;
+  }
+
+  .book-upload__delete-button {
+    padding: 0.4rem 0.8rem;
+    min-height: 36px;
+    min-width: 36px;
+  }
+
+  .book-upload__back-button {
+    padding: 0.5rem 0.8rem;
+    min-height: 36px;
+    min-width: 36px;
+  }
+}
+
+/* Desktop screens (≥1024px) */
+@media (min-width: 1024px) {
+  .book-upload {
+    padding: 2rem;
+  }
+
+  .book-upload__content {
+    max-width: 700px;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .book-upload__title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .book-upload__description {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .book-upload__button-group {
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .book-upload__button {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.8rem;
+    min-height: 52px;
+  }
+
+  .book-upload__features-heading {
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .book-upload__features-list {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .book-upload__features-item {
+    font-size: 1.1rem;
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+  }
+
+  .book-upload__features-item:before {
+    font-size: 1.2rem;
+    left: 0.5rem;
+  }
+
+  .book-upload__projects-heading {
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .book-upload__projects-item {
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    gap: 1.25rem;
+  }
+
+  .book-upload__projects-date {
+    font-size: 1rem;
+  }
+
+  .book-upload__projects-empty {
+    font-size: 1.1rem;
+  }
+
+  .book-upload__delete-button {
+    padding: 0.5rem 1rem;
+    min-height: 40px;
+    min-width: 40px;
+  }
+
+  .book-upload__back-button {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.6rem 1rem;
+    min-height: 40px;
+    min-width: 40px;
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .book-upload__button,
+  .book-upload__delete-button,
+  .book-upload__back-button,
+  .book-upload__projects-item {
+    transition: none;
+  }
 }
