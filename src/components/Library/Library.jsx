@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BookCard from "./BookCard";
 import Login from "./Login";
 import ConfirmationDialogModal from "../common/ConfirmationDialogModal";
@@ -28,6 +28,7 @@ function Library() {
     isAnimating: false,
     prevBookIndex: null,
   });
+  const navigate = useNavigate();
 
   const checkTokenValidity = async () => {
     try {
@@ -253,9 +254,13 @@ function Library() {
   return (
     <div className="library-container">
       <div className="button-container">
-        <Link to="/editor" className="library-button" aria-label="Open editor">
+        <button
+          className="library-button"
+          aria-label="Open editor"
+          onClick={() => navigate("/editor")}
+        >
           Editor
-        </Link>
+        </button>
         <button
           className="library-button"
           onClick={handleUpload}

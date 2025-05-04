@@ -474,7 +474,6 @@ const Reader = () => {
       <div className="reader__main">
         <StatusBar
           book={book}
-          navigate={navigate}
           toggleChapterSlider={toggleChapterSlider}
           toggleSentenceSlider={toggleSentenceSlider}
           chapterCount={book?.chapters?.length || 0}
