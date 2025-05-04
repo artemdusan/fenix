@@ -22,7 +22,7 @@ const StatusBar = ({
         speechSynthesis.cancel();
         document.fullscreenElement
           ? document.exitFullscreen().then(() => navigate("/"))
-          : navigate("/");
+          : navigate("/fenix");
       }}
       aria-label="Back to library"
       title="Back"

@@ -220,7 +220,7 @@ const HeaderEditor: React.FC = () => {
             </button>
             {showProjectMenu && (
               <div className="editor-header__dropdown">
-                <Link to="/" className="editor-header__dropdown-item">
+                <Link to="/fenix" className="editor-header__dropdown-item">
                   {" "}
                   <IoIosArrowBack size={18} />
                   Back to Library
