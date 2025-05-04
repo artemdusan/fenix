@@ -1,6 +1,6 @@
 # Fenix Dual Book Reader
 
-`Fenix Dual Book Reader` is an app that lets you read books in two languages, sentence by sentence. It’s perfect for language learners and bilingual readers.
+[Fenix Dual Book Reader](https://artemdusan.github.io/fenix/) is an app that lets you read books in two languages, sentence by sentence. It’s perfect for language learners and bilingual readers.
 
 The app consists of three components:
 
