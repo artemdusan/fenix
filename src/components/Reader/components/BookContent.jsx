@@ -27,6 +27,9 @@ const BookContent = ({
         {chapter && currentSentenceIndex === 0 && (
           <h1>{chapter.title || "Untitled Chapter"}</h1>
         )}
+        {chapter && currentSentenceIndex === chapter.content.length - 1 && (
+          <h1>{"End of " + chapter.title || "End of Chapter"}</h1>
+        )}
         <div
           className="book-content__text"
           style={{ fontSize: `${fontSize}px` }}

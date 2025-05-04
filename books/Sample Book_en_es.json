@@ -1,0 +1,61 @@
+{
+  "title": "Sample Book",
+  "author": "Sample Author",
+  "cover": "data:image/jpeg;base64,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",
+  "notes": "",
+  "sourceLanguage": "en",
+  "targetLanguage": "es",
+  "chapters": [
+    {
+      "title": "Chapter 1",
+      "content": [
+        {
+          "source": "The sun was setting behind the hills.",
+          "translation": "El sol se estaba poniendo detrás de las colinas."
+        },
+        {
+          "source": "She picked up her notebook and began to write.",
+          "translation": "Ella tomó su cuaderno y comenzó a escribir."
+        },
+        {
+          "source": "A cool breeze drifted through the open window.",
+          "translation": "Una brisa fresca entraba por la ventana abierta."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 2",
+      "content": [
+        {
+          "source": "They walked slowly through the quiet forest.",
+          "translation": "Caminaban lentamente por el bosque tranquilo."
+        },
+        {
+          "source": "Birds chirped above them in the trees.",
+          "translation": "Los pájaros cantaban sobre ellos en los árboles."
+        },
+        {
+          "source": "The path was covered in soft, fallen leaves.",
+          "translation": "El sendero estaba cubierto de hojas caídas y suaves."
+        }
+      ]
+    },
+    {
+      "title": "Chapter 3",
+      "content": [
+        {
+          "source": "He opened the door and stepped into the room.",
+          "translation": "Abrió la puerta y entró en la habitación."
+        },
+        {
+          "source": "Everything was exactly as he had left it.",
+          "translation": "Todo estaba exactamente como lo había dejado."
+        },
+        {
+          "source": "A sense of nostalgia washed over him.",
+          "translation": "Una sensación de nostalgia lo invadió."
+        }
+      ]
+    }
+  ]
+}
