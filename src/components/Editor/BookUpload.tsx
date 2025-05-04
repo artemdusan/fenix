@@ -1,11 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
-import { IoCloseSharp } from "react-icons/io5";
 import BookMetadataModal from "./BookMetadataModal";
 import ConfirmationDialogModal from "../common/ConfirmationDialogModal";
 import ePub from "epubjs";
 import { blobToBase64 } from "../../services/editor/utils";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   getDBConnection,
   loadFromIndexedDB,
@@ -42,6 +41,7 @@ function BookUpload() {
   const [projects, setProjects] = useState<any[]>([]);
   const { setProjectInfo, chapters, setChapters, showToast } =
     useEditorContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -55,7 +55,7 @@ function BookUpload() {
           setProjects(request.result);
         };
       } catch (error) {
-        showToast("Error loading projects:" + error);
+        showToast("Error loading projects: " + error);
       }
     };
     loadProjects();
@@ -78,7 +78,7 @@ function BookUpload() {
       setBookData(null);
       setShowMetadataModal(true);
     } catch (error) {
-      showToast("Error creating empty project:" + error);
+      showToast("Error creating empty project: " + error);
     }
   };
 
@@ -111,7 +111,7 @@ function BookUpload() {
       setShowDeleteDialog(false);
       setProjectToDelete(null);
     } catch (error) {
-      showToast("Error deleting project:" + error);
+      showToast("Error deleting project: " + error);
     }
   };
 
@@ -143,7 +143,7 @@ function BookUpload() {
           coverBase64 = await blobToBase64(blob);
         }
       } catch (error) {
-        console.log("No cover image found or error converting:", error);
+        console.log("No cover image found or error converting: ", error);
       }
 
       const bookData = {
@@ -157,7 +157,7 @@ function BookUpload() {
       setBookData(bookData);
       setShowMetadataModal(true);
     } catch (error) {
-      showToast("Error processing EPUB:" + error);
+      showToast("Error processing EPUB: " + error);
     }
   };
 
@@ -227,7 +227,7 @@ function BookUpload() {
 
       console.log("JSON book added successfully");
     } catch (error) {
-      showToast("Failed to process JSON file:" + error);
+      showToast("Failed to process JSON file: " + error);
     } finally {
       if (jsonInputRef.current) {
         jsonInputRef.current.value = ""; // Reset input
@@ -251,27 +251,38 @@ function BookUpload() {
   return (
     <div className="book-upload">
       <div className="book-upload__content">
-        <h2 className="book-upload__title">Editor</h2>
-
-        <Link to="/" className="book-upload__back-button">
-          <IoCloseSharp />
-        </Link>
+        <header className="book-upload__header">
+          <h2 className="book-upload__title">Book Editor</h2>
+          <button
+            onClick={() => navigate("/")}
+            className="book-upload__back-button"
+            aria-label="Back to Home"
+          >
+            Back
+          </button>
+        </header>
 
         <div className="book-upload__button-group">
-          <button className="book-upload__button" onClick={handleUploadClick}>
-            EPUB File
+          <button
+            className="book-upload__button"
+            onClick={handleUploadClick}
+            aria-label="Upload EPUB file"
+          >
+            EPUB
           </button>
           <button
             className="book-upload__button"
             onClick={handleJsonUploadClick}
+            aria-label="Upload JSON file"
           >
-            JSON File
+            JSON
           </button>
           <button
             className="book-upload__button"
             onClick={handleCreateEmptyProject}
+            aria-label="Create new project"
           >
-            Empty Project
+            New
           </button>
         </div>
         <input
@@ -291,9 +302,9 @@ function BookUpload() {
           ref={jsonInputRef}
         />
         <div className="book-upload__projects">
-          <h3 className="book-upload__projects-heading">Saved Projects</h3>
+          <h3 className="book-upload__projects-heading">Projects</h3>
           {projects.length === 0 ? (
-            <p className="book-upload__projects-empty">No projects yet</p>
+            <p className="book-upload__projects-empty">No projects available</p>
           ) : (
             <ul className="book-upload__projects-list">
               {projects.map((project) => (
@@ -304,24 +315,34 @@ function BookUpload() {
                     e.stopPropagation();
                     handleOpenProject(e, project);
                   }}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleOpenProject(e as any, project);
+                    }
+                  }}
                 >
-                  <span>
-                    {project.title} - {project.author}
-                  </span>
-                  <div>
-                    <span className="book-upload__projects-date">
-                      {project.sourceLanguage} - {project.targetLanguage}
+                  <div className="book-upload__project-info">
+                    <span className="book-upload__project-title">
+                      {project.title}
                     </span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation(), handleDeleteProjectClick(project);
-                      }}
-                      className="book-upload__delete-button"
-                      title="Delete project"
-                    >
-                      <FaTrash />
-                    </button>
+                    <span className="book-upload__project-meta">
+                      {project.author} • {project.sourceLanguage} →{" "}
+                      {project.targetLanguage}
+                    </span>
                   </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteProjectClick(project);
+                    }}
+                    className="book-upload__delete-button"
+                    aria-label={`Delete project ${project.title}`}
+                  >
+                    <FaTrash />
+                  </button>
                 </li>
               ))}
             </ul>
@@ -341,10 +362,8 @@ function BookUpload() {
       />
       <ConfirmationDialogModal
         showDialog={showDeleteDialog}
-        dialogTitle={`${projectToDelete?.title || ""}-${
-          projectToDelete?.author
-        }-${projectToDelete?.sourceLanguage || ""}-${
-          projectToDelete?.targetLanguage || ""
+        dialogTitle={`${projectToDelete?.title || ""} - ${
+          projectToDelete?.author || ""
         }`}
         dialogText={`Are you sure you want to delete this project?`}
         onCancel={handleCancelDelete}

@@ -2,157 +2,164 @@
 .book-upload {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   background-color: var(--base03);
   min-height: 100vh;
   width: 100%;
   padding: 1rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10;
 }
 
 .book-upload__content {
   width: 100%;
-  max-width: 90vw; /* Prevent overflow on very small screens */
-  text-align: center;
-  padding: 1.5rem;
+  max-width: 100%;
+  padding: 1rem;
   background-color: var(--base02);
   border-radius: 8px;
-  border: 1px solid var(--base01);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  position: relative;
+}
+
+.book-upload__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .book-upload__title {
   color: var(--base2);
   font-size: 1.5rem;
-  margin-bottom: 1rem;
-  line-height: 1.4;
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0;
 }
 
-.book-upload__description {
-  color: var(--base1);
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
+.book-upload__back-button {
+  background-color: var(--base01);
+  color: var(--base2);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.book-upload__back-button:hover {
+  background-color: var(--base00);
 }
 
 .book-upload__button-group {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.5rem;
   justify-content: center;
   margin-bottom: 1.5rem;
 }
 
 .book-upload__button {
-  background-color: var(--blue);
+  background-color: var(--cyan);
   color: var(--base03);
-  font-size: 1rem;
-  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  min-height: 44px; /* Touch-friendly */
-  transition: var(--transition);
+  min-height: 48px;
+  flex: 1;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .book-upload__button:hover {
-  background-color: var(--cyan);
+  background-color: var(--blue);
+}
+
+.book-upload__button:active {
+  transform: scale(0.98);
 }
 
 .book-upload__input {
   display: none;
 }
 
-.book-upload__features {
-  text-align: left;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--base01);
-}
-
-.book-upload__features-heading {
-  color: var(--cyan);
-  font-size: 1.2rem;
-  margin-bottom: 0.8rem;
-  text-align: center;
-}
-
-.book-upload__features-list {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.book-upload__features-item {
-  color: var(--base1);
-  font-size: 0.9rem;
-  padding: 0.4rem 0.4rem 0.4rem 1.6rem;
-  position: relative;
-}
-
-.book-upload__features-item:before {
-  content: "•";
-  position: absolute;
-  left: 0.4rem;
-  color: var(--yellow);
-  font-size: 1rem;
-}
-
 .book-upload__projects {
-  text-align: left;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--base01);
+  margin-top: 1rem;
 }
 
 .book-upload__projects-heading {
-  color: var(--cyan);
-  font-size: 1.2rem;
-  margin-bottom: 0.8rem;
-  text-align: center;
+  color: var(--base1);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  text-align: left;
 }
 
 .book-upload__projects-list {
   list-style-type: none;
   padding: 0;
+  max-height: 50vh; /* Dynamic height based on viewport */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.book-upload__projects-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.book-upload__projects-list::-webkit-scrollbar-track {
+  background: var(--base03);
+}
+
+.book-upload__projects-list::-webkit-scrollbar-thumb {
+  background: var(--base1);
+  border-radius: 2px;
+}
+
+.book-upload__projects-list::-webkit-scrollbar-thumb:hover {
+  background: var(--base0);
 }
 
 .book-upload__projects-item {
-  color: var(--base1);
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  background-color: var(--base03);
-  border-radius: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
-  transition: var(--transition);
+  padding: 0.75rem;
+  background-color: var(--base03);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .book-upload__projects-item:hover {
   background-color: var(--base01);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.book-upload__projects-date {
+.book-upload__project-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.book-upload__project-title {
+  color: var(--base2);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.book-upload__project-meta {
   color: var(--base0);
   font-size: 0.8rem;
-  white-space: nowrap;
+  line-height: 1.4;
 }
 
 .book-upload__projects-empty {
   color: var(--base1);
   font-size: 0.9rem;
   text-align: center;
+  padding: 1rem;
   font-style: italic;
 }
 
@@ -160,50 +167,26 @@
   background-color: var(--red);
   color: var(--base3);
   border: none;
-  border-radius: 4px;
-  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  padding: 0.5rem;
   cursor: pointer;
-  min-height: 32px;
-  min-width: 32px;
+  min-height: 36px;
+  min-width: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition);
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .book-upload__delete-button:hover {
   background-color: var(--magenta);
 }
 
-.book-upload__projects-item > div {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.book-upload__delete-button:active {
+  transform: scale(0.95);
 }
 
-.book-upload__back-button {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background-color: var(--blue);
-  color: var(--base03);
-  border: none;
-  border-radius: 4px;
-  padding: 0.4rem 0.6rem;
-  cursor: pointer;
-  min-height: 32px;
-  min-width: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-
-.book-upload__back-button:hover {
-  background-color: var(--cyan);
-}
-
-/* Tablet and larger screens (≥768px) */
+/* Tablet screens (≥768px) */
 @media (min-width: 768px) {
   .book-upload {
     padding: 1.5rem;
@@ -211,80 +194,48 @@
 
   .book-upload__content {
     max-width: 600px;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 10px;
   }
 
   .book-upload__title {
     font-size: 1.8rem;
-    margin-bottom: 1.2rem;
   }
 
-  .book-upload__description {
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
+  .book-upload__back-button {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
   }
 
   .book-upload__button-group {
-    gap: 1rem;
+    gap: 0.75rem;
     margin-bottom: 2rem;
   }
 
   .book-upload__button {
-    font-size: 1.1rem;
-    padding: 0.7rem 1.5rem;
-    min-height: 48px;
-  }
-
-  .book-upload__features-heading {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-  }
-
-  .book-upload__features-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.75rem;
-  }
-
-  .book-upload__features-item {
     font-size: 1rem;
-    padding: 0.5rem 0.5rem 0.5rem 1.8rem;
-  }
-
-  .book-upload__features-item:before {
-    font-size: 1.1rem;
+    padding: 0.6rem 1.2rem;
   }
 
   .book-upload__projects-heading {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     margin-bottom: 1rem;
   }
 
-  .book-upload__projects-item {
-    font-size: 1rem;
-    padding: 0.6rem;
-    gap: 1rem;
+  .book-upload__projects-list {
+    max-height: 60vh;
   }
 
-  .book-upload__projects-date {
+  .book-upload__project-title {
+    font-size: 1rem;
+  }
+
+  .book-upload__project-meta {
     font-size: 0.9rem;
   }
 
   .book-upload__projects-empty {
     font-size: 1rem;
-  }
-
-  .book-upload__delete-button {
-    padding: 0.4rem 0.8rem;
-    min-height: 36px;
-    min-width: 36px;
-  }
-
-  .book-upload__back-button {
-    padding: 0.5rem 0.8rem;
-    min-height: 36px;
-    min-width: 36px;
   }
 }
 
@@ -295,84 +246,49 @@
   }
 
   .book-upload__content {
-    max-width: 700px;
-    padding: 3rem;
+    max-width: 720px;
+    padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   }
 
   .book-upload__title {
     font-size: 2rem;
-    margin-bottom: 1.5rem;
   }
 
-  .book-upload__description {
-    font-size: 1.2rem;
-    margin-bottom: 2.5rem;
+  .book-upload__back-button {
+    font-size: 1.1rem;
+    padding: 0.7rem 1.4rem;
   }
 
   .book-upload__button-group {
-    gap: 1.25rem;
+    gap: 1rem;
     margin-bottom: 2.5rem;
   }
 
   .book-upload__button {
-    font-size: 1.2rem;
-    padding: 0.8rem 1.8rem;
-    min-height: 52px;
-  }
-
-  .book-upload__features-heading {
-    font-size: 1.4rem;
-    margin-bottom: 1.2rem;
-  }
-
-  .book-upload__features-list {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 0.8rem;
-  }
-
-  .book-upload__features-item {
     font-size: 1.1rem;
-    padding: 0.5rem 0.5rem 0.5rem 2rem;
-  }
-
-  .book-upload__features-item:before {
-    font-size: 1.2rem;
-    left: 0.5rem;
+    padding: 0.7rem 1.4rem;
   }
 
   .book-upload__projects-heading {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     margin-bottom: 1.2rem;
   }
 
-  .book-upload__projects-item {
-    font-size: 1.1rem;
-    padding: 0.75rem;
-    gap: 1.25rem;
+  .book-upload__projects-list {
+    max-height: 65vh;
   }
 
-  .book-upload__projects-date {
+  .book-upload__project-title {
+    font-size: 1.1rem;
+  }
+
+  .book-upload__project-meta {
     font-size: 1rem;
   }
 
   .book-upload__projects-empty {
     font-size: 1.1rem;
-  }
-
-  .book-upload__delete-button {
-    padding: 0.5rem 1rem;
-    min-height: 40px;
-    min-width: 40px;
-  }
-
-  .book-upload__back-button {
-    top: 1rem;
-    right: 1rem;
-    padding: 0.6rem 1rem;
-    min-height: 40px;
-    min-width: 40px;
   }
 }
 
@@ -380,8 +296,9 @@
 @media (prefers-reduced-motion: reduce) {
   .book-upload__button,
   .book-upload__delete-button,
-  .book-upload__back-button,
-  .book-upload__projects-item {
+  .book-upload__projects-item,
+  .book-upload__back-button {
     transition: none;
+    transform: none;
   }
 }
