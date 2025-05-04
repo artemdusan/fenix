@@ -71,7 +71,7 @@ The app consists of three components:
 4. **Deploy to Firebase**
 
    ```bash
-   firebase deploy --only functions
+   firebase deploy
    ```
 
 5. **User Management and Login**
