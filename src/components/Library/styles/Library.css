@@ -1,12 +1,12 @@
 /* Library.css */
 .library-container {
   width: 100%;
-  min-height: 100vh; /* Changed from height to min-height */
+  min-height: 100vh;
   padding: 1rem;
   background-color: var(--base03);
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center children horizontally */
+  align-items: center;
   justify-content: center;
   gap: 1rem;
   box-sizing: border-box;
@@ -16,14 +16,12 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: var(
-    --base03
-  ); /* Match background to avoid overlap issues */
+  background-color: var(--base03);
   padding: 1rem 0;
   display: flex;
   justify-content: center;
   width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: subtle separation */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .filter-input {
@@ -134,34 +132,38 @@
   }
 }
 
+/* Navigation Button Styles */
 .nav-button {
-  background-color: var(--base02);
-  color: var(--base3); /* Brighter color for better contrast */
-  border: 1px solid var(--base1); /* Subtle border for definition */
+  background-color: var(--base01);
+  color: var(--base3);
+  border: 2px solid var(--base3);
   border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color var(--transition), color var(--transition);
-}
-
-.nav-button svg {
-  font-size: 1.8rem; /* Explicitly larger icon size */
-  fill: currentColor; /* Ensure icon inherits button color */
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .nav-button:hover {
-  background-color: var(--base01);
-  color: var(--base3);
+  background-color: var(--base00);
+  transform: scale(1.05);
 }
 
 .nav-button:disabled {
-  background-color: var(--base01);
-  color: var(--base0);
+  opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* React Icons Specific Styling */
+.nav-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  display: block; /* Important for SVG icons */
 }
 
 .nav-button-left {
@@ -179,6 +181,7 @@
   justify-content: center;
   gap: 0.75rem;
 }
+
 .library-button {
   padding: 0.75rem 1.5rem;
   background-color: var(--base02);
@@ -201,7 +204,6 @@
 @media (min-width: 769px) {
   .library-container {
     padding: 2rem;
-    align-items: center; /* Maintain centering */
   }
 
   .book-container {
@@ -211,29 +213,19 @@
     max-height: 330px;
   }
 
-  .filter-container {
-    width: 100%; /* Ensure full width */
-  }
-
   .filter-input {
     max-width: 400px;
   }
 
-  .library-grid {
-    width: 100%; /* Ensure full width */
-  }
-
-  .button-container {
-    width: 100%; /* Ensure full width */
-  }
-
   .nav-button {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 4rem;
+    height: 4rem;
   }
 
-  .nav-button svg {
-    font-size: 2rem;
+  .nav-icon {
+    font-size: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
   .library-button {
@@ -245,27 +237,12 @@
 /* Mobile devices */
 @media (max-width: 768px) {
   .library-container {
-    padding: 0.25rem; /* Reduced padding to save space */
-    gap: 0.25rem; /* Reduced gap */
-    align-items: center; /* Maintain centering */
+    padding: 0.5rem;
+    gap: 0.5rem;
   }
 
   .filter-container {
-    padding: 0 0.5rem;
-    width: 100%; /* Ensure full width */
-  }
-
-  .filter-input {
-    font-size: 0.9rem;
     padding: 0.5rem;
-  }
-
-  .library-grid {
-    gap: 0.5rem;
-    max-height: calc(
-      100vh - 3rem - 1.5rem - 1rem
-    ); /* Adjusted for smaller filter and buttons */
-    width: 100%; /* Ensure full width */
   }
 
   .book-container {
@@ -276,28 +253,15 @@
   }
 
   .nav-button {
-    width: 3rem;
-    height: 3rem;
-    background-color: var(--base02);
-    border: 2px solid var(--base3);
+    width: 4rem;
+    height: 4rem;
+    background-color: var(--base00);
   }
 
-  .nav-button svg {
-    font-size: 1.8rem;
-  }
-
-  .nav-button-left {
-    margin-right: 0.5rem;
-  }
-
-  .nav-button-right {
-    margin-left: 0.5rem;
-  }
-
-  .button-container {
-    gap: 0.5rem;
-    padding: 0.25rem 0;
-    width: 100%; /* Ensure full width */
+  .nav-icon {
+    font-size: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
   .library-button {
@@ -311,7 +275,6 @@
 @media (max-width: 480px) {
   .library-container {
     padding: 0.25rem;
-    align-items: center; /* Maintain centering */
   }
 
   .book-container {
@@ -321,40 +284,16 @@
     max-height: 240px;
   }
 
-  .filter-container {
-    width: 100%; /* Ensure full width */
-  }
-
-  .filter-input {
-    font-size: 0.85rem;
-  }
-
-  .library-grid {
-    max-height: calc(100vh - 2.5rem - 1.5rem - 1rem); /* Further adjusted */
-    width: 100%; /* Ensure full width */
-  }
-
-  .button-container {
-    width: 100%; /* Ensure full width */
-  }
-
   .nav-button {
-    width: 2.5rem;
-    height: 2.5rem;
-    background-color: var(--base02);
-    border: 2px solid var(--base3);
+    width: 3.5rem;
+    height: 3.5rem;
+    background-color: var(--base00);
   }
 
-  .nav-button svg {
-    font-size: 1.5rem;
-  }
-
-  .nav-button-left {
-    margin-right: 0.5rem;
-  }
-
-  .nav-button-right {
-    margin-left: 0.5rem;
+  .nav-icon {
+    font-size: 2.2rem;
+    width: 2.2rem;
+    height: 2.2rem;
   }
 
   .library-button {
