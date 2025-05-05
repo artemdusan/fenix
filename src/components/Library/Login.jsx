@@ -396,19 +396,9 @@ function Login({ onClose }) {
       aria-labelledby="login-modal-title"
     >
       <div className="modal-content" ref={modalRef}>
-        <button
-          className="modal-close-button"
-          onClick={onClose}
-          aria-label="Close login modal"
-        >
-          ×
-        </button>
         <div className="login-form">
           {!isLoggedIn ? (
             <>
-              <h2 className="login-form__title" id="login-modal-title">
-                Login
-              </h2>
               <div className="login-form__group">
                 <label htmlFor="serverAddress" className="login-form__label">
                   Server Address
@@ -418,7 +408,7 @@ function Login({ onClose }) {
                   id="serverAddress"
                   value={serverAddress}
                   onChange={(e) => setServerAddress(e.target.value)}
-                  placeholder="Paste your server's address"
+                  placeholder="Enter your server's address"
                   className="login-form__input"
                   required
                   aria-required="true"
