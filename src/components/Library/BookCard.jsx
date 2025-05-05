@@ -50,9 +50,6 @@ function BookCard({ book, onDelete }) {
     e.stopPropagation();
     onDelete(book.id);
     setIsMenuOpen(false);
-    const timer = setTimeout(() => {
-      window.location.reload();
-    }, 1000);
   };
 
   const handleDownload = (e) => {

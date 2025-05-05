@@ -32,6 +32,17 @@ function Library() {
   });
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const filtered = filteredBooksList();
+    if (filtered.length > 0) {
+      if (currentBookIndex < 0 || currentBookIndex >= filtered.length) {
+        setCurrentBookIndex(0);
+      }
+    } else {
+      setCurrentBookIndex(-1);
+    }
+  }, [books, filterText]);
+
   const checkTokenValidity = async () => {
     try {
       const sessionInfo = await getSessionInfo();
@@ -129,7 +140,7 @@ function Library() {
             // Create reading location for the first chapter, first page
             const readingLocation = {
               bookId: id,
-              chapterId: bookData.chapters?.[0]?.id || 0, // Use first chapter ID or 0
+              chapterId: 0,
               sentenceId: 0, // First page/sentence
               lastModified: Date.now(),
             };
@@ -155,9 +166,6 @@ function Library() {
                 "warning"
               );
             }
-            const timer = setTimeout(() => {
-              window.location.reload();
-            }, 1000);
           } catch (error) {
             console.error("Error processing uploaded book:", error);
             window.showToast("Invalid json file or upload failed", "error");
