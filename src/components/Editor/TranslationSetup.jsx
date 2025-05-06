@@ -46,7 +46,11 @@ const TranslationSetup = ({ setIsTranslating }) => {
         setAvailableModels(models || DEFAULT_MODELS)
       );
       getCurrentModelFromDb().then((m) => {
-        setCurrentModel(m || DEFAULT_MODELS[0].id);
+        const modelToSet = m || DEFAULT_MODELS[0].id; // "gpt-4o-mini" if m is falsy
+        setCurrentModel(modelToSet);
+        if (!m) {
+          saveCurrentModelToDb(modelToSet); // Save the default model to the database
+        }
       });
       estimateTokenCount(selectedChapters || new Set()).then(
         setEstimatedTokens
