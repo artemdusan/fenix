@@ -19,7 +19,6 @@ const App = () => {
           "Initial book sync completed, newBookIds:",
           result.newBookIds
         );
-        // Dispatch booksSynced event to update Library UI
         const event = new CustomEvent("booksSynced", {
           detail: { newBookIds: result.newBookIds },
         });
@@ -30,6 +29,9 @@ const App = () => {
     });
   }, []);
 
+  // Format the build date for display
+  const buildDate = new Date(__BUILD_DATE__).toLocaleString();
+
   return (
     <BrowserRouter basename="/fenix">
       <ToastContainer position="top-right" autoClose={3000} />
@@ -38,6 +40,7 @@ const App = () => {
         <Route path="/editor" element={<Editor />} />
         <Route path="/reader/:bookId" element={<Reader />} />
       </Routes>
+      <footer className="footer">Build Date: {buildDate}</footer>
     </BrowserRouter>
   );
 };

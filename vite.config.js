@@ -4,14 +4,14 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
-  base: "/fenix/", // Use the repo name as the base path
+  base: "/fenix/",
   plugins: [
     react(),
     viteStaticCopy({
       targets: [
         {
           src: "docs/index.html",
-          dest: ".", // Copies to docs/404.html
+          dest: ".",
           rename: "404.html",
         },
       ],
@@ -49,7 +49,11 @@ export default defineConfig({
       },
     }),
   ],
+  define: {
+    // Inject build date as a global constant
+    __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
+  },
   build: {
-    outDir: "docs", // Output directory for GitHub Pages
+    outDir: "docs",
   },
 });

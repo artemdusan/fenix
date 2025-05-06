@@ -71,3 +71,21 @@ button:focus-visible {
   height: 100%;
   width: 100%;
 }
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: #242424;
+  color: rgba(255, 255, 255, 0.87);
+  font-size: 0.8em;
+}
+
+@media (prefers-color-scheme: light) {
+  footer {
+    background-color: #ffffff;
+    color: #213547;
+  }
+}

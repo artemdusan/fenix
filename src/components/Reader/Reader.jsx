@@ -199,7 +199,11 @@ const Reader = () => {
     setTargetEnabled(savedTargetEnabled !== "false");
   }, []);
 
-  const updateReadingLocationInDB = async (chapterId, sentenceId) => {
+  const updateReadingLocationInDB = async (
+    chapterId,
+    sentenceId,
+    isSyncing = true
+  ) => {
     try {
       const db = await openDB();
       const newReadingLocation = {
@@ -235,6 +239,10 @@ const Reader = () => {
       const token = sessionInfo?.token;
       if (!token) {
         console.warn("No session token found, skipping server sync");
+        return;
+      }
+
+      if (!isSyncing) {
         return;
       }
 
@@ -423,14 +431,18 @@ const Reader = () => {
   const handleChapterChange = (newChapterId) => {
     if (book && newChapterId < book.chapters.length) {
       setChapter(book.chapters[newChapterId] || null);
-      updateReadingLocationInDB(newChapterId, 0);
+      updateReadingLocationInDB(newChapterId, 0, false);
       console.log("Chapter changed to:", newChapterId);
     }
   };
 
   const handleSentenceChange = (newSentenceId) => {
     if (chapter && newSentenceId < chapter.content.length) {
-      updateReadingLocationInDB(readingLocation.chapterId, newSentenceId);
+      updateReadingLocationInDB(
+        readingLocation.chapterId,
+        newSentenceId,
+        false
+      );
       console.log("Sentence changed to:", newSentenceId);
     }
   };
