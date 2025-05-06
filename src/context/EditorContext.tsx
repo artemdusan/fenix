@@ -1,9 +1,16 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import {
   saveToIndexedDB,
   SETTINGS_STORE,
   CURRENT_SCREEN,
 } from "../services/editor/databaseService";
+import { loadChaptersFromDB } from "../services/editor/chapterService";
 
 // Extend the Window interface to include showToast
 declare global {
@@ -52,6 +59,22 @@ export const EditorProvider = ({ children }: EditorProviderProps) => {
   const showToast = (message: string, type = "error", duration = 3000) => {
     window.showToast(message, type, duration);
   };
+
+  useEffect(() => {
+    const updateChapters = async () => {
+      if (projectInfo) {
+        const loadedChapters = await loadChaptersFromDB(projectInfo.id);
+        setChapters(loadedChapters);
+        setCurrentChapterId(
+          loadedChapters.length > 0 ? loadedChapters[0].id : null
+        );
+      } else {
+        setChapters([]);
+        setCurrentChapterId(null);
+      }
+    };
+    updateChapters();
+  }, [projectInfo]);
 
   const updateCurrentScreen = (screen: number) => {
     setCurrentScreen(screen);

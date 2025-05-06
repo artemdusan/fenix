@@ -61,8 +61,12 @@ function ChapterContent() {
   }, [currentChapterId]);
 
   const loadChapterData = async (chapterId) => {
+    if (!chapterId) {
+      setChapter(null);
+      return;
+    }
     const chapterData = await loadFromIndexedDB(CHAPTERS_STORE, chapterId);
-    if (chapterData) {
+    if (chapterData && chapterData.projectID === projectInfo.id) {
       setChapter(chapterData);
       if (!chapterData.translation) setViewTranslation(false);
       setEditContent(
@@ -70,6 +74,8 @@ function ChapterContent() {
           ? chapterData.translation
           : chapterData.content
       );
+    } else {
+      setChapter(null);
     }
   };
 

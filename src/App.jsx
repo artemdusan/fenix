@@ -30,7 +30,8 @@ const App = () => {
   }, []);
 
   // Format the build date for display
-  const buildDate = new Date(__BUILD_DATE__).toLocaleString();
+  const buildDate = new Date(__BUILD_DATE__).toLocaleDateString();
+  const buildNumber = __BUILD_NUMBER__;
 
   return (
     <BrowserRouter basename="/fenix">
@@ -40,7 +41,9 @@ const App = () => {
         <Route path="/editor" element={<Editor />} />
         <Route path="/reader/:bookId" element={<Reader />} />
       </Routes>
-      <footer className="footer">Build Date: {buildDate}</footer>
+      <footer className="footer">
+        Build: {buildNumber} | Build Date: {buildDate}
+      </footer>
     </BrowserRouter>
   );
 };

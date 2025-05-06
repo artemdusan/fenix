@@ -78,7 +78,7 @@ footer {
   width: 100%;
   text-align: center;
   padding: 10px;
-  background-color: #242424;
+  background-color: transparent;
   color: rgba(255, 255, 255, 0.87);
   font-size: 0.8em;
 }

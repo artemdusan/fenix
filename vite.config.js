@@ -2,6 +2,12 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import { VitePWA } from "vite-plugin-pwa";
+import fs from "fs";
+import path from "path";
+
+const buildData = JSON.parse(
+  fs.readFileSync(path.resolve("build.json"), "utf8")
+);
 
 export default defineConfig({
   base: "/fenix/",
@@ -52,6 +58,7 @@ export default defineConfig({
   define: {
     // Inject build date as a global constant
     __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
+    __BUILD_NUMBER__: JSON.stringify(buildData.buildNumber),
   },
   build: {
     outDir: "docs",
