@@ -42,8 +42,33 @@ const Reader = () => {
   const [targetSpeed, setTargetSpeed] = useState("1.0");
   const [sourceEnabled, setSourceEnabled] = useState(true);
   const [targetEnabled, setTargetEnabled] = useState(true);
+  const [wakeLock, setWakeLock] = useState(null);
   const chapterSliderRef = useRef(null);
   const sentenceSliderRef = useRef(null);
+
+  // Function to request wake lock
+  const requestWakeLock = async () => {
+    try {
+      if ("wakeLock" in navigator) {
+        const lock = await navigator.wakeLock.request("screen");
+        setWakeLock(lock);
+        console.log("Wake Lock is active");
+      } else {
+        console.log("Wake Lock API not supported in this browser");
+      }
+    } catch (err) {
+      console.error("Failed to acquire wake lock:", err);
+    }
+  };
+
+  // Function to release wake lock
+  const releaseWakeLock = async () => {
+    if (wakeLock) {
+      await wakeLock.release();
+      setWakeLock(null);
+      console.log("Wake Lock released");
+    }
+  };
 
   // Fetch voices
   useEffect(() => {
@@ -198,6 +223,18 @@ const Reader = () => {
     const savedTargetEnabled = localStorage.getItem("targetEnabled");
     setTargetEnabled(savedTargetEnabled !== "false");
   }, []);
+
+  // Manage wake lock based on isPlaying state
+  useEffect(() => {
+    if (isPlaying) {
+      requestWakeLock();
+    } else {
+      releaseWakeLock();
+    }
+    return () => {
+      releaseWakeLock();
+    };
+  }, [isPlaying]);
 
   const updateReadingLocationInDB = async (
     chapterId,
