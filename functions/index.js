@@ -26,10 +26,7 @@ const app = express();
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
-    const allowedOrigins = [
-      //"http://localhost:5173",
-      "https://artemdusan.github.io",
-    ];
+    const allowedOrigins = ["https://artemdusan.github.io"];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -340,13 +337,14 @@ app.post("/deleted-books", async (req, res) => {
       { merge: true }
     );
 
-    // Delete book and its chapters
-    await db.collection("books").doc(bookId).delete();
-    const chaptersSnapshot = await db
+    // Delete book and its chapters from user-specific collection
+    const bookRef = db
+      .collection("users")
+      .doc(req.auth.uid)
       .collection("books")
-      .doc(bookId)
-      .collection("chapters")
-      .get();
+      .doc(bookId);
+    await bookRef.delete();
+    const chaptersSnapshot = await bookRef.collection("chapters").get();
     const batch = db.batch();
     chaptersSnapshot.docs.forEach((doc) => {
       batch.delete(doc.ref);
@@ -371,8 +369,9 @@ app.get("/books", async (req, res) => {
   try {
     const deletedBookIds = await getDeletedBookIds(req.auth.uid);
     const booksSnapshot = await db
+      .collection("users")
+      .doc(req.auth.uid)
       .collection("books")
-      .where("ownerId", "==", req.auth.uid)
       .select("title", "author", "lastModified")
       .get();
 
@@ -400,10 +399,14 @@ app.get("/books/:bookId", async (req, res) => {
       return res.status(404).json({ error: "Book is deleted" });
     }
 
-    const bookRef = db.collection("books").doc(bookId);
+    const bookRef = db
+      .collection("users")
+      .doc(req.auth.uid)
+      .collection("books")
+      .doc(bookId);
     const bookDoc = await bookRef.get();
 
-    if (!bookDoc.exists || bookDoc.data().ownerId !== req.auth.uid) {
+    if (!bookDoc.exists) {
       return res.status(404).json({ error: "Book not found" });
     }
 
@@ -458,7 +461,11 @@ app.post("/books/:bookId", async (req, res) => {
       return res.status(400).json({ error: "Cannot update deleted book" });
     }
 
-    const bookRef = db.collection("books").doc(bookId);
+    const bookRef = db
+      .collection("users")
+      .doc(req.auth.uid)
+      .collection("books")
+      .doc(bookId);
     const bookDoc = await bookRef.get();
     const serverBook = bookDoc.exists ? bookDoc.data() : null;
 
