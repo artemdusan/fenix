@@ -230,11 +230,6 @@ const Reader = () => {
       requestWakeLock();
     } else {
       releaseWakeLock();
-      // save progres
-      updateReadingLocationInDB(
-        readingLocation.chapterId,
-        readingLocation.sentenceId
-      );
     }
     return () => {
       releaseWakeLock();
@@ -339,6 +334,11 @@ const Reader = () => {
       setIsPlaying(false);
       setCurrentSentenceIndex(readingLocation.sentenceId);
       setIsReadingSource(true);
+      // save progres
+      updateReadingLocationInDB(
+        readingLocation.chapterId,
+        readingLocation.sentenceId
+      );
 
       return;
     }
