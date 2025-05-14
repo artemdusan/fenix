@@ -14,17 +14,21 @@ const StatusBar = ({
   increaseFontSize,
   decreaseFontSize,
   toggleTtsSettings,
+  updateReadingLocation,
 }) => {
   const navigate = useNavigate();
   return (
     <div className="status-bar">
       <button
         className="status-bar__icon-button"
-        onClick={() => {
+        onClick={async () => {
           speechSynthesis.cancel();
-          document.fullscreenElement
-            ? document.exitFullscreen().then(() => navigate("/"))
-            : navigate("/");
+          // Save reading location before navigating
+          await updateReadingLocation(currentChapter - 1, currentSentence - 1);
+          if (document.fullscreenElement) {
+            await document.exitFullscreen();
+          }
+          navigate("/");
         }}
         aria-label="Back to library"
         title="Back"

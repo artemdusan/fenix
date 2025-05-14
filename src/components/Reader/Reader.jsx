@@ -334,6 +334,11 @@ const Reader = () => {
       setIsPlaying(false);
       setCurrentSentenceIndex(readingLocation.sentenceId);
       setIsReadingSource(true);
+      // Save location on pause
+      updateReadingLocationInDB(
+        readingLocation.chapterId,
+        currentSentenceIndex
+      );
       return;
     }
 
@@ -344,6 +349,11 @@ const Reader = () => {
         setIsPlaying(false);
         setCurrentSentenceIndex(readingLocation.sentenceId);
         setIsReadingSource(true);
+        // Save location on completion
+        updateReadingLocationInDB(
+          readingLocation.chapterId,
+          readingLocation.sentenceId
+        );
         return;
       }
 
@@ -393,14 +403,16 @@ const Reader = () => {
         const newSentenceIndex = sentenceIndex + 1;
         if (newSentenceIndex < chapter.content.length) {
           playSentence(newSentenceIndex);
-          updateReadingLocationInDB(
-            readingLocation.chapterId,
-            newSentenceIndex
-          );
+          setCurrentSentenceIndex(newSentenceIndex);
         } else {
           setIsPlaying(false);
           setCurrentSentenceIndex(readingLocation.sentenceId);
           setIsReadingSource(true);
+          // Save location on completion
+          updateReadingLocationInDB(
+            readingLocation.chapterId,
+            readingLocation.sentenceId
+          );
         }
       };
 
@@ -532,6 +544,7 @@ const Reader = () => {
           increaseFontSize={increaseFontSize}
           decreaseFontSize={decreaseFontSize}
           toggleTtsSettings={toggleTtsSettings}
+          updateReadingLocation={updateReadingLocationInDB}
         />
         {showChapterSlider && book?.chapters?.length > 0 && (
           <ChapterSlider
