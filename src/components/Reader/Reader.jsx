@@ -230,6 +230,11 @@ const Reader = () => {
       requestWakeLock();
     } else {
       releaseWakeLock();
+      // save progres
+      updateReadingLocationInDB(
+        readingLocation.chapterId,
+        readingLocation.sentenceId
+      );
     }
     return () => {
       releaseWakeLock();
@@ -334,6 +339,7 @@ const Reader = () => {
       setIsPlaying(false);
       setCurrentSentenceIndex(readingLocation.sentenceId);
       setIsReadingSource(true);
+
       return;
     }
 
@@ -343,6 +349,7 @@ const Reader = () => {
       if (sentenceIndex >= chapter.content.length) {
         setIsPlaying(false);
         setCurrentSentenceIndex(readingLocation.sentenceId);
+
         setIsReadingSource(true);
         return;
       }
@@ -393,10 +400,6 @@ const Reader = () => {
         const newSentenceIndex = sentenceIndex + 1;
         if (newSentenceIndex < chapter.content.length) {
           playSentence(newSentenceIndex);
-          updateReadingLocationInDB(
-            readingLocation.chapterId,
-            newSentenceIndex
-          );
         } else {
           setIsPlaying(false);
           setCurrentSentenceIndex(readingLocation.sentenceId);
