@@ -404,6 +404,11 @@ const Reader = () => {
         if (newSentenceIndex < chapter.content.length) {
           playSentence(newSentenceIndex);
           setCurrentSentenceIndex(newSentenceIndex);
+          updateReadingLocationInDB(
+            readingLocation.chapterId,
+            newSentenceIndex,
+            false
+          );
         } else {
           setIsPlaying(false);
           setCurrentSentenceIndex(readingLocation.sentenceId);
