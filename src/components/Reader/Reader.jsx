@@ -414,10 +414,7 @@ const Reader = () => {
           setCurrentSentenceIndex(readingLocation.sentenceId);
           setIsReadingSource(true);
           // Save location on completion
-          updateReadingLocationInDB(
-            readingLocation.chapterId,
-            readingLocation.sentenceId
-          );
+          updateReadingLocationInDB(readingLocation.chapterId, sentenceIndex);
         }
       };
 

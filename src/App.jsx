@@ -42,7 +42,7 @@ const App = () => {
         <Route path="/reader/:bookId" element={<Reader />} />
       </Routes>
       <footer className="footer">
-        Build: {buildNumber} | Build Date: {buildDate}
+        Build: {buildNumber} :: {buildDate}
       </footer>
     </BrowserRouter>
   );
