@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import {
   getAllBooks,
   saveBookToDB,
@@ -44,6 +45,8 @@ async function syncBooks() {
     const localDeletedBookIds = await getDeletedBookIds();
     const localReadingLocations = await getAllReadingLocations();
     const newBookIds = []; // Track new or updated books
+
+    toast.info("Book synchronization started...");
 
     // Step 1: Sync deleted books to server
     const deletedResponse = await axios.get(`${serverAddress}deleted-books`, {
@@ -191,6 +194,7 @@ async function syncBooks() {
     const event = new CustomEvent("booksSynced", { detail: { newBookIds } });
     window.dispatchEvent(event);
     console.log("Dispatched booksSynced event with newBookIds:", newBookIds);
+    toast.success("Book synchronization completed successfully!");
 
     return { success: true, newBookIds };
   } catch (error) {
