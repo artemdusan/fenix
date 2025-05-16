@@ -506,19 +506,15 @@ const Reader = () => {
   };
 
   const toggleChapterSlider = () => {
+    syncReadingLocationOnClose();
     setShowChapterSlider((prev) => {
-      if (prev) {
-        syncReadingLocationOnClose();
-      }
       return !prev;
     });
   };
 
   const toggleSentenceSlider = () => {
+    syncReadingLocationOnClose();
     setShowSentenceSlider((prev) => {
-      if (prev) {
-        syncReadingLocationOnClose();
-      }
       return !prev;
     });
   };
