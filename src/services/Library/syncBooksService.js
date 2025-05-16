@@ -194,7 +194,7 @@ async function syncBooks() {
     const event = new CustomEvent("booksSynced", { detail: { newBookIds } });
     window.dispatchEvent(event);
     console.log("Dispatched booksSynced event with newBookIds:", newBookIds);
-    toast.success("Book synchronization completed successfully!");
+    toast.success("Book synchronization completed!");
 
     return { success: true, newBookIds };
   } catch (error) {
