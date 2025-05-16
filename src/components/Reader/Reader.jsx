@@ -321,30 +321,11 @@ const Reader = () => {
 
   // Sync reading location when sliders are closed
   const syncReadingLocationOnClose = () => {
-    const currentLocation = {
-      chapterId: readingLocation.chapterId,
-      sentenceId: readingLocation.sentenceId,
-    };
-    const lastSyncedLocation = JSON.parse(
-      localStorage.getItem(`lastSyncedLocation_${bookId}`) || "{}"
+    updateReadingLocationInDB(
+      readingLocation.chapterId,
+      readingLocation.sentenceId,
+      true
     );
-
-    if (
-      currentLocation.chapterId !== lastSyncedLocation.chapterId ||
-      currentLocation.sentenceId !== lastSyncedLocation.sentenceId
-    ) {
-      updateReadingLocationInDB(
-        readingLocation.chapterId,
-        readingLocation.sentenceId,
-        true
-      );
-      localStorage.setItem(
-        `lastSyncedLocation_${bookId}`,
-        JSON.stringify(currentLocation)
-      );
-    } else {
-      console.log("No changes in reading location, skipping sync");
-    }
   };
 
   const onPreviousSentence = () => {
