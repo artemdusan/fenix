@@ -98,68 +98,92 @@ const Reader = () => {
   }, []);
 
   // Fetch book data and reading location
-  useEffect(() => {
-    const fetchBookData = async () => {
-      setLoading(true);
-      try {
-        const books = await getAllBooks();
-        const selectedBook = books.find((b) => b.id === bookId);
-        if (!selectedBook) {
-          console.error(`Book with ID ${bookId} not found in IndexedDB`);
-          navigate("/");
-          return;
-        }
-
-        const normalizedBook = {
-          ...selectedBook,
-          chapters: selectedBook.chapters || [],
-          sourceLanguage: selectedBook.sourceLanguage || "pl",
-          targetLanguage: selectedBook.targetLanguage || "en",
-        };
-        setBook(normalizedBook);
-
-        let readingLoc = await getReadingLocation(bookId);
-        if (!readingLoc) {
-          readingLoc = {
-            bookId,
-            chapterId: 0,
-            sentenceId: 0,
-            lastModified: Date.now(),
-          };
-          const db = await openDB();
-          await saveReadingLocation(db, readingLoc);
-        }
-
-        const chapterIndex =
-          readingLoc.chapterId < normalizedBook.chapters.length
-            ? readingLoc.chapterId
-            : 0;
-        setReadingLocation({
-          chapterId: chapterIndex,
-          sentenceId: readingLoc.sentenceId,
-        });
-        setChapter(normalizedBook.chapters[chapterIndex] || null);
-        setCurrentSentenceIndex(readingLoc.sentenceId);
-        console.log(
-          "Fetched book:",
-          normalizedBook.title,
-          "Chapter:",
-          chapterIndex,
-          "Sentence:",
-          readingLoc.sentenceId
-        );
-        document.title = normalizedBook.title || "Untitled Book";
-      } catch (error) {
-        console.error(
-          "Error fetching book or reading location from IndexedDB:",
-          error
-        );
-      } finally {
-        setLoading(false);
+  const fetchBookData = async () => {
+    setLoading(true);
+    try {
+      const books = await getAllBooks();
+      const selectedBook = books.find((b) => b.id === bookId);
+      if (!selectedBook) {
+        console.error(`Book with ID ${bookId} not found in IndexedDB`);
+        navigate("/");
+        return;
       }
-    };
+
+      const normalizedBook = {
+        ...selectedBook,
+        chapters: selectedBook.chapters || [],
+        sourceLanguage: selectedBook.sourceLanguage || "pl",
+        targetLanguage: selectedBook.targetLanguage || "en",
+      };
+      setBook(normalizedBook);
+
+      let readingLoc = await getReadingLocation(bookId);
+      if (!readingLoc) {
+        readingLoc = {
+          bookId,
+          chapterId: 0,
+          sentenceId: 0,
+          lastModified: Date.now(),
+        };
+        const db = await openDB();
+        await saveReadingLocation(db, readingLoc);
+      }
+
+      // Validate reading location
+      const chapterIndex =
+        readingLoc.chapterId < normalizedBook.chapters.length
+          ? readingLoc.chapterId
+          : 0;
+      const chapter = normalizedBook.chapters[chapterIndex] || null;
+      const sentenceIndex =
+        chapter && readingLoc.sentenceId < chapter.content.length
+          ? readingLoc.sentenceId
+          : 0;
+
+      setReadingLocation({
+        chapterId: chapterIndex,
+        sentenceId: sentenceIndex,
+      });
+      setChapter(chapter);
+      setCurrentSentenceIndex(sentenceIndex);
+      console.log(
+        "Fetched book:",
+        normalizedBook.title,
+        "Chapter:",
+        chapterIndex,
+        "Sentence:",
+        sentenceIndex
+      );
+      document.title = normalizedBook.title || "Untitled Book";
+    } catch (error) {
+      console.error(
+        "Error fetching book or reading location from IndexedDB:",
+        error
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchBookData();
   }, [bookId, navigate]);
+
+  // Listen for booksSynced event to update book data
+  useEffect(() => {
+    const handleBooksSynced = async (event) => {
+      const { newBookIds } = event.detail;
+      if (newBookIds.includes(bookId)) {
+        console.log(`Book ${bookId} was updated during sync, refreshing data`);
+        await fetchBookData();
+      }
+    };
+
+    window.addEventListener("booksSynced", handleBooksSynced);
+    return () => {
+      window.removeEventListener("booksSynced", handleBooksSynced);
+    };
+  }, [bookId]);
 
   // Sync chapter state with readingLocation.chapterId
   useEffect(() => {
@@ -292,6 +316,15 @@ const Reader = () => {
     } catch (error) {
       console.error("Error updating reading location:", error);
     }
+  };
+
+  // Sync reading location when sliders are closed
+  const syncReadingLocationOnClose = () => {
+    updateReadingLocationInDB(
+      readingLocation.chapterId,
+      readingLocation.sentenceId,
+      true
+    );
   };
 
   const onPreviousSentence = () => {
@@ -476,8 +509,23 @@ const Reader = () => {
     });
   };
 
-  const toggleChapterSlider = () => setShowChapterSlider((prev) => !prev);
-  const toggleSentenceSlider = () => setShowSentenceSlider((prev) => !prev);
+  const toggleChapterSlider = () => {
+    setShowChapterSlider((prev) => {
+      if (prev) {
+        syncReadingLocationOnClose();
+      }
+      return !prev;
+    });
+  };
+
+  const toggleSentenceSlider = () => {
+    setShowSentenceSlider((prev) => {
+      if (prev) {
+        syncReadingLocationOnClose();
+      }
+      return !prev;
+    });
+  };
 
   const handleChapterChange = (newChapterId) => {
     if (book && newChapterId < book.chapters.length) {

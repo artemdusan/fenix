@@ -14,7 +14,6 @@ const StatusBar = ({
   increaseFontSize,
   decreaseFontSize,
   toggleTtsSettings,
-  updateReadingLocation,
 }) => {
   const navigate = useNavigate();
   return (
@@ -23,8 +22,6 @@ const StatusBar = ({
         className="status-bar__icon-button"
         onClick={async () => {
           speechSynthesis.cancel();
-          // Save reading location before navigating
-          await updateReadingLocation(currentChapter - 1, currentSentence - 1);
           if (document.fullscreenElement) {
             await document.exitFullscreen();
           }
