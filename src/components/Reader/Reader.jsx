@@ -172,11 +172,7 @@ const Reader = () => {
   // Listen for booksSynced event to update book data
   useEffect(() => {
     const handleBooksSynced = async (event) => {
-      const { newBookIds } = event.detail;
-      if (newBookIds.includes(bookId)) {
-        console.log(`Book ${bookId} was updated during sync, refreshing data`);
-        await fetchBookData();
-      }
+      await fetchBookData();
     };
 
     window.addEventListener("booksSynced", handleBooksSynced);
