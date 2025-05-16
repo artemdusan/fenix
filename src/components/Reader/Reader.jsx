@@ -171,7 +171,7 @@ const Reader = () => {
 
   // Listen for booksSynced event to update book data
   useEffect(() => {
-    const handleBooksSynced = async (event) => {
+    const handleBooksSynced = async () => {
       await fetchBookData();
     };
 
@@ -211,12 +211,14 @@ const Reader = () => {
         !chapterSliderRef.current.contains(event.target)
       ) {
         setShowChapterSlider(false);
+        syncReadingLocationOnClose();
       }
       if (
         sentenceSliderRef.current &&
         !sentenceSliderRef.current.contains(event.target)
       ) {
         setShowSentenceSlider(false);
+        syncReadingLocationOnClose();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -311,16 +313,38 @@ const Reader = () => {
       console.log("Successfully synced reading location to server");
     } catch (error) {
       console.error("Error updating reading location:", error);
+      console.warn(
+        "Failed to sync reading location to server. Changes saved locally."
+      );
     }
   };
 
   // Sync reading location when sliders are closed
   const syncReadingLocationOnClose = () => {
-    updateReadingLocationInDB(
-      readingLocation.chapterId,
-      readingLocation.sentenceId,
-      true
+    const currentLocation = {
+      chapterId: readingLocation.chapterId,
+      sentenceId: readingLocation.sentenceId,
+    };
+    const lastSyncedLocation = JSON.parse(
+      localStorage.getItem(`lastSyncedLocation_${bookId}`) || "{}"
     );
+
+    if (
+      currentLocation.chapterId !== lastSyncedLocation.chapterId ||
+      currentLocation.sentenceId !== lastSyncedLocation.sentenceId
+    ) {
+      updateReadingLocationInDB(
+        readingLocation.chapterId,
+        readingLocation.sentenceId,
+        true
+      );
+      localStorage.setItem(
+        `lastSyncedLocation_${bookId}`,
+        JSON.stringify(currentLocation)
+      );
+    } else {
+      console.log("No changes in reading location, skipping sync");
+    }
   };
 
   const onPreviousSentence = () => {
@@ -506,17 +530,11 @@ const Reader = () => {
   };
 
   const toggleChapterSlider = () => {
-    syncReadingLocationOnClose();
-    setShowChapterSlider((prev) => {
-      return !prev;
-    });
+    setShowChapterSlider((prev) => !prev);
   };
 
   const toggleSentenceSlider = () => {
-    syncReadingLocationOnClose();
-    setShowSentenceSlider((prev) => {
-      return !prev;
-    });
+    setShowSentenceSlider((prev) => !prev);
   };
 
   const handleChapterChange = (newChapterId) => {
