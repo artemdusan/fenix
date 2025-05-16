@@ -320,12 +320,9 @@ const Reader = () => {
   };
 
   // Sync reading location when sliders are closed
-  const syncReadingLocationOnClose = () => {
-    updateReadingLocationInDB(
-      readingLocation.chapterId,
-      readingLocation.sentenceId,
-      true
-    );
+  const syncReadingLocationOnClose = async () => {
+    const rL = await getReadingLocation(bookId);
+    updateReadingLocationInDB(rL.chapterId, rL.sentenceId, true);
   };
 
   const onPreviousSentence = () => {
