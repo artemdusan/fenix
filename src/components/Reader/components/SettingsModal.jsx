@@ -149,12 +149,9 @@ const SettingsModal = ({
             onChange={onThemeChange}
             aria-label="Select theme"
           >
-            <option value="solarized">Solarized</option>
-            <option value="monokai">Monokai</option>
-            <option value="dracula">Dracula</option>
-            <option value="nord">Nord</option>
-            <option value="gruvbox">Gruvbox</option>
-            <option value="neon-pulse">Neon-pulse</option>
+            <option value="solarized">Solarized-dark</option>
+            <option value="solarized-light">Solarized-light</option>
+            <option value="material">Material</option>
           </select>
         </div>
       </div>

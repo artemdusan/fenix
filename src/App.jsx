@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useSt } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Library from "./components/Library/Library";
 import Editor from "./components/Editor/Editor";
@@ -12,6 +12,11 @@ window.showToast = (message, type = "default") => {
 };
 
 const App = () => {
+  // load theme
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "solarized";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }, []);
   useEffect(() => {
     syncBooks().then((result) => {
       if (result.success) {
