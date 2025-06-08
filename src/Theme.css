@@ -50,30 +50,6 @@
   --max-width: 1440px;
 }
 
-/* Neon Pulse Theme (Simplified) */
-[data-theme="neon"] {
-  --base03: #ffffff; /* Background */
-  --base02: #f5f5f5; /* Surface */
-  --base01: #e0e0e0; /* Outline / border */
-  --base00: #bdbdbd; /* Disabled text */
-  --base0: #424242; /* Body text */
-  --base1: #212121; /* Headings */
-  --base2: #6200ee; /* Primary */
-  --base3: #3700b3; /* Primary variant */
-
-  /* Material-inspired semantic colors */
-  --yellow: #fbc02d; /* Warning / highlight */
-  --orange: #ff9800; /* Secondary accent */
-  --red: #f44336; /* Error */
-  --magenta: #d81b60; /* Pink (optional) */
-  --violet: #7e57c2; /* Secondary variant */
-  --blue: #1e88e5; /* Info / actions */
-  --cyan: #00acc1; /* Accent cool */
-  --green: #43a047; /* Success */
-
-  /* Other settings */
-  --transition: all 0.3s ease;
-}
 /* ==========================================================================
        Global Styles
        ========================================================================== */

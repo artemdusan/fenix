@@ -149,9 +149,8 @@ const SettingsModal = ({
             onChange={onThemeChange}
             aria-label="Select theme"
           >
-            <option value="solarized">Solarized-dark</option>
-            <option value="solarized-light">Solarized-light</option>
-            <option value="material">Material</option>
+            <option value="solarized">Dark</option>
+            <option value="solarized-light">Light</option>
           </select>
         </div>
       </div>
