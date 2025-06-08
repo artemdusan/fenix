@@ -1,39 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaEllipsisV, FaTrash, FaDownload } from "react-icons/fa";
-import { getReadingLocation } from "../../services/Library/databaseService";
+
 import "./styles/BookCard.css";
 
 function BookCard({ book, onDelete }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentChapter, setCurrentChapter] = useState(1); // Default to Chapter 1
-  const [totalChapters, setTotalChapters] = useState(0); // Default to 0
   const menuRef = useRef(null);
-
-  // Fetch reading location and set chapter information
-  useEffect(() => {
-    // Calculate total chapters from book.chapters
-    const chaptersCount = book.chapters?.length || 0;
-    setTotalChapters(chaptersCount);
-
-    // Fetch reading location for current chapter
-    getReadingLocation(book.id)
-      .then((readingLocation) => {
-        // Use chapterId from reading location, default to 1 if not found
-        const chapterId =
-          readingLocation?.chapterId !== undefined
-            ? readingLocation.chapterId + 1
-            : 1;
-        setCurrentChapter(chapterId);
-      })
-      .catch((error) => {
-        console.error(
-          `Error fetching reading location for book ${book.id}:`,
-          error
-        );
-        setCurrentChapter(1); // Fallback to Chapter 1 on error
-      });
-  }, [book.id, book.chapters]);
 
   const handleImageError = (e) => {
     e.target.src = "https://placehold.co/100x150?text=Image+Not+Found";
@@ -76,13 +49,12 @@ function BookCard({ book, onDelete }) {
     // Create a temporary URL for the Blob
     const url = URL.createObjectURL(blob);
 
-    // Create a temporary <a> element to trigger the download
-    const link = document.createElement("a");
-    link.href = url;
     // Use book title for filename, replacing invalid characters and adding .json extension
     const safeFileName =
       (book.title || "book").replace(/[^a-zA-Z0-9-_]/g, "_").substring(0, 50) +
       ".json";
+    const link = document.createElement("a");
+    link.href = url;
     link.download = safeFileName;
     document.body.appendChild(link);
     link.click();
@@ -138,15 +110,6 @@ function BookCard({ book, onDelete }) {
             className="book-image"
             onError={handleImageError}
           />
-          <div className="library-overlay">
-            <h3>{book.title}</h3>
-            <p className="author">{book.author}</p>
-            <p className="chapter-info">
-              {totalChapters === 0
-                ? "No chapters"
-                : `Chapter ${currentChapter}/${totalChapters}`}
-            </p>
-          </div>
         </div>
       </div>
     </Link>

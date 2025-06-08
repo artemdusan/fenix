@@ -5,67 +5,29 @@
   color: inherit;
 }
 
-/* Ensure the card remains styled correctly */
+/* Style the card for cover only */
 .library-card {
   position: relative;
-  width: 100%; /* Fill parent container */
-  height: auto; /* Adjust to aspect ratio */
-  aspect-ratio: 200 / 300; /* Match blobToBase64 max dimensions */
-  max-width: 200px; /* Match blobToBase64 maxWidth */
-  max-height: 300px; /* Match blobToBase64 maxHeight */
+  width: 100%;
+  max-width: 200px;
   border-radius: 0.5rem;
   overflow: hidden;
+  background: var(--base02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Removed .library-card:hover to eliminate zoom effect */
-/* No transition needed since no hover transform */
-
+/* Style the cover area */
 .library-cover {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 200 / 300;
   position: relative;
 }
 
 .book-image {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Show full image without cropping */
+  object-fit: contain;
   display: block;
-}
-
-.library-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 43, 54, 0.8); /* Semi-transparent Solarized base03 */
-  color: var(--base1); /* Solarized light comments */
-  padding: 0.3rem; /* Reduced padding for less coverage */
-  text-align: center;
-  transition: opacity var(--transition);
-}
-
-.library-overlay h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: var(--base3); /* Lightest background for contrast */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.author {
-  margin: 0.25rem 0 0;
-  font-size: 0.9rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.chapter-info {
-  margin: 0.25rem 0 0;
-  font-size: 0.8rem;
-  color: var(--base2); /* Slightly lighter for visibility */
 }
 
 .menu-button {
@@ -85,7 +47,7 @@
 }
 
 .menu-button:hover {
-  background-color: var(--base02); /* Slightly lighter on hover */
+  background-color: var(--base02);
 }
 
 .menu {
@@ -118,26 +80,13 @@
 }
 
 .delete-menu-item:hover {
-  background-color: var(--red); /* Solarized red for delete */
+  background-color: var(--red);
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .library-card {
     max-width: 180px;
-    max-height: 270px;
-  }
-
-  .library-overlay h3 {
-    font-size: 1rem;
-  }
-
-  .author {
-    font-size: 0.8rem;
-  }
-
-  .chapter-info {
-    font-size: 0.7rem;
   }
 
   .menu-button {
@@ -158,23 +107,6 @@
 @media (max-width: 480px) {
   .library-card {
     max-width: 160px;
-    max-height: 240px;
-  }
-
-  .library-overlay {
-    padding: 0.2rem;
-  }
-
-  .library-overlay h3 {
-    font-size: 0.9rem;
-  }
-
-  .author {
-    font-size: 0.75rem;
-  }
-
-  .chapter-info {
-    font-size: 0.65rem;
   }
 
   .menu-button {

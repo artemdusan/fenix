@@ -14,6 +14,7 @@ import {
   saveReadingLocation,
 } from "../../services/Library/databaseService";
 import { syncBooks } from "../../services/Library/syncBooksService";
+import { getReadingLocation } from "../../services/Library/databaseService";
 import "./styles/Library.css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
@@ -30,6 +31,8 @@ function Library() {
     isAnimating: false,
     prevBookIndex: null,
   });
+  const [currentChapter, setCurrentChapter] = useState(1);
+  const [totalChapters, setTotalChapters] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,10 +41,30 @@ function Library() {
       if (currentBookIndex < 0 || currentBookIndex >= filtered.length) {
         setCurrentBookIndex(0);
       }
+      const book = filtered[currentBookIndex];
+      const chaptersCount = book?.chapters?.length || 0;
+      setTotalChapters(chaptersCount);
+      getReadingLocation(book?.id)
+        .then((readingLocation) => {
+          const chapterId =
+            readingLocation?.chapterId !== undefined
+              ? readingLocation.chapterId + 1
+              : 1;
+          setCurrentChapter(chapterId);
+        })
+        .catch((error) => {
+          console.error(
+            `Error fetching reading location for book ${book?.id}:`,
+            error
+          );
+          setCurrentChapter(1);
+        });
     } else {
       setCurrentBookIndex(-1);
+      setTotalChapters(0);
+      setCurrentChapter(1);
     }
-  }, [books, filterText]);
+  }, [books, filterText, currentBookIndex]);
 
   const checkTokenValidity = async () => {
     try {
@@ -66,12 +89,10 @@ function Library() {
         [getAllBooks(), getDeletedBookIds(), getAllReadingLocations()]
       );
 
-      // Create a map of reading locations by bookId for efficient lookup
       const readingLocationMap = new Map(
         readingLocations.map((loc) => [loc.bookId, loc])
       );
 
-      // Filter out deleted books and attach lastModified from readingLocations
       const validBooks = storedBooks
         .filter((book) => !deletedBookIds.includes(book.id))
         .map((book) => {
@@ -80,10 +101,10 @@ function Library() {
             ...book,
             readingLastModified: readingLocation
               ? readingLocation.lastModified
-              : 0, // Use 0 if no reading location exists
+              : 0,
           };
         })
-        .sort((a, b) => b.readingLastModified - a.readingLastModified); // Sort by readingLastModified, newest first
+        .sort((a, b) => b.readingLastModified - a.readingLastModified);
 
       setBooks(validBooks);
       console.log("Fetched books:", validBooks.length);
@@ -137,11 +158,10 @@ function Library() {
             const db = await openDB();
             const id = await saveBookToDB(db, bookData);
 
-            // Create reading location for the first chapter, first page
             const readingLocation = {
               bookId: id,
               chapterId: 0,
-              sentenceId: 0, // First page/sentence
+              sentenceId: 0,
               lastModified: Date.now(),
             };
             await saveReadingLocation(db, readingLocation);
@@ -368,6 +388,17 @@ function Library() {
             </div>
           )}
         </div>
+        {currentBook && (
+          <div className="book-info-container">
+            <h3>{currentBook.title}</h3>
+            <p className="author">{currentBook.author}</p>
+            <p className="chapter-info">
+              {totalChapters === 0
+                ? "No chapters"
+                : `Chapter ${currentChapter}/${totalChapters}`}
+            </p>
+          </div>
+        )}
         <div className="filter-container">
           <input
             type="text"
