@@ -28,6 +28,7 @@ const Reader = () => {
   });
   const [loading, setLoading] = useState(true);
   const [fontSize, setFontSize] = useState(16);
+  const [theme, setTheme] = useState("solarized");
   const [showChapterSlider, setShowChapterSlider] = useState(false);
   const [showSentenceSlider, setShowSentenceSlider] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -68,6 +69,20 @@ const Reader = () => {
       setWakeLock(null);
       console.log("Wake Lock released");
     }
+  };
+
+  //theme
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "solarized";
+    setTheme(savedTheme);
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }, []);
+
+  const handleThemeChange = (e) => {
+    const selectedTheme = e.target.value;
+    setTheme(selectedTheme);
+    document.documentElement.setAttribute("data-theme", selectedTheme);
+    localStorage.setItem("theme", selectedTheme);
   };
 
   // Fetch voices
@@ -636,6 +651,8 @@ const Reader = () => {
         targetSpeed={targetSpeed}
         sourceEnabled={sourceEnabled}
         targetEnabled={targetEnabled}
+        theme={theme}
+        onThemeChange={handleThemeChange}
       />
     </div>
   );

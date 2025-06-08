@@ -16,6 +16,8 @@ const SettingsModal = ({
   targetSpeed = 1.0,
   sourceEnabled = true,
   targetEnabled = true,
+  theme,
+  onThemeChange,
 }) => (
   <div
     className={`settings-modal__overlay ${
@@ -135,6 +137,24 @@ const SettingsModal = ({
           >
             <option value="source-target">Source → Target</option>
             <option value="target-source">Target → Source</option>
+          </select>
+        </div>
+
+        <div className="settings__option">
+          <label className="settings__label">Theme:</label>
+          <select
+            name="theme"
+            className="settings__select"
+            value={theme}
+            onChange={onThemeChange}
+            aria-label="Select theme"
+          >
+            <option value="solarized">Solarized</option>
+            <option value="monokai">Monokai</option>
+            <option value="dracula">Dracula</option>
+            <option value="nord">Nord</option>
+            <option value="gruvbox">Gruvbox</option>
+            <option value="neon-pulse">Neon-pulse</option>
           </select>
         </div>
       </div>

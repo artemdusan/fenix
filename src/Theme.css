@@ -3,17 +3,16 @@
    ========================================================================== */
 
 :root {
-  /* Solarized Base Colors */
-  --base03: #002b36; /* Darkest background */
-  --base02: #073642; /* Dark highlight */
-  --base01: #586e75; /* Dark comments */
-  --base00: #657b83; /* Dark content */
-  --base0: #839496; /* Light content */
-  --base1: #93a1a1; /* Light comments */
-  --base2: #eee8d5; /* Light highlight */
-  --base3: #fdf6e3; /* Lightest background */
+  /* Solarized Base Colors (default) */
+  --base03: #002b36;
+  --base02: #073642;
+  --base01: #586e75;
+  --base00: #657b83;
+  --base0: #839496;
+  --base1: #93a1a1;
+  --base2: #eee8d5;
+  --base3: #fdf6e3;
 
-  /* Solarized Accent Colors */
   --yellow: #b58900;
   --orange: #cb4b16;
   --red: #dc322f;
@@ -23,42 +22,145 @@
   --cyan: #2aa198;
   --green: #859900;
 
-  /* Additional Variables */
   --transition: all 0.3s ease;
   --max-width: 1440px;
 }
 
-/* ==========================================================================
-   Global Styles
-   ========================================================================== */
+/* Monokai Theme */
+[data-theme="monokai"] {
+  --base03: #272822;
+  --base02: #383830;
+  --base01: #75715e;
+  --base00: #a59f85;
+  --base0: #f8f8f2;
+  --base1: #f5f4f1;
+  --base2: #e6db74;
+  --base3: #f9f8f5;
 
-/* Scrollbar Hiding */
+  --yellow: #e6db74;
+  --orange: #fd971f;
+  --red: #f92672;
+  --magenta: #ae81ff;
+  --violet: #9c91e4;
+  --blue: #66d9ef;
+  --cyan: #a1efe4;
+  --green: #a6e22e;
+}
+
+/* Dracula Theme */
+[data-theme="dracula"] {
+  --base03: #282a36;
+  --base02: #343746;
+  --base01: #4d4f68;
+  --base00: #626483;
+  --base0: #f8f8f2;
+  --base1: #f8f8f2;
+  --base2: #f1fa8c;
+  --base3: #ffffff;
+
+  --yellow: #f1fa8c;
+  --orange: #ffb86c;
+  --red: #ff5555;
+  --magenta: #ff79c6;
+  --violet: #bd93f9;
+  --blue: #6272a4;
+  --cyan: #8be9fd;
+  --green: #50fa7b;
+}
+
+/* Nord Theme */
+[data-theme="nord"] {
+  --base03: #2e3440;
+  --base02: #3b4252;
+  --base01: #4c566a;
+  --base00: #616e88;
+  --base0: #d8dee9;
+  --base1: #e5e9f0;
+  --base2: #ebcb8b;
+  --base3: #eceff4;
+
+  --yellow: #ebcb8b;
+  --orange: #d08770;
+  --red: #bf616a;
+  --magenta: #b48ead;
+  --violet: #a3be8c;
+  --blue: #5e81ac;
+  --cyan: #88c0d0;
+  --green: #a3be8c;
+}
+
+/* Gruvbox Theme */
+[data-theme="gruvbox"] {
+  --base03: #282828;
+  --base02: #3c3836;
+  --base01: #504945;
+  --base00: #665c54;
+  --base0: #d5c4a1;
+  --base1: #ebdbb2;
+  --base2: #fabd2f;
+  --base3: #fbf1c7;
+
+  --yellow: #fabd2f;
+  --orange: #fe8019;
+  --red: #fb4934;
+  --magenta: #d3869b;
+  --violet: #b16286;
+  --blue: #458588;
+  --cyan: #83a598;
+  --green: #b8bb26;
+}
+
+/* Neon Pulse Theme (Simplified) */
+[data-theme="neon-pulse"] {
+  --base03: #0f0f1a; /* Deep dark base */
+  --base02: #1a1a2e; /* Slightly lighter dark */
+  --base01: #3a3a5a; /* Medium contrast */
+  --base00: #5a5a8a; /* Light gray-purple */
+  --base0: #e0e0ff; /* Off-white text */
+  --base1: #f0f0ff; /* Bright white text */
+  --base2: #ff9e64; /* Accent highlight */
+  --base3: #ffffff; /* Pure white */
+
+  /* Core 8-color palette */
+  --yellow: #ffd700; /* PlayStation gold */
+  --orange: #ff9e64; /* Nintendo orange */
+  --red: #e60012; /* Nintendo red */
+  --magenta: #ff2d70; /* Neon pink */
+  --violet: #b56bff; /* Electric purple */
+  --blue: #0066cc; /* PlayStation blue */
+  --cyan: #00e5ff; /* Holographic teal */
+  --green: #00ff9d; /* Apple-like green */
+}
+
+/* ==========================================================================
+       Global Styles
+       ========================================================================== */
+
 html,
 body {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   width: 0;
   height: 0;
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
-/* Reset and Box Sizing */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Base Styles */
 body {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
   background-color: var(--base03);
@@ -70,8 +172,8 @@ body {
 }
 
 /* ==========================================================================
-   Responsive Design
-   ========================================================================== */
+       Responsive Design
+       ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   * {
