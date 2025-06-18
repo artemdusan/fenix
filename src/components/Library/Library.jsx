@@ -202,6 +202,11 @@ function Library() {
     setShowDeleteDialog(true);
   };
 
+  const handleEditRequest = (id) => {
+    setBookToDelete(id);
+    setShowDeleteDialog(true);
+  };
+
   const handleDeleteConfirm = async () => {
     if (bookToDelete) {
       try {
@@ -361,7 +366,11 @@ function Library() {
                   <div
                     className={`book-wrapper book-wrapper-prev ${animationState.direction}`}
                   >
-                    <BookCard book={prevBook} onDelete={handleDeleteRequest} />
+                    <BookCard
+                      book={prevBook}
+                      onDelete={handleDeleteRequest}
+                      onEdit={handleEditRequest}
+                    />
                   </div>
                 )}
                 {currentBook && (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FaEllipsisV, FaTrash, FaDownload } from "react-icons/fa";
+import { FaEllipsisV, FaTrash, FaDownload, FaEdit } from "react-icons/fa";
 
 import "./styles/BookCard.css";
 
@@ -95,6 +95,9 @@ function BookCard({ book, onDelete }) {
             <div className="menu" ref={menuRef}>
               <button className="menu-item" onClick={handleDownload}>
                 <FaDownload style={{ marginRight: "0.5rem" }} /> Download
+              </button>
+              <button className="menu-item" onClick={handleDownload}>
+                <FaEdit style={{ marginRight: "0.5rem" }} /> Edit
               </button>
               <button
                 className="menu-item delete-menu-item"
