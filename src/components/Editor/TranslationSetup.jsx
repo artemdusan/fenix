@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { useEditorContext } from "../../context/EditorContext";
 import { getLanguageNameFromCode } from "../../services/editor/utils";
 import {
@@ -13,15 +13,21 @@ import {
   getModelsFromDb,
   saveCurrentModelToDb,
   getCurrentModelFromDb,
+  saveFallbackModelToDb,
+  getFallbackModelFromDb,
 } from "../../services/editor/translationService";
 import { FiRefreshCw, FiPlayCircle, FiInfo, FiCopy } from "react-icons/fi";
 import "./styles/TranslationSetup.css";
 
 const TranslationSetup = ({ setIsTranslating }) => {
-  const DEFAULT_MODELS = [{ id: "gpt-4o-mini", name: "GPT 4o-mini" }];
+  const DEFAULT_MODELS = [
+    { id: "gpt-4o-mini", name: "GPT 4o-mini" },
+    { id: "gpt-4o", name: "GPT 4o" },
+  ];
   const { projectInfo, apiKey, selectedChapters } = useEditorContext();
   const [availableModels, setAvailableModels] = useState([]);
   const [currentModel, setCurrentModel] = useState("");
+  const [fallbackModel, setFallbackModel] = useState("gpt-4o");
   const [translationInstructions, setTranslationInstructions] = useState("");
   const [estimatedTokens, setEstimatedTokens] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -50,6 +56,13 @@ const TranslationSetup = ({ setIsTranslating }) => {
         setCurrentModel(modelToSet);
         if (!m) {
           saveCurrentModelToDb(modelToSet); // Save the default model to the database
+        }
+      });
+      getFallbackModelFromDb().then((m) => {
+        const fallbackToSet = m || "gpt-4o"; // "gpt-4o" if m is falsy
+        setFallbackModel(fallbackToSet);
+        if (!m) {
+          saveFallbackModelToDb(fallbackToSet); // Save the default fallback model to the database
         }
       });
       estimateTokenCount(selectedChapters || new Set()).then(
@@ -101,7 +114,7 @@ const TranslationSetup = ({ setIsTranslating }) => {
       <div className="translation-setup__field">
         <div className="translation-setup__label-container">
           <label className="translation-setup__label" htmlFor="model-select">
-            AI Model
+            Primary AI Model
           </label>
           <button
             className="translation-setup__refresh"
@@ -123,6 +136,32 @@ const TranslationSetup = ({ setIsTranslating }) => {
         >
           <option value="" disabled>
             Choose Model
+          </option>
+          {availableModels.map((model) => (
+            <option key={model.id} value={model.id}>
+              {model.name}
+            </option>
+          ))}
+        </select>
+        <div className="translation-setup__label-container">
+          <label
+            className="translation-setup__label"
+            htmlFor="fallback-model-select"
+          >
+            Fallback AI Model
+          </label>
+        </div>
+        <select
+          id="fallback-model-select"
+          className="translation-setup__control translation-setup__control--select"
+          value={fallbackModel}
+          onChange={(e) => {
+            saveFallbackModelToDb(e.target.value);
+            setFallbackModel(e.target.value);
+          }}
+        >
+          <option value="" disabled>
+            Choose Fallback Model
           </option>
           {availableModels.map((model) => (
             <option key={model.id} value={model.id}>

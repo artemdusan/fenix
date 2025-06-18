@@ -1,5 +1,9 @@
 import { getProjectInfo } from "../projectService";
-import { getApiKeyFromDb, getCurrentModelFromDb } from "./apiUtils";
+import {
+  getApiKeyFromDb,
+  getCurrentModelFromDb,
+  getFallbackModelFromDb,
+} from "./apiUtils";
 import { loadTranslationGuidelines } from "./guidelinesUtils";
 
 const MAX_CHUNK_SIZE = 2000;
@@ -31,10 +35,11 @@ export const translateText = async (
     throw new Error("Input text cannot be empty");
   }
 
-  const [metadata, apiKey, model] = await Promise.all([
+  const [metadata, apiKey, model, fallbackModel] = await Promise.all([
     getProjectInfo(),
     getApiKeyFromDb(),
     getCurrentModelFromDb(),
+    getFallbackModelFromDb(),
   ]);
 
   validateSetup(metadata, apiKey || "", model || "");
@@ -46,6 +51,7 @@ export const translateText = async (
     prompt,
     apiKey || "",
     model || "",
+    fallbackModel || "gpt-4o",
     addLog
   );
   const sortedTranslations = translatedChunks.sort((a, b) => a.index - b.index);
@@ -138,6 +144,7 @@ const translateChunk = async (
   prompt: string,
   apiKey: string,
   model: string,
+  fallbackModel: string,
   addLog: (message: string) => void,
   maxRetries: number = 3
 ): Promise<TranslationChunk> => {
@@ -155,7 +162,7 @@ const translateChunk = async (
             Authorization: `Bearer ${apiKey}`,
           },
           body: JSON.stringify({
-            model: attempts == 0 ? model : "gpt-4o", // if error, use gpt-4o
+            model: attempts === 0 ? model : fallbackModel,
             messages: [
               { role: "system", content: `[${timestamp}] ${prompt}` },
               { role: "user", content: chunk },
@@ -179,7 +186,9 @@ const translateChunk = async (
         throw new Error("Invalid JSON response format");
       }
       if (attempts > 0) {
-        addLog(`Retry successful for chunk ${index + 1}, used gpt-4o`);
+        addLog(
+          `Retry successful for chunk ${index + 1}, used ${fallbackModel}`
+        );
       }
 
       return {
@@ -214,6 +223,7 @@ const processChunksInBatches = async (
   prompt: string,
   apiKey: string,
   model: string,
+  fallbackModel: string,
   addLog: (message: string) => void
 ): Promise<TranslationChunk[]> => {
   const translations: TranslationChunk[] = [];
@@ -235,6 +245,7 @@ const processChunksInBatches = async (
             prompt,
             apiKey,
             model,
+            fallbackModel,
             addLog
           )
         )

@@ -15,6 +15,8 @@ import {
   getModelsFromDb,
   saveCurrentModelToDb,
   getCurrentModelFromDb,
+  saveFallbackModelToDb,
+  getFallbackModelFromDb,
 } from "./translationServiceModules/apiUtils";
 
 import { estimateTokenCount } from "./translationServiceModules/tokenUtils";
@@ -31,6 +33,8 @@ export {
   getModelsFromDb,
   saveCurrentModelToDb,
   getCurrentModelFromDb,
+  saveFallbackModelToDb,
+  getFallbackModelFromDb,
   extractRowsFromCSV,
   validateTranslationLines,
   isValidTranslationCsv,

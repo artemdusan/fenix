@@ -88,6 +88,40 @@ export const getCurrentModelFromDb = async (): Promise<string | null> => {
   }
 };
 
+export const saveFallbackModelToDb = async (
+  fallbackModel: string
+): Promise<void> => {
+  try {
+    await saveToIndexedDB(SETTINGS_STORE, {
+      id: "fallbackModel",
+      value: fallbackModel,
+    });
+    console.log("Fallback model saved successfully.");
+  } catch (error) {
+    console.error("Failed to save fallback model:", error);
+    throw error;
+  }
+};
+
+export const getFallbackModelFromDb = async (): Promise<string | null> => {
+  try {
+    const result: any = await loadFromIndexedDB(
+      SETTINGS_STORE,
+      "fallbackModel"
+    );
+    if (result) {
+      console.log("Fallback model retrieved successfully.");
+      return result.value as string;
+    } else {
+      console.log("No fallback model found.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Failed to retrieve fallback model:", error);
+    throw error;
+  }
+};
+
 interface Model {
   id: string;
   name: string;
