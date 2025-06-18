@@ -4,7 +4,7 @@ import { FaEllipsisV, FaTrash, FaDownload, FaEdit } from "react-icons/fa";
 
 import "./styles/BookCard.css";
 
-function BookCard({ book, onDelete }) {
+function BookCard({ book, onDelete, onEdit }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -22,6 +22,13 @@ function BookCard({ book, onDelete }) {
     e.preventDefault();
     e.stopPropagation();
     onDelete(book.id);
+    setIsMenuOpen(false);
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onEdit(book.id);
     setIsMenuOpen(false);
   };
 
@@ -96,7 +103,7 @@ function BookCard({ book, onDelete }) {
               <button className="menu-item" onClick={handleDownload}>
                 <FaDownload style={{ marginRight: "0.5rem" }} /> Download
               </button>
-              <button className="menu-item" onClick={handleDownload}>
+              <button className="menu-item" onClick={handleEdit}>
                 <FaEdit style={{ marginRight: "0.5rem" }} /> Edit
               </button>
               <button
