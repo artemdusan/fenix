@@ -14,6 +14,13 @@ import {
   saveReadingLocation,
 } from "../../services/Library/databaseService";
 import { syncBooks } from "../../services/Library/syncBooksService";
+import {
+  CURRENT_PROJECT_ID,
+  SETTINGS_STORE,
+  PROJECTS_STORE,
+  saveToIndexedDB,
+} from "../../services/editor/databaseService";
+import { saveChaptersToDB } from "../../services/editor/chapterService";
 import { getReadingLocation } from "../../services/Library/databaseService";
 import "./styles/Library.css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -202,9 +209,53 @@ function Library() {
     setShowDeleteDialog(true);
   };
 
-  const handleEditRequest = (id) => {
-    setBookToDelete(id);
-    setShowDeleteDialog(true);
+  const handleEditRequest = async (book_id) => {
+    try {
+      const projectInfo = {
+        id: currentBook.id,
+        title: currentBook.title,
+        author: currentBook.author,
+        coverBase64: currentBook.cover,
+        notes: currentBook.notes,
+        sourceLanguage: currentBook.sourceLanguage,
+        targetLanguage: currentBook.targetLanguage,
+      };
+
+      // Convert JSON book chapters into ChapterData format
+      const newChapters = currentBook.chapters.map((jsonChapter, index) => {
+        const content = jsonChapter.content
+          .map((row) => `${row.source}`)
+          .join(" ");
+
+        const translations = jsonChapter.content
+          .map((row) => `"${row.source}","${row.translation}"`)
+          .join("\n");
+
+        return {
+          id: crypto.randomUUID(),
+          projectID: currentBook.id,
+          title: jsonChapter.title,
+          content,
+          originalContent: content,
+          translation: translations,
+          originalTranslation: translations,
+          isEdited: false,
+          isTranslationEdited: false,
+          index: index,
+        };
+      });
+
+      await saveChaptersToDB(currentBook.id, newChapters);
+      // Save metadata to IndexedDB
+      await saveToIndexedDB(PROJECTS_STORE, projectInfo);
+      await saveToIndexedDB(SETTINGS_STORE, {
+        id: CURRENT_PROJECT_ID,
+        value: currentBook.id,
+      });
+      navigate("/editor");
+    } catch (error) {
+      console.error("Error handling edit request:", error);
+    }
   };
 
   const handleDeleteConfirm = async () => {
@@ -366,11 +417,7 @@ function Library() {
                   <div
                     className={`book-wrapper book-wrapper-prev ${animationState.direction}`}
                   >
-                    <BookCard
-                      book={prevBook}
-                      onDelete={handleDeleteRequest}
-                      onEdit={handleEditRequest}
-                    />
+                    <BookCard book={prevBook} onDelete={handleDeleteRequest} />
                   </div>
                 )}
                 {currentBook && (
@@ -380,6 +427,7 @@ function Library() {
                     <BookCard
                       book={currentBook}
                       onDelete={handleDeleteRequest}
+                      onEdit={handleEditRequest}
                     />
                   </div>
                 )}
