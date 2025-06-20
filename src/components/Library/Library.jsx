@@ -19,6 +19,7 @@ import {
   SETTINGS_STORE,
   PROJECTS_STORE,
   saveToIndexedDB,
+  loadFromIndexedDB,
 } from "../../services/editor/databaseService";
 import { saveChaptersToDB } from "../../services/editor/chapterService";
 import { getReadingLocation } from "../../services/Library/databaseService";
@@ -244,14 +245,21 @@ function Library() {
           index: index,
         };
       });
+      const projectExists = await loadFromIndexedDB(
+        PROJECTS_STORE,
+        currentBook.id
+      );
 
-      await saveChaptersToDB(currentBook.id, newChapters);
-      // Save metadata to IndexedDB
-      await saveToIndexedDB(PROJECTS_STORE, projectInfo);
       await saveToIndexedDB(SETTINGS_STORE, {
         id: CURRENT_PROJECT_ID,
         value: currentBook.id,
       });
+
+      if (!projectExists) {
+        await saveChaptersToDB(currentBook.id, newChapters);
+        // Save metadata to IndexedDB
+        await saveToIndexedDB(PROJECTS_STORE, projectInfo);
+      }
       navigate("/editor");
     } catch (error) {
       console.error("Error handling edit request:", error);

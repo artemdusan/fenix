@@ -95,9 +95,10 @@ const SaveBookModal = ({ isVisible, onClose, onDownload }) => {
 
   const handleAddToLibrary = async () => {
     try {
-      addLog("Adding to library...");
+      addLog("Saving to library...");
       const projectInfo = await getProjectInfo();
       const bookToSave = await saveProjectAsJsonBook(projectInfo);
+      bookToSave.id = projectInfo.id;
 
       if (!bookToSave) {
         addLog("No book data available to save to library");
@@ -143,7 +144,7 @@ const SaveBookModal = ({ isVisible, onClose, onDownload }) => {
                 className="save-book-modal__button save-book-modal__button--library"
                 onClick={handleAddToLibrary}
               >
-                Add to Library
+                Save to Library
               </button>
               <button
                 className="save-book-modal__button save-book-modal__button--download"
