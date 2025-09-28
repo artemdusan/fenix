@@ -500,7 +500,7 @@ const Reader = () => {
     if (audioRef.current && !audioRef.current.src) {
       // Krótki pusty WAV (~1s ciszy)
       audioRef.current.src =
-        "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQgAAAAEA";
+        "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
       audioRef.current.loop = true; // Pętla, by utrzymać focus
       audioRef.current.volume = 0; // Niesłyszalne
       audioRef.current
