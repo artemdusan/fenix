@@ -46,6 +46,7 @@ const Reader = () => {
   const [wakeLock, setWakeLock] = useState(null);
   const chapterSliderRef = useRef(null);
   const sentenceSliderRef = useRef(null);
+  const audioRef = useRef(null); // Nowy ref dla ukrytego audio
 
   // Function to request wake lock
   const requestWakeLock = async () => {
@@ -273,6 +274,13 @@ const Reader = () => {
     };
   }, [isPlaying]);
 
+  // Nowy useEffect: Pauzuj audio po zatrzymaniu odtwarzania
+  useEffect(() => {
+    if (!isPlaying && audioRef.current) {
+      audioRef.current.pause();
+    }
+  }, [isPlaying]);
+
   const updateReadingLocationInDB = async (
     chapterId,
     sentenceId,
@@ -487,6 +495,18 @@ const Reader = () => {
 
     playSentence(readingLocation.sentenceId);
     setIsPlaying(true);
+
+    // Nowy kod: Inicjalizuj ukryty audio dla media focus (tylko raz)
+    if (audioRef.current && !audioRef.current.src) {
+      // Krótki pusty WAV (~1s ciszy)
+      audioRef.current.src =
+        "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQgAAAAEA";
+      audioRef.current.loop = true; // Pętla, by utrzymać focus
+      audioRef.current.volume = 0; // Niesłyszalne
+      audioRef.current
+        .play()
+        .catch((e) => console.warn("Audio play failed:", e));
+    }
   };
 
   // Integracja z Media Session API
@@ -499,11 +519,13 @@ const Reader = () => {
         title: book.title || "Untitled Book",
         artist: book.author || "Unknown Author", // Zakładam, że book ma author; jeśli nie, dodaj
         album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
-        artwork: [
-          // Dodaj okładkę książki jeśli masz URL, np.:
-          // { src: book.coverUrl || 'default-cover.jpg', sizes: '96x96', type: 'image/jpeg' },
-          // Możesz dodać więcej rozmiarów
-        ],
+        artwork: book.coverUrl
+          ? [
+              // Dodaj okładkę, jeśli dostępna
+              { src: book.coverUrl, sizes: "96x96", type: "image/jpeg" },
+              { src: book.coverUrl, sizes: "128x128", type: "image/jpeg" },
+            ]
+          : [],
       });
 
       // Handler dla play (z MediaSession – np. przycisk na słuchawkach lub notyfikacja)
@@ -569,9 +591,12 @@ const Reader = () => {
         title: book.title || "Untitled Book",
         artist: book.author || "Unknown Author",
         album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
-        artwork: [
-          // Jak wyżej, dodaj artwork jeśli dostępne
-        ],
+        artwork: book.coverUrl
+          ? [
+              { src: book.coverUrl, sizes: "96x96", type: "image/jpeg" },
+              { src: book.coverUrl, sizes: "128x128", type: "image/jpeg" },
+            ]
+          : [],
       });
     }
   }, [book, chapter, readingLocation]);
@@ -741,6 +766,8 @@ const Reader = () => {
         theme={theme}
         onThemeChange={handleThemeChange}
       />
+      {/* Nowy ukryty element audio dla media focus */}
+      <audio ref={audioRef} style={{ display: "none" }} />
     </div>
   );
 };
