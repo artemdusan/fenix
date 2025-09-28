@@ -489,6 +489,93 @@ const Reader = () => {
     setIsPlaying(true);
   };
 
+  // Integracja z Media Session API
+  useEffect(() => {
+    if ("mediaSession" in navigator && book && chapter) {
+      const mediaSession = navigator.mediaSession;
+
+      // Metadane dla notyfikacji (dynamiczne na podstawie książki i rozdziału)
+      mediaSession.metadata = new MediaMetadata({
+        title: book.title || "Untitled Book",
+        artist: book.author || "Unknown Author", // Zakładam, że book ma author; jeśli nie, dodaj
+        album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
+        artwork: [
+          // Dodaj okładkę książki jeśli masz URL, np.:
+          // { src: book.coverUrl || 'default-cover.jpg', sizes: '96x96', type: 'image/jpeg' },
+          // Możesz dodać więcej rozmiarów
+        ],
+      });
+
+      // Handler dla play (z MediaSession – np. przycisk na słuchawkach lub notyfikacja)
+      const handleMediaPlay = () => {
+        if (!isPlaying) {
+          handlePlay();
+        }
+      };
+
+      // Handler dla pause
+      const handleMediaPause = () => {
+        if (isPlaying) {
+          handlePlay(); // handlePlay toggle'uje, więc zadziała jako pause
+        }
+      };
+
+      // Podwójne kliknięcie na słuchawkach – zazwyczaj mapuje na nexttrack
+      const handleMediaNext = () => {
+        onNextSentence();
+      };
+
+      const handleMediaPrevious = () => {
+        onPreviousSentence();
+      };
+
+      mediaSession.setActionHandler("play", handleMediaPlay);
+      mediaSession.setActionHandler("pause", handleMediaPause);
+      mediaSession.setActionHandler("nexttrack", handleMediaNext);
+      mediaSession.setActionHandler("previoustrack", handleMediaPrevious);
+
+      // Aktualizuj stan odtwarzania w MediaSession (dla notyfikacji)
+      mediaSession.playbackState = isPlaying ? "playing" : "paused";
+
+      // Cleanup
+      return () => {
+        mediaSession.setActionHandler("play", null);
+        mediaSession.setActionHandler("pause", null);
+        mediaSession.setActionHandler("nexttrack", null);
+        mediaSession.setActionHandler("previoustrack", null);
+      };
+    }
+  }, [
+    isPlaying,
+    book,
+    chapter,
+    readingLocation,
+    handlePlay,
+    onNextSentence,
+    onPreviousSentence,
+  ]);
+
+  // Dodatkowy effect do aktualizacji playbackState na zmianę isPlaying
+  useEffect(() => {
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.playbackState = isPlaying ? "playing" : "paused";
+    }
+  }, [isPlaying]);
+
+  // Aktualizacja metadanych na zmianę rozdziału lub książki
+  useEffect(() => {
+    if ("mediaSession" in navigator && book && chapter) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: book.title || "Untitled Book",
+        artist: book.author || "Unknown Author",
+        album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
+        artwork: [
+          // Jak wyżej, dodaj artwork jeśli dostępne
+        ],
+      });
+    }
+  }, [book, chapter, readingLocation]);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.code === "Space") {
