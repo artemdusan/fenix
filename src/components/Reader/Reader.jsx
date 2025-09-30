@@ -553,8 +553,6 @@ const Reader = () => {
 
       mediaSession.setActionHandler("play", handleMediaPlay);
       mediaSession.setActionHandler("pause", handleMediaPause);
-      mediaSession.setActionHandler("nexttrack", handleMediaNext);
-      mediaSession.setActionHandler("previoustrack", handleMediaPrevious);
 
       // Aktualizuj stan odtwarzania w MediaSession (dla notyfikacji)
       mediaSession.playbackState = isPlaying ? "playing" : "paused";
