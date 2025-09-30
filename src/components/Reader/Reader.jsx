@@ -15,7 +15,7 @@ import ChapterSlider from "./components/ChapterSlider";
 import SentenceSlider from "./components/SentenceSlider";
 import SettingsModal from "./components/SettingsModal";
 import BookContent from "./components/BookContent";
-import silentAudio from "../../assets/silent-10s.wav";
+import silentAudio from "../../assets/silent-10s.ogg";
 import "./Reader.css";
 
 const Reader = () => {
@@ -437,16 +437,6 @@ const Reader = () => {
     const bottomUtterance =
       bottomLanguage === "source" ? sourceUtterance : targetUtterance;
 
-    const getDelay = (language) => {
-      const speed = language === "source" ? sourceSpeed : targetSpeed;
-      const text =
-        language === "source" ? sentence.source : sentence.translation;
-      const rate = parseFloat(speed) || 1.0;
-      const baseTime = (text.length / 10) * 1000;
-      const adjustedTime = baseTime / rate;
-      return Math.max(adjustedTime, 500);
-    };
-
     const nextSentence = () => {
       const newSentenceIndex = sentenceIndex + 1;
       if (newSentenceIndex < chapter.content.length) {
@@ -471,19 +461,21 @@ const Reader = () => {
 
     const proceedToBottom = () => {
       setIsReadingSource(false);
+      // FIXED: Skip bottom if disabled, no delay
       if (bottomUtterance) {
         bottomUtterance.onend = nextSentence;
         speechSynthesis.speak(bottomUtterance);
       } else {
-        setTimeout(nextSentence, getDelay(bottomLanguage));
+        nextSentence(); // Immediate skip
       }
     };
 
+    // FIXED: Skip top if disabled, no delay
     if (topUtterance) {
       topUtterance.onend = proceedToBottom;
       speechSynthesis.speak(topUtterance);
     } else {
-      setTimeout(proceedToBottom, getDelay(topLanguage));
+      proceedToBottom(); // Immediate skip
     }
   };
 
@@ -542,11 +534,11 @@ const Reader = () => {
         title: book.title || "Untitled Book",
         artist: `${readingLocation.sentenceId}/${chapter.content.length}`,
         album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
-        artwork: book.coverUrl
+        artwork: book.cover
           ? [
               // Dodaj okładkę, jeśli dostępna
-              { src: book.coverUrl, sizes: "96x96", type: "image/jpeg" },
-              { src: book.coverUrl, sizes: "128x128", type: "image/jpeg" },
+              { src: book.cover, sizes: "96x96", type: "image/jpeg" },
+              { src: book.cover, sizes: "128x128", type: "image/jpeg" },
             ]
           : [],
       });
@@ -728,7 +720,7 @@ const Reader = () => {
       setTargetSpeed(value);
       localStorage.setItem("targetSpeed", value);
     } else if (name === "sourceEnabled") {
-      setSourceEnabled(added);
+      setSourceEnabled(checked);
       localStorage.setItem("sourceEnabled", checked);
     } else if (name === "targetEnabled") {
       setTargetEnabled(checked);
