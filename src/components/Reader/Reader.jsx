@@ -15,7 +15,7 @@ import ChapterSlider from "./components/ChapterSlider";
 import SentenceSlider from "./components/SentenceSlider";
 import SettingsModal from "./components/SettingsModal";
 import BookContent from "./components/BookContent";
-import silentAudio from "../../assets/silent-10s.ogg";
+import silentAudio from "../../assets/silent-1m.ogg";
 import "./Reader.css";
 
 const Reader = () => {
