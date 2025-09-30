@@ -149,10 +149,33 @@ const translateChunk = async (
   maxRetries: number = 3
 ): Promise<TranslationChunk> => {
   let attempts = 0;
+  const isGpt5Model = model.startsWith("gpt-5");
 
   while (attempts <= maxRetries) {
     try {
       const timestamp = new Date().toISOString();
+      // For GPT-5: Combine system prompt into user message; omit temperature; use max_completion_tokens
+      const messages = isGpt5Model
+        ? [
+            {
+              role: "user",
+              content: `[${timestamp}] ${prompt}\n\nUser text to translate:\n${chunk}`,
+            },
+          ]
+        : [
+            { role: "system", content: `[${timestamp}] ${prompt}` },
+            { role: "user", content: chunk },
+          ];
+
+      const requestBody = {
+        model: attempts === 0 ? model : fallbackModel,
+        messages,
+        ...(isGpt5Model && { max_completion_tokens: 10000 }), // GPT-5 specific
+        ...(!isGpt5Model && { max_tokens: 10000 }), // Legacy models
+        // Omit temperature entirely for GPT-5; use default for others
+        ...(!isGpt5Model && { temperature: 0.2 + attempts * 0.05 }),
+      };
+
       const response = await fetch(
         "https://api.openai.com/v1/chat/completions",
         {
@@ -161,24 +184,20 @@ const translateChunk = async (
             "Content-Type": "application/json",
             Authorization: `Bearer ${apiKey}`,
           },
-          body: JSON.stringify({
-            model: attempts === 0 ? model : fallbackModel,
-            messages: [
-              { role: "system", content: `[${timestamp}] ${prompt}` },
-              { role: "user", content: chunk },
-            ],
-            temperature: 0.2 + attempts * 0.05,
-            max_tokens: 10000,
-          }),
+          body: JSON.stringify(requestBody),
         }
       );
 
-      const data = await response.json();
-      if (!response.ok)
+      if (!response.ok) {
+        const errorText = await response.text(); // Log full error for debugging
+        console.error(`API Error Details: ${errorText}`);
         throw new Error(
-          data.error?.message || "Translation API request failed"
+          JSON.parse(errorText).error?.message ||
+            "Translation API request failed"
         );
+      }
 
+      const data = await response.json();
       const jsonResponse = data.choices[0].message.content.trim();
       const parsedResponse = JSON.parse(jsonResponse);
 
