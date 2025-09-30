@@ -576,6 +576,9 @@ const Reader = () => {
 
       mediaSession.setActionHandler("play", handleMediaPlay);
       mediaSession.setActionHandler("pause", handleMediaPause);
+      // ADDED: Enable next/previous track functionality for media controls
+      mediaSession.setActionHandler("nexttrack", handleMediaNext);
+      mediaSession.setActionHandler("previoustrack", handleMediaPrevious);
 
       // Aktualizuj stan odtwarzania w MediaSession (dla notyfikacji)
       mediaSession.playbackState = isPlaying ? "playing" : "paused";
@@ -719,7 +722,7 @@ const Reader = () => {
       setTargetSpeed(value);
       localStorage.setItem("targetSpeed", value);
     } else if (name === "sourceEnabled") {
-      setSourceEnabled(checked);
+      setSourceEnabled(added);
       localStorage.setItem("sourceEnabled", checked);
     } else if (name === "targetEnabled") {
       setTargetEnabled(checked);
