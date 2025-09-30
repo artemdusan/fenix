@@ -540,7 +540,7 @@ const Reader = () => {
       // Metadane dla notyfikacji (dynamiczne na podstawie książki i rozdziału)
       mediaSession.metadata = new MediaMetadata({
         title: book.title || "Untitled Book",
-        artist: book.author || "Unknown Author", // Zakładam, że book ma author; jeśli nie, dodaj
+        artist: `${readingLocation.sentenceId}/${chapter.content.length}`,
         album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
         artwork: book.coverUrl
           ? [
@@ -634,7 +634,7 @@ const Reader = () => {
   // OPTIONAL IMPROVEMENT: Add Media Position Updates for smoother notifications
   useEffect(() => {
     if ("mediaSession" in navigator && isPlaying && chapter) {
-      const totalDuration = chapter.content.length * 5; // Rough est. (5s per sentence)
+      const totalDuration = chapter.content.length * 10; // Rough est. (5s per sentence)
       navigator.mediaSession.setPositionState({
         duration: totalDuration,
         position: currentSentenceIndex * 5,
