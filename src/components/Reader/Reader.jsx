@@ -498,9 +498,8 @@ const Reader = () => {
 
     // Nowy kod: Inicjalizuj ukryty audio dla media focus (tylko raz)
     if (audioRef.current && !audioRef.current.src) {
-      // Krótki pusty WAV (~1s ciszy)
-      audioRef.current.src =
-        "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+      // Krótki pusty WAV (~10s ciszy)
+      audioRef.current.src = "/silent-10s.wav";
       audioRef.current.loop = true; // Pętla, by utrzymać focus
       audioRef.current.volume = 0; // Niesłyszalne
       audioRef.current
