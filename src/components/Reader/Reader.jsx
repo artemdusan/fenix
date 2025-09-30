@@ -577,8 +577,14 @@ const Reader = () => {
       mediaSession.setActionHandler("play", handleMediaPlay);
       mediaSession.setActionHandler("pause", handleMediaPause);
       // ADDED: Enable next/previous track functionality for media controls
-      mediaSession.setActionHandler("nexttrack", handleMediaNext);
-      mediaSession.setActionHandler("previoustrack", handleMediaPrevious);
+      mediaSession.setActionHandler("nexttrack", () => {
+        handleMediaPause();
+        handleMediaNext();
+      });
+      mediaSession.setActionHandler("previoustrack", () => {
+        handleMediaPause();
+        handleMediaPrevious();
+      });
 
       // Aktualizuj stan odtwarzania w MediaSession (dla notyfikacji)
       mediaSession.playbackState = isPlaying ? "playing" : "paused";
