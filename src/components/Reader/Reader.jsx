@@ -607,21 +607,21 @@ const Reader = () => {
   }, [isPlaying]);
 
   // Aktualizacja metadanych na zmianę rozdziału lub książki
-  useEffect(() => {
-    if ("mediaSession" in navigator && book && chapter) {
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: book.title || "Untitled Book",
-        artist: book.author || "Unknown Author",
-        album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
-        artwork: book.coverUrl
-          ? [
-              { src: book.coverUrl, sizes: "96x96", type: "image/jpeg" },
-              { src: book.coverUrl, sizes: "128x128", type: "image/jpeg" },
-            ]
-          : [],
-      });
-    }
-  }, [book, chapter, readingLocation]);
+  // useEffect(() => {
+  //   if ("mediaSession" in navigator && book && chapter) {
+  //     navigator.mediaSession.metadata = new MediaMetadata({
+  //       title: book.title || "Untitled Book",
+  //       artist: book.author || "Unknown Author",
+  //       album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
+  //       artwork: book.coverUrl
+  //         ? [
+  //             { src: book.coverUrl, sizes: "96x96", type: "image/jpeg" },
+  //             { src: book.coverUrl, sizes: "128x128", type: "image/jpeg" },
+  //           ]
+  //         : [],
+  //     });
+  //   }
+  // }, [book, chapter, readingLocation]);
 
   // OPTIONAL IMPROVEMENT: Add Media Position Updates for smoother notifications
   useEffect(() => {
