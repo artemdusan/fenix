@@ -15,6 +15,7 @@ import ChapterSlider from "./components/ChapterSlider";
 import SentenceSlider from "./components/SentenceSlider";
 import SettingsModal from "./components/SettingsModal";
 import BookContent from "./components/BookContent";
+import silentAudio from "../../assets/silent-10s.wav";
 import "./Reader.css";
 
 const Reader = () => {
@@ -499,7 +500,7 @@ const Reader = () => {
     // Nowy kod: Inicjalizuj ukryty audio dla media focus (tylko raz)
     if (audioRef.current && !audioRef.current.src) {
       // Krótki pusty WAV (~10s ciszy)
-      audioRef.current.src = `${import.meta.env.BASE_URL}silent-10s.wav`;
+      audioRef.current.src = silentAudio;
       audioRef.current.loop = true; // Pętla, by utrzymać focus
       audioRef.current.volume = 0; // Niesłyszalne
       audioRef.current
