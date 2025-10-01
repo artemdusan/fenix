@@ -280,7 +280,11 @@ const Reader = () => {
     const handleVisibilityChange = () => {
       if (!document.hidden && isPlaying) {
         // Resume TTS and audio if backgrounded
-        playSentence(currentSentenceIndex); // Assumes playSentence is accessible; adjust if needed
+        playSentenceWithChapter(
+          currentSentenceIndex,
+          readingLocation.chapterId,
+          chapter
+        ); // Assumes playSentence is accessible; adjust if needed
         if (audioRef.current) {
           audioRef.current.play().catch(console.warn);
         }
@@ -289,7 +293,7 @@ const Reader = () => {
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () =>
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [isPlaying, currentSentenceIndex]);
+  }, [isPlaying, currentSentenceIndex, readingLocation.chapterId, chapter]);
 
   const updateReadingLocationInDB = async (
     chapterId,
@@ -393,89 +397,124 @@ const Reader = () => {
   };
 
   // Helper function for playSentence (extracted for reuse in visibilitychange handler)
-  const playSentence = (sentenceIndex) => {
-    if (sentenceIndex >= chapter.content.length) {
+  const playSentenceWithChapter = (
+    sentenceIndex,
+    currentChapterId,
+    currentChapter
+  ) => {
+    if (sentenceIndex >= currentChapter.content.length) {
       setIsPlaying(false);
       setCurrentSentenceIndex(readingLocation.sentenceId);
       setIsReadingSource(true);
-      // Save location on completion
       updateReadingLocationInDB(
-        readingLocation.chapterId,
-        readingLocation.sentenceId
+        currentChapterId,
+        currentChapter.content.length - 1
       );
       return;
     }
-
-    const sentence = chapter.content[sentenceIndex];
-
-    const topLanguage = readingOrder === "source-target" ? "source" : "target";
-    const bottomLanguage =
-      readingOrder === "source-target" ? "target" : "source";
-
-    const sourceUtterance = sourceEnabled
-      ? new SpeechSynthesisUtterance(sentence.source)
-      : null;
-    if (sourceUtterance) {
-      sourceUtterance.lang = book.sourceLanguage;
-      sourceUtterance.voice =
-        voices.find((v) => v.name === sourceVoice) || null;
-      sourceUtterance.rate = parseFloat(sourceSpeed);
-    }
-
-    const targetUtterance = targetEnabled
+    const sentence = currentChapter.content[sentenceIndex];
+    const isSourceTop = readingOrder === "source-target";
+    const topUtterance = isSourceTop
+      ? sourceEnabled
+        ? new SpeechSynthesisUtterance(sentence.source)
+        : null
+      : targetEnabled
       ? new SpeechSynthesisUtterance(sentence.translation)
       : null;
-    if (targetUtterance) {
-      targetUtterance.lang = book.targetLanguage;
-      targetUtterance.voice =
-        voices.find((v) => v.name === targetVoice) || null;
-      targetUtterance.rate = parseFloat(targetSpeed);
+    const bottomUtterance = isSourceTop
+      ? targetEnabled
+        ? new SpeechSynthesisUtterance(sentence.translation)
+        : null
+      : sourceEnabled
+      ? new SpeechSynthesisUtterance(sentence.source)
+      : null;
+    if (topUtterance) {
+      topUtterance.lang = isSourceTop
+        ? book.sourceLanguage
+        : book.targetLanguage;
+      topUtterance.voice =
+        voices.find(
+          (v) => v.name === (isSourceTop ? sourceVoice : targetVoice)
+        ) || null;
+      topUtterance.rate = parseFloat(isSourceTop ? sourceSpeed : targetSpeed);
     }
-
-    const topUtterance =
-      topLanguage === "source" ? sourceUtterance : targetUtterance;
-    const bottomUtterance =
-      bottomLanguage === "source" ? sourceUtterance : targetUtterance;
-
+    if (bottomUtterance) {
+      bottomUtterance.lang = isSourceTop
+        ? book.targetLanguage
+        : book.sourceLanguage;
+      bottomUtterance.voice =
+        voices.find(
+          (v) => v.name === (isSourceTop ? targetVoice : sourceVoice)
+        ) || null;
+      bottomUtterance.rate = parseFloat(
+        isSourceTop ? targetSpeed : sourceSpeed
+      );
+    }
     const nextSentence = () => {
       const newSentenceIndex = sentenceIndex + 1;
-      if (newSentenceIndex < chapter.content.length) {
-        playSentence(newSentenceIndex);
-        setCurrentSentenceIndex(newSentenceIndex);
-        updateReadingLocationInDB(
-          readingLocation.chapterId,
+      if (newSentenceIndex < currentChapter.content.length) {
+        playSentenceWithChapter(
           newSentenceIndex,
-          false
+          currentChapterId,
+          currentChapter
         );
+        setCurrentSentenceIndex(newSentenceIndex);
+        updateReadingLocationInDB(currentChapterId, newSentenceIndex, false);
       } else {
-        setIsPlaying(false);
-        setCurrentSentenceIndex(readingLocation.sentenceId);
-        setIsReadingSource(true);
-        // Save location on completion
-        updateReadingLocationInDB(readingLocation.chapterId, sentenceIndex);
+        const nextChapterId = currentChapterId + 1;
+        if (nextChapterId < book.chapters.length) {
+          const nextChapter = book.chapters[nextChapterId];
+          setChapter(nextChapter);
+          setCurrentSentenceIndex(0);
+          updateReadingLocationInDB(nextChapterId, 0, false);
+          playSentenceWithChapter(0, nextChapterId, nextChapter);
+        } else {
+          setIsPlaying(false);
+          setCurrentSentenceIndex(0);
+          setIsReadingSource(true);
+          updateReadingLocationInDB(
+            currentChapterId,
+            currentChapter.content.length - 1,
+            true
+          );
+        }
       }
     };
-
-    setCurrentSentenceIndex(sentenceIndex);
-    setIsReadingSource(true);
-
     const proceedToBottom = () => {
       setIsReadingSource(false);
-      // FIXED: Skip bottom if disabled, no delay
       if (bottomUtterance) {
         bottomUtterance.onend = nextSentence;
         speechSynthesis.speak(bottomUtterance);
       } else {
-        nextSentence(); // Immediate skip
+        nextSentence();
+      }
+    };
+    const startSentence = () => {
+      setCurrentSentenceIndex(sentenceIndex);
+      setIsReadingSource(true);
+      if (topUtterance) {
+        topUtterance.onend = proceedToBottom;
+        speechSynthesis.speak(topUtterance);
+      } else {
+        proceedToBottom();
       }
     };
 
-    // FIXED: Skip top if disabled, no delay
-    if (topUtterance) {
-      topUtterance.onend = proceedToBottom;
-      speechSynthesis.speak(topUtterance);
+    let titleUtterance = null;
+    if (sentenceIndex === 0 && sourceEnabled) {
+      const titleText =
+        currentChapter.title || `Chapter ${currentChapterId + 1}`;
+      titleUtterance = new SpeechSynthesisUtterance(titleText);
+      titleUtterance.lang = book.sourceLanguage;
+      titleUtterance.voice = voices.find((v) => v.name === sourceVoice) || null;
+      titleUtterance.rate = parseFloat(sourceSpeed);
+    }
+
+    if (titleUtterance) {
+      titleUtterance.onend = startSentence;
+      speechSynthesis.speak(titleUtterance);
     } else {
-      proceedToBottom(); // Immediate skip
+      startSentence();
     }
   };
 
@@ -500,7 +539,11 @@ const Reader = () => {
 
     if (!chapter || !book) return;
 
-    playSentence(readingLocation.sentenceId);
+    playSentenceWithChapter(
+      readingLocation.sentenceId,
+      readingLocation.chapterId,
+      chapter
+    );
     setIsPlaying(true);
 
     // FIXED: Always initialize/resume silent audio on play (not just once)
