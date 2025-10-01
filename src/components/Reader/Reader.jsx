@@ -589,15 +589,15 @@ const Reader = () => {
         title: book.title || "Untitled Book",
         artist: book.author || "Unknown Author",
         album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
-        artwork: book.coverUrl
+        artwork: book.cover
           ? [
-              { src: book.coverUrl, sizes: "96x96", type: "image/jpeg" },
-              { src: book.coverUrl, sizes: "128x128", type: "image/jpeg" },
+              { src: book.cover, sizes: "96x96", type: "image/jpeg" },
+              { src: book.cover, sizes: "128x128", type: "image/jpeg" },
             ]
           : [],
       });
     }
-  }, []);
+  }, [book]);
 
   // OPTIONAL IMPROVEMENT: Add Media Position Updates for smoother notifications
   useEffect(() => {

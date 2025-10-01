@@ -1,6 +1,7 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
 import "./styles/SettingsModal.css";
+import { getLanguageNameFromCode } from "../../../services/editor/utils";
 
 const SettingsModal = ({
   show,
@@ -43,7 +44,7 @@ const SettingsModal = ({
               onChange={onChange}
               aria-label="Enable source language"
             />
-            Source:
+            {getLanguageNameFromCode(sourceLanguage)}
           </label>
           <select
             name="ttsSourceVoice"
@@ -89,7 +90,7 @@ const SettingsModal = ({
               onChange={onChange}
               aria-label="Enable target language"
             />
-            Target:
+            {getLanguageNameFromCode(targetLanguage)}
           </label>
           <select
             name="ttsTargetVoice"
@@ -135,8 +136,15 @@ const SettingsModal = ({
             onChange={onChange}
             aria-label="Select reading order"
           >
-            <option value="source-target">Source → Target</option>
-            <option value="target-source">Target → Source</option>
+            <option value="source-target">
+              {" "}
+              {getLanguageNameFromCode(sourceLanguage)} →{" "}
+              {getLanguageNameFromCode(targetLanguage)}
+            </option>
+            <option value="target-source">
+              {getLanguageNameFromCode(targetLanguage)} →{" "}
+              {getLanguageNameFromCode(sourceLanguage)}
+            </option>
           </select>
         </div>
 
