@@ -505,12 +505,6 @@ const Reader = () => {
 
     // FIXED: Always initialize/resume silent audio on play (not just once)
     if (audioRef.current) {
-      if (!audioRef.current.src) {
-        // First-time setup only
-        audioRef.current.src = silentAudio;
-        audioRef.current.loop = true;
-        audioRef.current.volume = 0;
-      }
       // Always attempt to play/resume (safe for looped audio)
       audioRef.current
         .play()
@@ -528,21 +522,6 @@ const Reader = () => {
   useEffect(() => {
     if ("mediaSession" in navigator && book && chapter) {
       const mediaSession = navigator.mediaSession;
-
-      // Metadane dla notyfikacji (dynamiczne na podstawie książki i rozdziału)
-      mediaSession.metadata = new MediaMetadata({
-        title: book.title || "Untitled Book",
-        artist: `${readingLocation.sentenceId}/${chapter.content.length}`,
-        album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
-        artwork: book.cover
-          ? [
-              // Dodaj okładkę, jeśli dostępna
-              { src: book.cover, sizes: "96x96", type: "image/jpeg" },
-              { src: book.cover, sizes: "128x128", type: "image/jpeg" },
-            ]
-          : [],
-      });
-
       // Handler dla play (z MediaSession – np. przycisk na słuchawkach lub notyfikacja)
       const handleMediaPlay = () => {
         if (!isPlaying) {
@@ -598,21 +577,27 @@ const Reader = () => {
   }, [isPlaying]);
 
   // Aktualizacja metadanych na zmianę rozdziału lub książki
-  // useEffect(() => {
-  //   if ("mediaSession" in navigator && book && chapter) {
-  //     navigator.mediaSession.metadata = new MediaMetadata({
-  //       title: book.title || "Untitled Book",
-  //       artist: book.author || "Unknown Author",
-  //       album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
-  //       artwork: book.coverUrl
-  //         ? [
-  //             { src: book.coverUrl, sizes: "96x96", type: "image/jpeg" },
-  //             { src: book.coverUrl, sizes: "128x128", type: "image/jpeg" },
-  //           ]
-  //         : [],
-  //     });
-  //   }
-  // }, [book, chapter, readingLocation]);
+  useEffect(() => {
+    if (!audioRef.current.src) {
+      // First-time setup only
+      audioRef.current.src = silentAudio;
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0;
+    }
+    if ("mediaSession" in navigator && book && chapter) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: book.title || "Untitled Book",
+        artist: book.author || "Unknown Author",
+        album: chapter.title || `Chapter ${readingLocation.chapterId + 1}`,
+        artwork: book.coverUrl
+          ? [
+              { src: book.coverUrl, sizes: "96x96", type: "image/jpeg" },
+              { src: book.coverUrl, sizes: "128x128", type: "image/jpeg" },
+            ]
+          : [],
+      });
+    }
+  }, []);
 
   // OPTIONAL IMPROVEMENT: Add Media Position Updates for smoother notifications
   useEffect(() => {
